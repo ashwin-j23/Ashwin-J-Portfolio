@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ashwinportfolio-iota.vercel.app/sitemap.xml
