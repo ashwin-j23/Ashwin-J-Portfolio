@@ -1,0 +1,5 @@
+# Found a security issue on this site? Please report it privately.
+Contact: mailto:ashwin.j200423@gmail.com
+Expires: 2027-11-07T00:00:00.000Z
+Preferred-Languages: en, ta
+Canonical: /.well-known/security.txt

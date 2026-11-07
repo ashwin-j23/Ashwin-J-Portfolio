@@ -1,0 +1,16 @@
+node_modules/
+_site/
+.DS_Store
+.idea
+.vscode
+.claude/
+# local shell/editor files (not part of the site)
+.bash_profile
+.bashrc
+.gitconfig
+.gitmodules
+.mcp.json
+.profile
+.ripgreprc
+.zprofile
+.zshrc

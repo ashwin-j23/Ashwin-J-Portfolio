@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tenseigan — Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="demo.css" />
+<style>
+  
+  .top { display: flex; gap: 10px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--surface); flex-wrap: wrap; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 26px 18px 60px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+  .tabs label { padding: 7px 14px; border-radius: 7px; border: 1px solid var(--line-2); cursor: pointer; background: var(--surface); }
+  #t-img:checked ~ .tabs label[for="t-img"], #t-vid:checked ~ .tabs label[for="t-vid"], #t-aud:checked ~ .tabs label[for="t-aud"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .tabs-r { display: none; }
+  .panel { display: none; }
+  #t-img:checked ~ .panels .p-img, #t-vid:checked ~ .panels .p-vid, #t-aud:checked ~ .panels .p-aud { display: grid; }
+  .an { grid-template-columns: 1.1fr 1fr; gap: 14px; }
+  .frame { position: relative; aspect-ratio: 4/3; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line);
+    background: radial-gradient(circle at 50% 40%, #2a2a2a, #141414 70%); display: grid; place-items: center; }
+  .face { width: 140px; height: 175px; border-radius: 45% 45% 40% 40%; background: linear-gradient(160deg, #d9b8a0, #a77f66); position: relative; }
+  .face::before, .face::after { content: ""; position: absolute; top: 62px; width: 18px; height: 10px; border-radius: 50%; background: #2a1a12; }
+  .face::before { left: 34px; } .face::after { right: 34px; }
+  .face i { position: absolute; left: 50%; top: 118px; width: 40px; height: 10px; transform: translateX(-50%); border-radius: 0 0 20px 20px; background: #6a3a30; }
+  .box { position: absolute; border: 2px solid var(--bad); border-radius: 4px; }
+  .box span { position: absolute; top: -20px; left: -2px; font: 600 10px var(--mono); background: var(--bad); color: #fff; padding: 1px 5px; border-radius: 3px; white-space: nowrap; }
+  .scan { position: absolute; left: 0; right: 0; height: 3px; background: var(--accent); box-shadow: 0 0 16px var(--accent); animation: sc 2.4s ease-in-out infinite alternate; }
+  @keyframes sc { from { top: 0; } to { top: calc(100% - 3px); } }
+  .heat { position: absolute; inset: 0; background: radial-gradient(circle at 50% 62%, rgba(255, 80, 80, .35), transparent 30%), radial-gradient(circle at 42% 45%, rgba(255, 180, 60, .25), transparent 18%); mix-blend-mode: screen; animation: pulse 2s infinite; }
+  .verdict { display: flex; align-items: center; gap: 16px; padding: 16px; border-radius: var(--r); border: 1px solid rgba(208, 100, 79, .5); background: rgba(208, 100, 79, .08); margin-bottom: 14px; }
+  .verdict.real { border-color: rgba(111, 174, 117, .5); background: rgba(111, 174, 117, .08); }
+  .verdict b { font: 700 26px var(--mono); color: var(--bad); }
+  .verdict.real b { color: var(--ok); }
+  .model { display: grid; grid-template-columns: 130px 1fr 52px; gap: 10px; align-items: center; margin-bottom: 10px; font-size: 13px; }
+  .model .mono { text-align: right; }
+  .frames { display: flex; gap: 4px; align-items: flex-end; height: 90px; }
+  .frames i { flex: 1; border-radius: 2px 2px 0 0; background: var(--ok); }
+  .frames i.f { background: var(--bad); }
+  .wave { display: flex; gap: 2px; align-items: center; height: 120px; }
+  .wave i { flex: 1; background: var(--accent); border-radius: 2px; animation: wv 1.2s ease-in-out infinite alternate; }
+  @keyframes wv { from { transform: scaleY(.3); } to { transform: scaleY(1); } }
+  @media (max-width: 860px) { .an { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="demo-bar">
+  <span>⚠ <b>DEMO</b> — static preview with sample results (no real media analysed). <span class="pill warn">under construction</span></span>
+  <a href="../index.html#projects">← Back to portfolio</a>
+</div>
+<div class="top"><img class="brand-logo" src="../assets/logos/tenseigan.svg" alt=""><b>Tenseigan — Deepfake Detector</b><span class="pill"><svg class="si" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><title>Python</title><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg>Python</span><span class="pill"><svg class="si" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><title>PyTorch</title><path d="M12.005 0L4.952 7.053a9.865 9.865 0 000 14.022 9.866 9.866 0 0014.022 0c3.984-3.9 3.986-10.205.085-14.023l-1.744 1.743c2.904 2.905 2.904 7.634 0 10.538s-7.634 2.904-10.538 0-2.904-7.634 0-10.538l4.647-4.646.582-.665zm3.568 3.899a1.327 1.327 0 00-1.327 1.327 1.327 1.327 0 001.327 1.328A1.327 1.327 0 0016.9 5.226 1.327 1.327 0 0015.573 3.9z"/></svg>PyTorch</span><span class="pill">ensemble · multi-scale fusion · temporal analysis</span></div>
+
+<div class="wrap">
+  <input type="radio" name="t" id="t-img" class="tabs-r" checked />
+  <input type="radio" name="t" id="t-vid" class="tabs-r" />
+  <input type="radio" name="t" id="t-aud" class="tabs-r" />
+  <div class="tabs"><label for="t-img"><svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>Image</label><label for="t-vid"><svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="m16 10 6-3v10l-6-3z"/></svg>Video</label><label for="t-aud"><svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg>Audio</label></div>
+
+  <div class="panels">
+    <!-- IMAGE -->
+    <div class="panel an p-img">
+      <div class="card"><h3>sample_portrait.jpg <span class="muted small">1024×768</span></h3>
+        <div class="frame"><div class="face"><i></i></div><div class="heat"></div>
+          <div class="box" style="left:43%;top:56%;width:14%;height:12%"><span>blend artefact</span></div>
+          <div class="box" style="left:36%;top:38%;width:28%;height:12%"><span>eye inconsistency</span></div>
+          <div class="scan"></div></div></div>
+      <div>
+        <div class="verdict"><b>FAKE</b><div><div>Confidence <span class="mono">94.2%</span></div><div class="small muted">3 of 3 models agree</div></div></div>
+        <div class="card"><h3>Model ensemble</h3>
+          <div class="model"><span>EfficientNet-B4</span><div class="bar"><i style="width:96%;background:var(--bad)"></i></div><span class="mono">0.96</span></div>
+          <div class="model"><span>Xception</span><div class="bar"><i style="width:91%;background:var(--bad)"></i></div><span class="mono">0.91</span></div>
+          <div class="model"><span>Frequency (FFT)</span><div class="bar"><i style="width:88%;background:var(--bad)"></i></div><span class="mono">0.88</span></div>
+          <div class="model"><span><b>Fused score</b></span><div class="bar"><i style="width:94%;background:var(--bad)"></i></div><span class="mono">0.94</span></div></div>
+      </div>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="panel an p-vid">
+      <div class="card"><h3>interview_clip.mp4 <span class="muted small">00:12 · 300 frames</span></h3>
+        <p class="small muted" style="margin-bottom:8px">Per-frame fake score (red = suspicious)</p>
+        <div class="frames">
+          <i style="height:20%"></i><i style="height:18%"></i><i style="height:22%"></i><i style="height:25%"></i><i class="f" style="height:70%"></i><i class="f" style="height:82%"></i><i class="f" style="height:78%"></i><i style="height:30%"></i>
+          <i style="height:24%"></i><i style="height:19%"></i><i style="height:21%"></i><i class="f" style="height:66%"></i><i class="f" style="height:74%"></i><i style="height:28%"></i><i style="height:20%"></i><i style="height:23%"></i>
+          <i style="height:18%"></i><i style="height:26%"></i><i style="height:22%"></i><i style="height:20%"></i></div>
+        <p class="small muted" style="margin-top:8px">Temporal analysis flags 2 segments: 00:02.4–00:03.6 and 00:06.8–00:07.6</p></div>
+      <div><div class="verdict"><b>FAKE</b><div><div>Confidence <span class="mono">81.7%</span></div><div class="small muted">face-swap in 2 segments</div></div></div>
+        <div class="card"><h3>Signals</h3><div class="gate row"><span class="pill bad">lip-sync drift</span><span class="pill bad">flicker on jawline</span><span class="pill ok">lighting consistent</span><span class="pill ok">no compression mismatch</span></div></div></div>
+    </div>
+
+    <!-- AUDIO -->
+    <div class="panel an p-aud">
+      <div class="card"><h3>voice_note.wav <span class="muted small">00:08 · 16 kHz</span></h3>
+        <div class="wave">
+          <i style="height:30%"></i><i style="height:60%;animation-delay:-.2s"></i><i style="height:45%;animation-delay:-.5s"></i><i style="height:80%;animation-delay:-.1s"></i><i style="height:50%;animation-delay:-.7s"></i><i style="height:70%;animation-delay:-.3s"></i>
+          <i style="height:40%;animation-delay:-.6s"></i><i style="height:90%;animation-delay:-.4s"></i><i style="height:55%;animation-delay:-.8s"></i><i style="height:35%;animation-delay:-.2s"></i><i style="height:65%;animation-delay:-.9s"></i><i style="height:48%;animation-delay:-.1s"></i>
+          <i style="height:72%;animation-delay:-.5s"></i><i style="height:38%;animation-delay:-.3s"></i><i style="height:58%;animation-delay:-.6s"></i><i style="height:44%;animation-delay:-.7s"></i><i style="height:62%;animation-delay:-.2s"></i><i style="height:33%;animation-delay:-.4s"></i></div></div>
+      <div><div class="verdict real"><b>REAL</b><div><div>Confidence <span class="mono">89.4%</span></div><div class="small muted">natural breathing &amp; room noise</div></div></div>
+        <div class="card"><h3>Model ensemble</h3>
+          <div class="model"><span>Spectrogram CNN</span><div class="bar"><i style="width:12%;background:var(--ok)"></i></div><span class="mono">0.12</span></div>
+          <div class="model"><span>Wav2Vec features</span><div class="bar"><i style="width:9%;background:var(--ok)"></i></div><span class="mono">0.09</span></div>
+          <div class="model"><span><b>Fused score</b></span><div class="bar"><i style="width:11%;background:var(--ok)"></i></div><span class="mono">0.11</span></div></div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

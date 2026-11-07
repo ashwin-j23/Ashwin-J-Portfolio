@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tempest Security Toolkit — Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="demo.css" />
+<style>
+  :root { --pink: #d0644f; --violet: #8a4a38; }
+  .card { backdrop-filter: blur(20px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08); border-radius: 12px; }
+  .side { background: rgba(17, 17, 17, .85); backdrop-filter: blur(20px); }
+  
+  .tools { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; }
+  .tool { aspect-ratio: 1; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 6px; text-align: center; padding: 6px; position: relative; transition: .25s; }
+  .tool:hover { border-color: var(--accent); box-shadow: 0 0 22px rgba(232, 116, 59, .25); transform: translateY(-3px); }
+  .tool .n { position: absolute; top: 5px; left: 7px; font: 10px var(--mono); color: var(--muted); }
+  .tool .i { width: 26px; height: 26px; color: var(--text-2); } .tool .i svg { width: 100%; height: 100%; }
+  .tool:hover .i, .tool.active .i { color: var(--accent); }
+  .banner { font: 10px/1.15 var(--mono); color: var(--accent); margin-bottom: 18px; overflow-x: auto; white-space: pre; }
+  .tool .t { font-size: 10.5px; line-height: 1.2; color: var(--text-2); }
+  .tool.active { border-color: var(--accent); box-shadow: 0 0 18px rgba(232, 116, 59, .3) inset; animation: glow 2s infinite; }
+  @keyframes glow { 50% { box-shadow: 0 0 4px rgba(232, 116, 59, .1) inset; } }
+  .cat { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 18px 0 8px; }
+  .term { font: 12.5px/1.75 var(--mono); background: rgba(10, 10, 10, .85); border: 1px solid var(--line); border-radius: 10px; padding: 14px; color: #d6d3cc; overflow: hidden; }
+  .term .c { color: var(--accent); } .term .o { color: var(--ok); } .term .w { color: var(--warn); } .term .b { color: var(--pink); }
+  .term p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0; animation: line .3s forwards; }
+  .term p:nth-child(1) { animation-delay: .2s } .term p:nth-child(2) { animation-delay: .6s } .term p:nth-child(3) { animation-delay: 1s } .term p:nth-child(4) { animation-delay: 1.4s }
+  .term p:nth-child(5) { animation-delay: 1.8s } .term p:nth-child(6) { animation-delay: 2.2s } .term p:nth-child(7) { animation-delay: 2.6s } .term p:nth-child(8) { animation-delay: 3s }
+  .term p:nth-child(9) { animation-delay: 3.4s } .term p:nth-child(10) { animation-delay: 3.8s }
+  @keyframes line { to { opacity: 1; } }
+  .ring { width: 130px; height: 130px; border-radius: 50%; margin: 4px auto 10px; display: grid; place-items: center;
+    background: conic-gradient(var(--pink) 0 8%, var(--warn) 8% 26%, var(--accent) 26% 100%); animation: spinIn 1.2s ease both; }
+  .ring b { width: 100px; height: 100px; border-radius: 50%; background: #151515; display: grid; place-items: center; font: 600 24px var(--mono); }
+  @keyframes spinIn { from { transform: rotate(-90deg) scale(.8); opacity: 0; } }
+  .sev { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; }
+  @media (max-width: 1100px) { .tools { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 520px) { .tools { grid-template-columns: repeat(3, 1fr); } }
+</style>
+</head>
+<body>
+<div class="demo-bar">
+  <span>⚠ <b>DEMO</b> — static preview, sample results against a lab target only. <span class="pill warn">under construction</span></span>
+  <a href="../index.html#projects">← Back to portfolio</a>
+</div>
+<input type="checkbox" id="menu" class="menu-toggle" />
+<label for="menu" class="menu-btn">☰</label>
+
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><span class="brand-mark si-mark"><svg class="si" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><title>Python</title><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg></span>TEMPEST <em>toolkit</em></div>
+    <div class="nav-label">Console</div>
+    <a href="#p1" class="default-link"><span class="ic">▦</span>Dashboard</a>
+    <a href="#p2"><span class="ic">⌁</span>Network scan</a>
+    <a href="#p3"><span class="ic">⚠</span>Web vulns <span class="count">5</span></a>
+    <a href="#p4"><span class="ic">✎</span>Daily audit</a>
+    <div class="status">
+      <div class="row"><span class="pill ok"><span class="dot pulse"></span>Monitoring</span></div>
+      <p style="margin-top:8px">Target: <span class="mono">lab.local</span><br>File integrity: <span class="mono">OK</span></p>
+    </div>
+  </aside>
+
+  <main class="main pages">
+    <!-- DASHBOARD -->
+    <section class="page default" id="p1">
+      <pre class="banner" aria-label="TEMPEST">████████╗███████╗ ██████╗ ██████╗  █████╗ ███╗   ██╗███████╗████████╗
+╚══██╔══╝██╔════╝██╔═══██╗██╔══██╗██╔══██╗████╗  ██║██╔════╝╚══██╔══╝
+   ██║   █████╗  ██║   ██║██████╔╝███████║██╔██╗ ██║███████╗   ██║
+   ██║   ██╔══╝  ██║   ██║██╔══██╗██╔══██║██║╚██╗██║╚════██║   ██║
+   ██║   ███████╗╚██████╔╝██║  ██║██║  ██║██║ ╚████║███████║   ██║
+   ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝</pre>
+      <div class="head"><div><h1>Security toolkit</h1><p>28 tools · network, web, system, crypto &amp; ML — written in Python.</p></div><span class="btn primary">▶ Run full scan</span></div>
+
+      <div class="cat">Network</div>
+      <div class="tools">
+        <div class="tool active"><span class="n">01</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12 18 6"/></svg></span><span class="t">Port Scanner</span></div>
+        <div class="tool"><span class="n">02</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg></span><span class="t">Packet Sniffer</span></div>
+        <div class="tool"><span class="n">03</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></span><span class="t">SSH Brute Force Detector</span></div>
+        <div class="tool"><span class="n">04</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/></svg></span><span class="t">WiFi Scanner</span></div>
+        <div class="tool"><span class="n">05</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><span class="t">Network Vuln Scanner</span></div>
+        <div class="tool"><span class="n">06</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M3 14h18M9 4v5M15 9v5M9 14v6"/></svg></span><span class="t">Firewall Manager</span></div>
+        <div class="tool"><span class="n">07</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></span><span class="t">Alerts</span></div>
+      </div>
+      <div class="cat">Web</div>
+      <div class="tools">
+        <div class="tool"><span class="n">08</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span><span class="t">SQL Injection Scanner</span></div>
+        <div class="tool"><span class="n">09</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></span><span class="t">XSS Scanner</span></div>
+        <div class="tool"><span class="n">10</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span class="t">SSL/TLS Checker</span></div>
+        <div class="tool"><span class="n">11</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span><span class="t">Security Headers</span></div>
+        <div class="tool"><span class="n">12</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="t">Directory Scanner</span></div>
+        <div class="tool"><span class="n">13</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span><span class="t">Subdomain Scanner</span></div>
+        <div class="tool"><span class="n">14</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M11 7 6 17M13 7l5 10M7 19h10"/></svg></span><span class="t">Web Vuln Scanner</span></div>
+      </div>
+      <div class="cat">System &amp; auth</div>
+      <div class="tools">
+        <div class="tool"><span class="n">15</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></span><span class="t">Log Analyzer</span></div>
+        <div class="tool"><span class="n">16</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 15l2 2 4-4"/></svg></span><span class="t">File Integrity</span></div>
+        <div class="tool"><span class="n">17</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg></span><span class="t">Keylogger Detector</span></div>
+        <div class="tool"><span class="n">18</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18a8 8 0 1 1 16 0"/><path d="m12 18 4-6"/></svg></span><span class="t">Password Strength</span></div>
+        <div class="tool"><span class="n">19</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2M12 13v3"/></svg></span><span class="t">Password Manager</span></div>
+        <div class="tool"><span class="n">20</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></span><span class="t">MFA</span></div>
+        <div class="tool"><span class="n">21</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span class="t">Login System</span></div>
+      </div>
+      <div class="cat">Crypto &amp; ML</div>
+      <div class="tools">
+        <div class="tool"><span class="n">22</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4M12 15v2"/></svg></span><span class="t">AES</span></div>
+        <div class="tool"><span class="n">23</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.5 12.5 9-9M16 7l3 3"/></svg></span><span class="t">RSA</span></div>
+        <div class="tool"><span class="n">24</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14M5 15h14M10 3 8 21M16 3l-2 18"/></svg></span><span class="t">Hashing</span></div>
+        <div class="tool"><span class="n">25</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></svg></span><span class="t">Caesar Cipher</span></div>
+        <div class="tool"><span class="n">26</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-7"/></svg></span><span class="t">Anomaly Detector</span></div>
+        <div class="tool"><span class="n">27</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="6" width="10" height="13" rx="5"/><path d="M12 6V3M7 11H3M21 11h-4M7 16l-3 2M17 16l3 2M9 3l1.5 3M15 3l-1.5 3"/></svg></span><span class="t">Malware Detector</span></div>
+        <div class="tool"><span class="n">28</span><span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span class="t">Phishing Detector</span></div>
+      </div>
+    </section>
+
+    <!-- NETWORK SCAN -->
+    <section class="page" id="p2">
+      <div class="head"><div><h1>Port scanner</h1><p>Target <span class="mono">lab.local</span> (own lab VM)</p></div><span class="pill acc"><span class="dot pulse"></span>scan complete</span></div>
+      <div class="grid g2">
+        <div class="term">
+          <p><span class="c">tempest</span> scan --ports 1-1024 lab.local</p>
+          <p>[*] resolving lab.local → 192.168.56.10</p>
+          <p>[*] TCP connect scan · 1024 ports · 200 threads</p>
+          <p><span class="o">[+] 22/tcp   open   ssh     OpenSSH 9.6</span></p>
+          <p><span class="o">[+] 80/tcp   open   http    nginx 1.24</span></p>
+          <p><span class="o">[+] 443/tcp  open   https   nginx 1.24</span></p>
+          <p><span class="w">[!] 3306/tcp open   mysql   exposed to LAN</span></p>
+          <p>[*] 1021 closed · 0 filtered</p>
+          <p><span class="b">[!] 1 finding: database port reachable</span></p>
+          <p>[✓] report saved → reports/lab.local.json</p>
+        </div>
+        <div class="card"><h3>Open services</h3>
+          <table><tr><th>Port</th><th>Service</th><th>Risk</th></tr>
+            <tr><td class="mono">22</td><td>SSH</td><td><span class="pill ok">low · key auth</span></td></tr>
+            <tr><td class="mono">80</td><td>HTTP</td><td><span class="pill warn">redirect to 443</span></td></tr>
+            <tr><td class="mono">443</td><td>HTTPS</td><td><span class="pill ok">TLS 1.3</span></td></tr>
+            <tr><td class="mono">3306</td><td>MySQL</td><td><span class="pill bad">high · close it</span></td></tr></table></div>
+      </div>
+    </section>
+
+    <!-- WEB VULNS -->
+    <section class="page" id="p3">
+      <div class="head"><div><h1>Web vulnerability summary</h1><p>DVWA practice target · sample report</p></div></div>
+      <div class="grid g3">
+        <div class="card" style="text-align:center"><h3>Findings</h3><div class="ring"><b>5</b></div>
+          <div class="sev"><span style="color:var(--pink)">● Critical</span><b>1</b></div>
+          <div class="sev"><span style="color:var(--warn)">● Medium</span><b>2</b></div>
+          <div class="sev"><span style="color:var(--accent)">● Low</span><b>2</b></div></div>
+        <div class="card" style="grid-column: span 2"><h3>Details</h3>
+          <table><tr><th>Check</th><th>Endpoint</th><th>Severity</th></tr>
+            <tr><td>SQL injection</td><td class="mono">/vulnerabilities/sqli/?id=</td><td><span class="pill bad">critical</span></td></tr>
+            <tr><td>Reflected XSS</td><td class="mono">/vulnerabilities/xss_r/</td><td><span class="pill warn">medium</span></td></tr>
+            <tr><td>Missing CSP header</td><td class="mono">/</td><td><span class="pill warn">medium</span></td></tr>
+            <tr><td>X-Frame-Options missing</td><td class="mono">/</td><td><span class="pill info">low</span></td></tr>
+            <tr><td>Directory listing</td><td class="mono">/backup/</td><td><span class="pill info">low</span></td></tr></table></div>
+      </div>
+    </section>
+
+    <!-- DAILY AUDIT -->
+    <section class="page" id="p4">
+      <div class="head"><div><h1>Daily audit log</h1><p>Auditor: Ashwin · Tempest development environment</p></div><span class="pill ok">all checks passed</span></div>
+      <div class="card"><table>
+        <tr><th>Check</th><th>Status</th><th>Notes</th></tr>
+        <tr><td>Authentication logs reviewed</td><td><span class="pill ok">✓ done</span></td><td class="muted">no anomalies</td></tr>
+        <tr><td>Failed login attempts</td><td><span class="pill ok">✓ none</span></td><td class="muted">no failed SSH attempts</td></tr>
+        <tr><td>Unknown IP addresses</td><td><span class="pill ok">✓ none</span></td><td class="muted">no external access</td></tr>
+        <tr><td>File integrity baseline</td><td><span class="pill ok">✓ match</span></td><td class="muted">SHA-256 of 412 files</td></tr>
+        <tr><td>Firewall rules</td><td><span class="pill ok">✓ unchanged</span></td><td class="muted">default deny inbound</td></tr>
+        <tr><td>Package updates</td><td><span class="pill warn">3 pending</span></td><td class="muted">scheduled for maintenance window</td></tr>
+      </table></div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Project Management API — Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="demo.css" />
+<style>
+  
+  .m { display: inline-block; width: 62px; text-align: center; font: 600 11px var(--mono); padding: 2px 0; border-radius: 5px; }
+  .GET { background: rgba(143, 163, 184, .15); color: var(--info); } .POST { background: rgba(232, 116, 59, .15); color: var(--accent); }
+  .PATCH { background: rgba(201, 164, 58, .15); color: var(--warn); } .PUT { background: rgba(201, 198, 191, .15); color: #c9c6bf; }
+  .DELETE { background: rgba(208, 100, 79, .15); color: var(--bad); }
+  .ep td:nth-child(2) { font-family: var(--mono); font-size: 12.5px; }
+  details { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); margin-bottom: 10px; }
+  summary { cursor: pointer; padding: 12px 16px; display: flex; gap: 12px; align-items: center; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "＋"; margin-left: auto; color: var(--muted); }
+  details[open] summary::after { content: "−"; }
+  details > div { padding: 0 16px 16px; }
+  .board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .col { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r); padding: 10px; }
+  .col h4 { font: 600 12px var(--mono); color: var(--muted); margin-bottom: 8px; display: flex; justify-content: space-between; }
+  .task { background: var(--surface); border: 1px solid var(--line-2); border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 13px; transition: .2s; }
+  .task:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .task .row { margin-top: 6px; gap: 6px; }
+  .moving { animation: hop 4s ease-in-out infinite; }
+  @keyframes hop { 0%, 40% { transform: none; } 50% { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0, 0, 0, .4); border-color: var(--accent); } 60%, 100% { transform: none; } }
+  .top { display: flex; gap: 10px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--surface); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 26px 18px 60px; }
+  .legendk { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  @media (max-width: 760px) { .board { grid-template-columns: 1fr; } .ep td:nth-child(3) { display: none; } }
+</style>
+</head>
+<body>
+<div class="demo-bar">
+  <span>⚠ <b>DEMO</b> — static API reference + sample responses. <span class="pill warn">under construction</span></span>
+  <a href="../index.html#projects">← Back to portfolio</a>
+</div>
+<div class="top"><span class="brand-mark si-mark"><svg class="si" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><title>Node.js</title><path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z"/></svg></span><b>Project Management API</b><span class="pill">v1</span><span class="pill"><svg class="si" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><title>Node.js</title><path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z"/></svg>Node.js</span><span class="pill"><svg class="si" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><title>Express</title><path d="M24 18.588a1.529 1.529 0 01-1.895-.72l-3.45-4.771-.5-.667-4.003 5.444a1.466 1.466 0 01-1.802.708l5.158-6.92-4.798-6.251a1.595 1.595 0 011.9.666l3.576 4.83 3.596-4.81a1.435 1.435 0 011.788-.668L21.708 7.9l-2.522 3.283a.666.666 0 000 .994l4.804 6.412zM.002 11.576l.42-2.075c1.154-4.103 5.858-5.81 9.094-3.27 1.895 1.489 2.368 3.597 2.275 5.973H1.116C.943 16.447 4.005 19.009 7.92 17.7a4.078 4.078 0 002.582-2.876c.207-.666.548-.78 1.174-.588a5.417 5.417 0 01-2.589 3.957 6.272 6.272 0 01-7.306-.933 6.575 6.575 0 01-1.64-3.858c0-.235-.08-.455-.134-.666A88.33 88.33 0 010 11.577zm1.127-.286h9.654c-.06-3.076-2.001-5.258-4.59-5.278-2.882-.04-4.944 2.094-5.071 5.264z"/></svg>Express 5</span><span class="pill"><svg class="si" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><title>MongoDB</title><path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218zm-5.336 8.195s0-8.291.275-8.29c.213 0 .49 10.695.49 10.695-.381-.045-.765-1.76-.765-2.405z"/></svg>MongoDB</span><span class="pill"><svg class="si" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><title>JSON Web Tokens</title><path d="M10.2 0v6.456L12 8.928l1.8-2.472V0zm3.6 6.456v3.072l2.904-.96L20.52 3.36l-2.928-2.136zm2.904 2.112l-1.8 2.496 2.928.936 6.144-1.992-1.128-3.432zM17.832 12l-2.928.936 1.8 2.496 6.144 1.992 1.128-3.432zm-1.128 3.432l-2.904-.96v3.072l3.792 5.232 2.928-2.136zM13.8 17.544L12 15.072l-1.8 2.472V24h3.6zm-3.6 0v-3.072l-2.904.96L3.48 20.64l2.928 2.136zm-2.904-2.112l1.8-2.496L6.168 12 .024 13.992l1.128 3.432zM6.168 12l2.928-.936-1.8-2.496-6.144-1.992-1.128 3.432zm1.128-3.432l2.904.96V6.456L6.408 1.224 3.48 3.36Z"/></svg>JWT</span></div>
+
+<div class="wrap">
+  <div class="grid g4" style="margin-bottom:16px">
+    <div class="card kpi"><div class="l">Endpoints</div><div class="v">36</div></div>
+    <div class="card kpi"><div class="l">Resources</div><div class="v">6</div><div class="d">auth · users · projects · tasks · comments · activity</div></div>
+    <div class="card kpi"><div class="l">Auth</div><div class="v">JWT</div><div class="d">roles: admin · owner · member</div></div>
+    <div class="card kpi"><div class="l">Login rate limit</div><div class="v">✓</div><div class="d">brute-force protection</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Sample project board <span class="muted small">GET /projects/:id/tasks</span></h3>
+    <div class="board">
+      <div class="col"><h4>TODO <span>3</span></h4>
+        <div class="task">Write Dockerfile for API<div class="row"><span class="pill">devops</span><span class="pill warn">due Fri</span></div></div>
+        <div class="task">Add avatar size validation<div class="row"><span class="pill">users</span></div></div>
+        <div class="task">Seed demo data<div class="row"><span class="pill">db</span></div></div></div>
+      <div class="col"><h4>IN PROGRESS <span>2</span></h4>
+        <div class="task moving">Soft delete + restore for tasks<div class="row"><span class="pill acc">tasks</span><span class="pill">@ashwin</span></div></div>
+        <div class="task">Pagination on comments<div class="row"><span class="pill">comments</span></div></div></div>
+      <div class="col"><h4>DONE <span>3</span></h4>
+        <div class="task">JWT login + register<div class="row"><span class="pill ok">✓ auth</span></div></div>
+        <div class="task">Project members (add/remove)<div class="row"><span class="pill ok">✓ projects</span></div></div>
+        <div class="task">Per-project dashboard stats<div class="row"><span class="pill ok">✓ dashboard</span></div></div></div>
+    </div>
+  </div>
+
+  <h3 style="margin:24px 0 10px">Endpoints <span class="muted small">— click a group to expand</span></h3>
+  <div class="legendk"><span>🔓 public</span><span>🔑 logged in</span><span>👥 project member</span><span>👑 project owner</span><span>🛡️ admin</span></div>
+
+  <details open><summary><span class="m POST">AUTH</span><b>Auth</b><span class="muted small">register · login · me</span></summary><div>
+    <table class="ep"><tr><th>Method</th><th>Path</th><th>Access</th></tr>
+      <tr><td><span class="m POST">POST</span></td><td>/auth/register</td><td>🔓 rate-limited</td></tr>
+      <tr><td><span class="m POST">POST</span></td><td>/auth/login</td><td>🔓 rate-limited</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td>/auth/me</td><td>🔑</td></tr></table>
+<pre class="code" style="margin-top:12px">POST /auth/login
+{ <span class="k">"email"</span>: <span class="s">"demo@example.com"</span>, <span class="k">"password"</span>: <span class="s">"••••••••"</span> }
+
+← 200 OK
+{ <span class="k">"user"</span>: { <span class="k">"id"</span>: <span class="s">"665f…a1"</span>, <span class="k">"name"</span>: <span class="s">"Demo User"</span>, <span class="k">"role"</span>: <span class="s">"user"</span> },
+  <span class="k">"token"</span>: <span class="s">"eyJhbGciOi…(sample)"</span> }</pre></div></details>
+
+  <details><summary><span class="m GET">PROJ</span><b>Projects</b><span class="muted small">CRUD · members · dashboard</span></summary><div>
+    <table class="ep"><tr><th>Method</th><th>Path</th><th>Access</th></tr>
+      <tr><td><span class="m POST">POST</span></td><td>/projects</td><td>🔑</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td>/projects?search=&amp;page=</td><td>🔑</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td>/projects/:projectId</td><td>👥</td></tr>
+      <tr><td><span class="m PATCH">PATCH</span></td><td>/projects/:projectId</td><td>👑</td></tr>
+      <tr><td><span class="m DELETE">DELETE</span></td><td>/projects/:projectId</td><td>👑</td></tr>
+      <tr><td><span class="m POST">POST</span></td><td>/projects/:projectId/members</td><td>👑</td></tr>
+      <tr><td><span class="m DELETE">DELETE</span></td><td>/projects/:projectId/members/:userId</td><td>👑</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td>/projects/:projectId/dashboard</td><td>👥</td></tr></table>
+<pre class="code" style="margin-top:12px">GET /projects/665f…b2/dashboard  ← 200 OK
+{ <span class="k">"total"</span>: <span class="n">8</span>, <span class="k">"byStatus"</span>: { <span class="k">"todo"</span>: <span class="n">3</span>, <span class="k">"in_progress"</span>: <span class="n">2</span>, <span class="k">"done"</span>: <span class="n">3</span> },
+  <span class="k">"overdue"</span>: <span class="n">1</span>, <span class="k">"completionRate"</span>: <span class="n">0.375</span> }</pre></div></details>
+
+  <details><summary><span class="m PATCH">TASK</span><b>Tasks</b><span class="muted small">filter · search · paginate · soft delete · activity</span></summary><div>
+    <table class="ep"><tr><th>Method</th><th>Path</th><th>Access</th></tr>
+      <tr><td><span class="m POST">POST</span></td><td>/projects/:projectId/tasks</td><td>👥</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td>/projects/:projectId/tasks?status=&amp;sort=</td><td>👥</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td>/tasks/overdue</td><td>🔑</td></tr>
+      <tr><td><span class="m PATCH">PATCH</span></td><td>/tasks/:taskId</td><td>👥</td></tr>
+      <tr><td><span class="m DELETE">DELETE</span></td><td>/tasks/:taskId <span class="muted">(soft)</span></td><td>creator / 👑</td></tr>
+      <tr><td><span class="m POST">POST</span></td><td>/tasks/:taskId/restore</td><td>👑</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td>/tasks/:taskId/activity</td><td>👥</td></tr></table></div></details>
+
+  <details><summary><span class="m PUT">USER</span><b>Users &amp; comments</b><span class="muted small">profile · avatar · roles · comments</span></summary><div>
+    <table class="ep"><tr><th>Method</th><th>Path</th><th>Access</th></tr>
+      <tr><td><span class="m PATCH">PATCH</span></td><td>/users/me</td><td>🔑</td></tr>
+      <tr><td><span class="m PUT">PUT</span></td><td>/users/me/avatar</td><td>🔑</td></tr>
+      <tr><td><span class="m GET">GET</span></td><td>/users?search=&amp;role=</td><td>🛡️</td></tr>
+      <tr><td><span class="m PATCH">PATCH</span></td><td>/users/:userId/role</td><td>🛡️</td></tr>
+      <tr><td><span class="m POST">POST</span></td><td>/tasks/:taskId/comments</td><td>👥</td></tr>
+      <tr><td><span class="m DELETE">DELETE</span></td><td>/comments/:commentId</td><td>author / 🛡️</td></tr></table></div></details>
+</div>
+</body>
+</html>

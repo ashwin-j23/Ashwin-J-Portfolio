@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Muse Studio — Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="demo.css" />
+<style>
+  
+  .av { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #1a0d05; flex: none;
+    background: linear-gradient(135deg, var(--a1), var(--a2)); box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--a1); }
+  .av.lg { width: 64px; height: 64px; font-size: 22px; }
+  .creator { display: flex; gap: 12px; align-items: center; }
+  .creator b { display: block; } .creator span { font-size: 12px; color: var(--muted); }
+  .creators { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+  .ccard { text-align: center; padding: 18px 12px; }
+  .ccard .av { margin: 0 auto 10px; }
+  .ccard .stat { display: flex; justify-content: space-around; margin-top: 12px; font: 12px var(--mono); color: var(--text-2); }
+  .post { display: grid; grid-template-columns: 74px 1fr auto; gap: 14px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .post:last-child { border: 0; }
+  .img { aspect-ratio: 4/5; border-radius: 8px; background: linear-gradient(150deg, var(--a1), var(--a2)); position: relative; overflow: hidden; }
+  .img::after { content: "AI"; position: absolute; right: 4px; bottom: 4px; font: 600 9px var(--mono); background: rgba(0, 0, 0, .55); color: #fff; padding: 1px 5px; border-radius: 4px; }
+  .gate { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .dna { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .dna .img { aspect-ratio: 1; }
+  .dna .img.locked { outline: 2px solid var(--ok); outline-offset: 2px; }
+  .switch { width: 42px; height: 24px; border-radius: 99px; background: var(--line-2); position: relative; flex: none; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: .2s; }
+  .switch.on { background: var(--ok); } .switch.on::after { left: 21px; }
+  .setting { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .setting:last-child { border: 0; }
+  .key { font: 12px var(--mono); background: var(--surface-2); border: 1px solid var(--line); padding: 5px 10px; border-radius: 6px; color: var(--muted); }
+  .ramp { display: flex; align-items: flex-end; gap: 4px; height: 70px; }
+  .ramp i { flex: 1; background: var(--accent); opacity: .85; border-radius: 3px 3px 0 0; }
+  @media (max-width: 1100px) { .creators { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 620px) { .creators { grid-template-columns: 1fr 1fr; } .post { grid-template-columns: 60px 1fr; } .post > :last-child { grid-column: 1 / -1; } .dna { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="demo-bar">
+  <span>⚠ <b>DEMO</b> — static preview with fictional creators and sample data. The production app is private.</span>
+  <a href="../index.html#projects">← Back to portfolio</a>
+</div>
+<input type="checkbox" id="menu" class="menu-toggle" />
+<label for="menu" class="menu-btn">☰</label>
+
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><img class="brand-logo" src="../assets/logos/muse-studio.svg" alt="">Muse <em>Studio</em></div>
+    <div class="nav-label">Studio</div>
+    <a href="#p1" class="default-link"><span class="ic">◎</span>Overview</a>
+    <a href="#p2"><span class="ic">☰</span>Queue <span class="count">4</span></a>
+    <a href="#p3"><span class="ic">◍</span>Accounts</a>
+    <a href="#p4"><span class="ic">◈</span>Face DNA</a>
+    <div class="nav-label">System</div>
+    <a href="#p5"><span class="ic">⚙</span>Settings</a>
+    <div class="status">
+      <div class="row"><span class="pill ok"><span class="dot pulse"></span>Publishing on</span></div>
+      <p style="margin-top:8px">Kill switch: <span class="mono">armed</span><br>Next post: <span class="mono">6:15 PM</span></p>
+    </div>
+  </aside>
+
+  <main class="main pages">
+    <!-- OVERVIEW -->
+    <section class="page default" id="p1">
+      <div class="head"><div><h1>Overview</h1><p>Five fictional AI creators, one dashboard.</p></div><span class="btn primary">Generate posts</span></div>
+      <div class="grid g4" style="margin-bottom:14px">
+        <div class="card kpi"><div class="l">Posts this week</div><div class="v">27</div><div class="d">within caps</div></div>
+        <div class="card kpi"><div class="l">Waiting for review</div><div class="v">4</div><div class="d">publish gate</div></div>
+        <div class="card kpi"><div class="l">Blocked by SFW gate</div><div class="v">2</div><div class="d down">auto-rejected</div></div>
+        <div class="card kpi"><div class="l">Total followers</div><div class="v">8.9k</div><div class="d">▲ 12%</div></div>
+      </div>
+      <div class="creators" style="margin-bottom:14px">
+        <div class="card ccard"><div class="av lg" style="--a1:#e8743b;--a2:#3a3a3a">A</div><b>Aria Sol</b><div class="small muted">travel · warm-up day 21</div><div class="stat"><span>2.4k ♥</span><span>3/day</span></div></div>
+        <div class="card ccard"><div class="av lg" style="--a1:#8fa3b8;--a2:#c9c6bf">N</div><b>Nova Reyes</b><div class="small muted">tech · warm-up day 18</div><div class="stat"><span>1.9k ♥</span><span>2/day</span></div></div>
+        <div class="card ccard"><div class="av lg" style="--a1:#6fae75;--a2:#3a3a3a">K</div><b>Kai Mori</b><div class="small muted">fitness · warm-up day 14</div><div class="stat"><span>1.6k ♥</span><span>2/day</span></div></div>
+        <div class="card ccard"><div class="av lg" style="--a1:#c9a43a;--a2:#3a3a3a">L</div><b>Lila Hart</b><div class="small muted">food · warm-up day 9</div><div class="stat"><span>1.7k ♥</span><span>1/day</span></div></div>
+        <div class="card ccard"><div class="av lg" style="--a1:#d0644f;--a2:#3a3a3a">Z</div><b>Zed Okafor</b><div class="small muted">art · warm-up day 5</div><div class="stat"><span>1.3k ♥</span><span>1/day</span></div></div>
+      </div>
+      <div class="grid g2">
+        <div class="card"><h3>Warm-up ramp <span class="muted small">posts / day across accounts</span></h3>
+          <div class="ramp"><i style="height:10%"></i><i style="height:14%"></i><i style="height:18%"></i><i style="height:22%"></i><i style="height:30%"></i><i style="height:34%"></i><i style="height:40%"></i><i style="height:48%"></i><i style="height:52%"></i><i style="height:60%"></i><i style="height:66%"></i><i style="height:72%"></i><i style="height:80%"></i><i style="height:86%"></i></div></div>
+        <div class="card"><h3>Safety rules</h3>
+          <div class="gate"><span class="pill ok">✓ AI disclosure in bio</span><span class="pill ok">✓ #AI in captions</span><span class="pill ok">✓ SFW gate</span>
+            <span class="pill ok">✓ per-account caps</span><span class="pill ok">✓ cross-account gap</span><span class="pill ok">✓ duplicate check</span><span class="pill warn">⏻ kill switch armed</span></div></div>
+      </div>
+    </section>
+
+    <!-- QUEUE -->
+    <section class="page" id="p2">
+      <div class="head"><div><h1>Queue</h1><p>Every post passes the publish gate before it goes out.</p></div></div>
+      <div class="card">
+        <div class="post"><div class="img" style="--a1:#e8743b;--a2:#4a2c1c"></div>
+          <div><div class="creator"><div class="av" style="--a1:#e8743b;--a2:#3a3a3a">A</div><div><b>Aria Sol</b><span>Sunset over the old harbour 🌅 #AI #travel</span></div></div>
+            <div class="gate"><span class="pill ok">SFW ✓</span><span class="pill ok">disclosure ✓</span><span class="pill ok">no duplicate ✓</span></div></div>
+          <div class="row"><span class="btn primary sm">Approve</span><span class="btn sm">Reject</span></div></div>
+        <div class="post"><div class="img" style="--a1:#8fa3b8;--a2:#2a2a2a"></div>
+          <div><div class="creator"><div class="av" style="--a1:#8fa3b8;--a2:#c9c6bf">N</div><div><b>Nova Reyes</b><span>My Arch Linux desk setup ⌨️ #AI #setup</span></div></div>
+            <div class="gate"><span class="pill ok">SFW ✓</span><span class="pill ok">disclosure ✓</span><span class="pill warn">gap: wait 40 min</span></div></div>
+          <div class="row"><span class="btn primary sm">Approve</span><span class="btn sm">Reject</span></div></div>
+        <div class="post"><div class="img" style="--a1:#6fae75;--a2:#2d2d2d"></div>
+          <div><div class="creator"><div class="av" style="--a1:#6fae75;--a2:#3a3a3a">K</div><div><b>Kai Mori</b><span>Morning run, 5km done 🏃 #AI #fitness</span></div></div>
+            <div class="gate"><span class="pill ok">SFW ✓</span><span class="pill ok">disclosure ✓</span><span class="pill ok">no duplicate ✓</span></div></div>
+          <div class="row"><span class="btn primary sm">Approve</span><span class="btn sm">Reject</span></div></div>
+        <div class="post"><div class="img" style="--a1:#888;--a2:#333"></div>
+          <div><div class="creator"><div class="av" style="--a1:#c9a43a;--a2:#3a3a3a">L</div><div><b>Lila Hart</b><span>DEMO image — no image key configured</span></div></div>
+            <div class="gate"><span class="pill bad">✗ DEMO image — gate refuses to post</span></div></div>
+          <div class="row"><span class="btn sm">Regenerate</span></div></div>
+      </div>
+    </section>
+
+    <!-- ACCOUNTS -->
+    <section class="page" id="p3">
+      <div class="head"><div><h1>Accounts</h1><p>Fictional characters only.</p></div></div>
+      <div class="card"><table>
+        <tr><th>Creator</th><th>Niche</th><th>Warm-up</th><th>Daily cap</th><th>Status</th></tr>
+        <tr><td><div class="creator"><div class="av" style="--a1:#e8743b;--a2:#3a3a3a">A</div><b>Aria Sol</b></div></td><td>Travel</td><td><div class="bar"><i style="width:100%"></i></div></td><td class="mono">3</td><td><span class="pill ok">active</span></td></tr>
+        <tr><td><div class="creator"><div class="av" style="--a1:#8fa3b8;--a2:#c9c6bf">N</div><b>Nova Reyes</b></div></td><td>Tech</td><td><div class="bar"><i style="width:86%"></i></div></td><td class="mono">2</td><td><span class="pill ok">active</span></td></tr>
+        <tr><td><div class="creator"><div class="av" style="--a1:#6fae75;--a2:#3a3a3a">K</div><b>Kai Mori</b></div></td><td>Fitness</td><td><div class="bar"><i style="width:66%"></i></div></td><td class="mono">2</td><td><span class="pill ok">active</span></td></tr>
+        <tr><td><div class="creator"><div class="av" style="--a1:#c9a43a;--a2:#3a3a3a">L</div><b>Lila Hart</b></div></td><td>Food</td><td><div class="bar"><i style="width:43%"></i></div></td><td class="mono">1</td><td><span class="pill warn">warming up</span></td></tr>
+        <tr><td><div class="creator"><div class="av" style="--a1:#d0644f;--a2:#3a3a3a">Z</div><b>Zed Okafor</b></div></td><td>Art</td><td><div class="bar"><i style="width:24%"></i></div></td><td class="mono">1</td><td><span class="pill warn">warming up</span></td></tr>
+      </table></div>
+    </section>
+
+    <!-- FACE DNA -->
+    <section class="page" id="p4">
+      <div class="head"><div><h1>Face DNA</h1><p>Generate 4 candidates, lock the references, keep every post on-model.</p></div><span class="btn primary">Generate 4 candidates</span></div>
+      <div class="grid g2">
+        <div class="card"><h3>Aria Sol <span class="pill ok">references locked</span></h3>
+          <div class="dna"><div class="img locked" style="--a1:#e8743b;--a2:#4a2c1c"></div><div class="img locked" style="--a1:#c4642e;--a2:#40281a"></div><div class="img" style="--a1:#b85524;--a2:#35231a"></div><div class="img" style="--a1:#b85524;--a2:#45301f"></div></div></div>
+        <div class="card"><h3>Zed Okafor <span class="pill warn">pick references</span></h3>
+          <div class="dna"><div class="img" style="--a1:#d0644f;--a2:#2a2a2a"></div><div class="img" style="--a1:#3a3a3a;--a2:#303030"></div><div class="img" style="--a1:#8a4a38;--a2:#222222"></div><div class="img" style="--a1:#8a4a38;--a2:#2e2e2e"></div></div></div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="page" id="p5">
+      <div class="head"><div><h1>Settings</h1><p>Keys live on the server only — never in the browser.</p></div></div>
+      <div class="card">
+        <div class="setting"><div><b>Image generation key</b><div class="small muted">Gemini / fal / OpenAI</div></div><span class="key">•••••••••••• (hidden in demo)</span></div>
+        <div class="setting"><div><svg class="si" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><title>Instagram</title><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg><b>Instagram connection</b><div class="small muted">Graph API</div></div><span class="key">•••••••••••• (hidden in demo)</span></div>
+        <div class="setting"><div><b>Auto-publish</b><div class="small muted">Post approved items on schedule</div></div><span class="switch on"></span></div>
+        <div class="setting"><div><b>SFW gate</b><div class="small muted">Reject anything unsafe before review</div></div><span class="switch on"></span></div>
+        <div class="setting"><div><b>Kill switch</b><div class="small muted">Stop all publishing instantly</div></div><span class="switch"></span></div>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>
