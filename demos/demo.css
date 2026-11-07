@@ -119,3 +119,12 @@ pre.code { font: 12px/1.6 var(--mono); background: #0a0a09; border: 1px solid va
 .cover .art .src .si { margin: 0; width: 12px; height: 12px; }
 .card h3 > span { display: inline-flex; align-items: center; }
 .tabs label { display: inline-flex; align-items: center; }
+
+/* Phone widths: wide content scrolls inside its own box instead of widening the page */
+.grid > *, .card, details { min-width: 0; }
+pre.code { max-width: 100%; }
+@media (max-width: 860px) {
+  table { display: block; overflow-x: auto; white-space: nowrap; }
+  .stages { gap: 0; }
+  .stages .st { min-width: 84px; }
+}

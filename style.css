@@ -656,3 +656,16 @@ html, body { overflow-x: clip; }
   .il-cta .btn { width: 100%; text-align: center; justify-content: center; }
   .il-meter { padding: 10px 16px; }
 }
+
+/* ============ FIXES (mobile pass) ============ */
+/* <button class="btn ghost"> got the browser's light default background, hiding its text */
+.btn.ghost { background: transparent; }
+button.btn { font-family: var(--sans); font-size: 0.95rem; cursor: pointer; }
+.socials { flex-wrap: wrap; row-gap: 10px; }
+.socials a { white-space: nowrap; }
+@media (max-width: 900px) {
+  .socials { gap: 10px 18px; }
+  /* project tabs wrap into rows instead of a cut-off sideways scroller */
+  .il-tabs { flex-wrap: wrap; overflow-x: visible; }
+  .il-tab { flex: 1 1 auto; justify-content: center; padding: 8px 10px; }
+}
