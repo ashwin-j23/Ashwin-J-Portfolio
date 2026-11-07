@@ -39,7 +39,8 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: check
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Free GitHub Pages needs a public repo — deploy runs automatically once the repo is public.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !github.event.repository.private
     runs-on: ubuntu-latest
     permissions:
       pages: write
