@@ -36,8 +36,8 @@ const lines = [
   ["ok", "[✓] open ports reviewed"],
   ["$ ", "nmap -sV lab.local"],
   ["warn", "22/tcp open ssh · 80/tcp open http"],
-  ["$ ", "docker compose up -d && kubectl get pods"],
-  ["ok", "genesis-api   1/1   Running"],
+  ["$ ", "docker compose up -d"],
+  ["ok", "✔ container may-be-api   started"],
   ["$ ", "systemctl status reelsmith"],
   ["ok", "● active (running) · live in production"],
   ["$ ", "systemctl status muse-studio"],
@@ -133,7 +133,7 @@ const io = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0, rootMargin: "0px 0px -40px 0px" });
 
-document.querySelectorAll(".section-title, .card, .timeline li, .about-text, .facts, .pipeline, .contact > p, .il-intro, .il-console, .il-principles li, .il-cta, .ddos").forEach((el) => {
+document.querySelectorAll(".section-title, .card, .timeline li, .about-text, .facts, .pipeline, .contact > p, .il-intro, .il-console, .il-principles li, .il-cta, .ddos, .nc-facts").forEach((el) => {
   // stagger siblings in grids
   const idx = [...el.parentElement.children].indexOf(el);
   el.style.setProperty("--d", `${Math.min(idx, 6) * 0.08}s`);
@@ -261,9 +261,9 @@ if (finePointer && !reduce) {
     ["Linux", "prod", "Daily-driver OS (Arch Linux) · bootcamp Linux labs", ["linux", "unix", "arch linux", "ubuntu", "centos", "rhel", "debian"]],
     ["Bash / shell scripting", "proj", "server_audit.sh · daily bootcamp shell labs", ["bash", "shell scripting", "shell", "scripting"]],
     ["Git & GitHub", "prod", "All projects version-controlled on GitHub", ["git", "github", "version control", "gitlab"]],
-    ["Docker", "prod", "Dockerfiles for Reelsmith, Muse Studio, Genesis", ["docker", "container", "containers", "containerization", "containerisation"]],
-    ["Docker Compose", "proj", "Genesis multi-service setup", ["docker compose", "docker-compose", "compose"]],
-    ["Kubernetes", "proj", "Genesis: namespace, deployment, service, ingress, configmap, Postgres manifests", ["kubernetes", "k8s", "kubectl", "pods"]],
+    ["Docker", "prod", "Dockerfiles for Reelsmith, Muse Studio, May~be", ["docker", "container", "containers", "containerization", "containerisation"]],
+    ["Docker Compose", "proj", "May~be multi-service setup", ["docker compose", "docker-compose", "compose"]],
+    ["Kubernetes", "learn", "Studying on the DevSecOps roadmap: pods, deployments, services, ingress", ["kubernetes", "k8s", "kubectl", "pods"]],
     ["CI/CD", "prod", "Reelsmith uses GitHub Actions as its render pipeline", ["ci/cd", "ci cd", "cicd", "continuous integration", "continuous delivery", "continuous deployment", "pipelines?"]],
     ["GitHub Actions", "prod", "Reelsmith v2 render farm runs on GitHub Actions", ["github actions"]],
     ["Cloud deployment (Vercel / Render)", "prod", "Reelsmith v2 & Muse Studio live on Vercel; Render blueprints", ["vercel", "render", "paas", "deployment", "deploy"]],
@@ -273,18 +273,18 @@ if (finePointer && !reduce) {
     ["Express", "proj", "Project Management API (Express 5)", ["express", "express\\.js", "expressjs"]],
     ["REST APIs", "prod", "36-endpoint PM API · FastAPI backend for Muse Studio", ["rest", "restful", "rest api", "apis?", "backend", "back-end", "microservices?"]],
     ["MongoDB", "proj", "Project Management API with Mongoose", ["mongodb", "mongo", "mongoose", "nosql"]],
-    ["PostgreSQL / SQL", "proj", "Genesis Postgres on Kubernetes · Prisma in May~be", ["postgres", "postgresql", "sql", "mysql", "database", "databases", "prisma"]],
+    ["PostgreSQL / SQL", "proj", "Prisma + PostgreSQL in May~be", ["postgres", "postgresql", "sql", "mysql", "database", "databases", "prisma"]],
     ["Auth (JWT / OAuth)", "prod", "JWT auth in PM API & Muse Studio · OAuth 2.0 PKCE in May~be", ["jwt", "oauth", "authentication", "authorization", "auth"]],
     ["Python", "prod", "Muse Studio (FastAPI), Reelsmith, Tempest toolkit", ["python"]],
     ["FastAPI", "prod", "Muse Studio backend with a 64-test suite", ["fastapi"]],
     ["JavaScript / TypeScript", "proj", "Node.js APIs, React + TypeScript frontends", ["javascript", "typescript", "js", "ts"]],
-    ["React", "proj", "Genesis frontend, Vite + React apps", ["react", "reactjs"]],
+    ["React", "proj", "Reelsmith v2 dashboard (React + Vite)", ["react", "reactjs"]],
     ["HTML & CSS", "proj", "This portfolio and its 8 demo pages — hand-written, no framework", ["html", "html5", "css", "css3", "sass", "scss"]],
     ["Responsive UI", "proj", "This portfolio works from phone to desktop · Muse & Reelsmith dashboards", ["responsive", "responsive design", "mobile-first", "cross-browser", "ui"]],
     ["Accessibility basics", "proj", "Reduced-motion support, semantic HTML and ARIA labels in this portfolio", ["accessibility", "a11y", "wcag"]],
     ["Flutter / mobile", "proj", "May~be cross-platform music app (Flutter + Dart)", ["flutter", "dart", "mobile", "android", "ios", "cross-platform"]],
     ["Testing", "prod", "Muse Studio pytest suite (64 tests)", ["testing", "unit tests?", "pytest", "jest", "test automation"]],
-    ["DevSecOps / SAST", "proj", "SonarQube quality gate in Genesis · DevSecOps roadmap", ["devsecops", "sast", "sonarqube", "secure sdlc", "shift left", "code scanning"]],
+    ["DevSecOps / SAST", "learn", "DevSecOps roadmap · security gates built into Muse Studio and Reelsmith", ["devsecops", "sast", "sonarqube", "secure sdlc", "shift left", "code scanning"]],
     ["Security operations", "proj", "Daily cybersecurity audit logs · log review · file integrity checks", ["secops", "security operations", "soc", "monitoring", "incident response", "log analysis", "auditing", "audit", "hardening"]],
     ["Network security", "proj", "Tempest: port scanner, packet sniffer, SSH brute-force detector, firewall manager", ["network security", "networking", "tcp/ip", "firewall", "firewalls", "port scanning", "packet", "ids", "ips"]],
     ["Penetration testing", "learn", "Bootcamp pentest track · Tempest SQLi/XSS/SSL/header scanners on lab targets", ["penetration testing", "pentest", "pentesting", "ethical hacking", "vulnerability assessment", "vapt", "red team"]],
