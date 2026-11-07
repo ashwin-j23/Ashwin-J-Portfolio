@@ -746,38 +746,6 @@ button.btn { font-family: var(--sans); font-size: 0.95rem; cursor: pointer; }
 .hero-rain { position: absolute; inset: -40px -50vw 0; width: calc(100% + 100vw); height: calc(100% + 40px); z-index: -1; pointer-events: none;
   opacity: 0.6; -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%); mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%); }
 
-/* ============ DDOS DEFENSE SIMULATION ============ */
-.ddos { margin-top: 64px; border: 1px solid var(--border-2); border-radius: 16px; background: var(--card); overflow: hidden; }
-.dd-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding: 24px 26px 18px; flex-wrap: wrap; }
-.dd-head h3 { font-size: 1.35rem; margin: 6px 0 6px; }
-.dd-head p { color: var(--muted); max-width: 680px; font-size: 0.95rem; }
-.dd-kicker { display: inline-flex; align-items: center; gap: 8px; font: 600 0.72rem var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
-.dd-kicker .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); animation: il-ping 1.8s ease-out infinite; }
-.ddos.attack .dd-kicker .dot { background: var(--red, #d0644f); }
-.dd-btn { white-space: nowrap; border: 0; }
-.ddos.attack .dd-btn { background: var(--red, #d0644f); }
-.dd-stage { position: relative; border-block: 1px solid var(--border); background:
-  linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 100% 32px, #0d0d0d; }
-#dd-canvas { display: block; width: 100%; height: 300px; }
-.dd-legend { position: absolute; left: 14px; bottom: 10px; display: flex; gap: 14px; font: 0.72rem var(--mono); color: var(--muted); }
-.dd-legend span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
-.dd-legend .u::before { background: var(--lime); } .dd-legend .b::before { background: var(--red, #d0644f); } .dd-legend .x::before { background: transparent; border: 1px solid var(--red, #d0644f); }
-.dd-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) 1.6fr; }
-.dd-stats > div { padding: 14px 20px; border-right: 1px solid var(--border); }
-.dd-stats > div:last-child { border-right: 0; }
-.dd-stats span { display: block; font: 0.7rem var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-.dd-stats b { font: 600 1.35rem var(--mono); font-variant-numeric: tabular-nums; }
-.dd-stats b.g { color: var(--lime); } .dd-stats b.r { color: var(--red, #d0644f); } .dd-stats b.a { color: var(--amber); }
-#dd-spark { display: block; width: 100%; height: 34px; margin-top: 4px; }
-@media (max-width: 900px) {
-  .dd-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .dd-stats > div { border-bottom: 1px solid var(--border); }
-  .dd-stats > div:nth-child(2n) { border-right: 0; }
-  .dd-spark { grid-column: 1 / -1; border-bottom: 0 !important; }
-  #dd-canvas { height: 240px; }
-  .dd-head { padding: 20px 18px 16px; }
-  .dd-btn { width: 100%; text-align: center; }
-}
 @media (prefers-reduced-motion: reduce) { .hero-rain { display: none; } }
 
 /* ============ PROJECT EXPLAINERS ============ */
