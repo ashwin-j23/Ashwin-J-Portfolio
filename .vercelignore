@@ -1,4 +1,21 @@
+# repo-only files (not part of the website)
 README.md
 scripts/
 .github/
 _headers
+# local tooling / editor / shell files — never upload
+.claude/
+.idea/
+.vscode/
+.vercel/
+node_modules/
+.DS_Store
+.bash_profile
+.bashrc
+.gitconfig
+.gitmodules
+.mcp.json
+.profile
+.ripgreprc
+.zprofile
+.zshrc
