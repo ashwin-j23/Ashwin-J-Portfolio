@@ -650,3 +650,59 @@ if (finePointer && !reduce) {
   document.addEventListener("visibilitychange", () => (on = !document.hidden));
   requestAnimationFrame(frame);
 })();
+
+/* ---------- Section number watermarks ---------- */
+document.querySelectorAll("main > section").forEach((s) => {
+  const n = s.querySelector(".section-title .num");
+  if (n) s.dataset.n = n.textContent.replace(".", "").trim();
+});
+
+/* ---------- Side-margin log streams (decorative sample logs) ---------- */
+(function sideLogs() {
+  const L = document.getElementById("log-l"), R = document.getElementById("log-r");
+  if (!L || !R) return;
+  const wide = window.matchMedia("(min-width: 1500px)");
+  const pick = (a) => a[(Math.random() * a.length) | 0];
+  const ip = () => pick(["203.0.113.", "198.51.100.", "192.0.2."]) + ((Math.random() * 250) | 1);
+  const ms = () => ((Math.random() * 40) | 0) + 3;
+  const ops = [
+    () => ["ok", `GET /api/health 200 ${ms()}ms`],
+    () => ["ok", `POST /auth/login 200 ${ms() + 20}ms`],
+    () => ["ok", `GET /projects?page=${(Math.random() * 9 + 1) | 0} 200 ${ms()}ms`],
+    () => ["info", "ci: check-site · passed"],
+    () => ["info", "deploy: vercel · ready"],
+    () => ["ok", "docker: may-be-api healthy"],
+    () => ["ok", "render: reelsmith job done"],
+    () => ["", "cron: daily backup synced"],
+    () => ["warn", `latency p95 ${ms() + 120}ms`],
+    () => ["", "systemd: muse-studio active"],
+  ];
+  const sec = [
+    () => ["bad", `ufw: BLOCK ${ip()}:22`],
+    () => ["bad", `waf: sqli blocked ← ${ip()}`],
+    () => ["warn", `ssh: failed login ×${(Math.random() * 5 + 2) | 0} ${ip()}`],
+    () => ["bad", `fail2ban: ban ${ip()}`],
+    () => ["ok", "audit: users & perms ok"],
+    () => ["ok", "integrity: /etc unchanged"],
+    () => ["", `nmap: 22/tcp open ssh`],
+    () => ["ok", "tls: cert valid 61d"],
+    () => ["info", "headers: csp hsts nosniff ✓"],
+    () => ["warn", "rate-limit: 429 × 12"],
+  ];
+  const stamp = () => new Date().toTimeString().slice(0, 8);
+  function push(box, gen) {
+    const [cls, text] = gen();
+    const p = document.createElement("p");
+    p.innerHTML = `<span class="t">${stamp()}</span> <span class="${cls}">${text}</span>`;
+    box.appendChild(p);
+    while (box.children.length > 60) box.firstChild.remove();
+  }
+  for (let i = 0; i < 40; i++) { push(L, pick(ops)); push(R, pick(sec)); }
+  if (reduce) return;
+  let on = true;
+  document.addEventListener("visibilitychange", () => (on = !document.hidden));
+  (function loop() {
+    if (on && wide.matches) Math.random() < 0.5 ? push(L, pick(ops)) : push(R, pick(sec));
+    setTimeout(loop, 700 + Math.random() * 900);
+  })();
+})();

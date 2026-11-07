@@ -763,3 +763,33 @@ button.btn { font-family: var(--sans); font-size: 0.95rem; cursor: pointer; }
   .projects .next-card > :not(.nc-facts) { grid-column: 1; }
   .projects .next-card .nc-facts { grid-column: 2; grid-row: 1 / span 4; margin-top: 0; align-self: center; }
 }
+
+/* ============ BACKGROUND LAYERS ============ */
+/* 1 · engineering dot grid, fading toward the edges */
+.bg-grid { position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background-image: radial-gradient(rgba(236, 236, 234, 0.14) 1.1px, transparent 1.5px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 30%, transparent 100%); }
+
+/* 2 · live log streams in the empty side margins (wide screens only) */
+.side-log { position: fixed; top: 64px; bottom: 0; width: calc((100vw - 1160px) / 2 - 36px); max-width: 300px; z-index: -1;
+  pointer-events: none; overflow: hidden; display: none; flex-direction: column; justify-content: flex-end; gap: 3px;
+  padding: 0 0 24px; font: 11px/1.5 var(--mono); color: rgba(154, 152, 147, 0.42);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 35%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 35%, #000 92%, transparent 100%); }
+.side-log.left { left: 20px; } .side-log.right { right: 20px; text-align: right; }
+.side-log p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; animation: logIn 0.4s ease-out both; }
+.side-log .t { color: rgba(154, 152, 147, 0.28); }
+.side-log .ok { color: rgba(111, 174, 117, 0.6); } .side-log .warn { color: rgba(201, 164, 58, 0.6); }
+.side-log .bad { color: rgba(208, 100, 79, 0.65); } .side-log .info { color: rgba(232, 116, 59, 0.55); }
+@keyframes logIn { from { opacity: 0; transform: translateY(6px); } }
+@media (min-width: 1500px) { .side-log { display: flex; } }
+
+/* 3 · big outlined section numbers behind each heading */
+main > section[data-n] { position: relative; }
+main > section[data-n]::before { content: attr(data-n); position: absolute; right: -8px; top: 34px; z-index: -1; pointer-events: none;
+  font: 700 clamp(6rem, 14vw, 11rem)/1 var(--mono); letter-spacing: -0.04em;
+  color: transparent; -webkit-text-stroke: 1px rgba(236, 236, 234, 0.07); }
+@media (max-width: 900px) { main > section[data-n]::before { font-size: 5.5rem; top: 46px; right: 0; } }
+@media (prefers-reduced-motion: reduce) { .side-log p { animation: none; } }

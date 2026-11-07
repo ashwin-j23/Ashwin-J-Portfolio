@@ -32,12 +32,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20261107r" />
+  <link rel="stylesheet" href="style.css?v=20261107t" />
 </head>
 <body>
   <a class="skip-link" href="#about">Skip to content</a>
   <!-- animated network background (DevOps / networking) -->
   <canvas id="net" aria-hidden="true"></canvas>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="side-log left" id="log-l" aria-hidden="true"></div>
+  <div class="side-log right" id="log-r" aria-hidden="true"></div>
   <div class="cursor-glow" aria-hidden="true"></div>
   <div class="progress" aria-hidden="true"></div>
 
@@ -122,7 +125,7 @@
           </p>
           <p>
             On the development side I build REST APIs with <strong>Node.js, Express and MongoDB</strong>, and
-            I've containerised and deployed projects with Docker, Kubernetes manifests, Render, Supabase and Vercel.
+            I've containerised and deployed projects with Docker, Docker Compose, Render, Supabase and Vercel, and I'm learning Kubernetes.
             I use <strong>Linux</strong> as my everyday operating system.
           </p>
           <div class="stats">
@@ -297,7 +300,7 @@
         <div class="sp-head"><span class="dot"></span>study.log <small>8 hrs / day</small></div>
         <ul class="sp-tracks">
           <li><b>Linux &amp; shell</b><span>users · groups · permissions · services · networking · scripting</span><em class="lv prod">daily use</em></li>
-          <li><b>DevOps</b><span>Docker · Compose · Kubernetes · GitHub Actions</span><em class="lv proj">in projects</em></li>
+          <li><b>DevOps</b><span>Docker · Compose · GitHub Actions · Kubernetes basics</span><em class="lv proj">in projects</em></li>
           <li><b>AWS</b><span>EC2 · S3 · IAM · VPC · security groups</span><em class="lv learn">learning</em></li>
           <li><b>Pentesting</b><span>recon · scanning · OWASP Top 10 · safe labs</span><em class="lv learn">learning</em></li>
           <li><b>Node.js backend</b><span>Express · REST · JWT · MongoDB</span><em class="lv proj">in projects</em></li>
@@ -613,6 +616,6 @@
     <div class="mail-pop-addr">ashwin.j200423@gmail.com</div>
   </div>
 
-  <script src="script.js?v=20261107r"></script>
+  <script src="script.js?v=20261107t"></script>
 </body>
 </html>
