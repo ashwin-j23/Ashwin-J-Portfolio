@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20261107j" />
+  <link rel="stylesheet" href="style.css?v=20261107m" />
 </head>
 <body>
   <a class="skip-link" href="#about">Skip to content</a>
@@ -59,6 +59,7 @@
   <main id="top">
     <!-- HERO -->
     <section class="hero">
+      <canvas class="hero-rain" id="rain" aria-hidden="true"></canvas>
       <div class="hero-text">
         <p class="eyebrow"><span class="dot"></span> Available for DevOps / SecOps roles</p>
         <h1>Ashwin J</h1>
@@ -249,6 +250,30 @@
         </article>
       </div>
     </section>
+
+    <!-- DDOS DEFENSE SIMULATION -->
+    <div class="ddos" id="ddos">
+      <div class="dd-head">
+        <div>
+          <span class="dd-kicker"><span class="dot"></span>SecOps lab · simulation</span>
+          <h3>Under a DDoS flood — and still serving users</h3>
+          <p>Bot traffic hits a rate limiter and WAF at the edge. Malicious requests are dropped, real users get through,
+            and the service stays up. This is the defence-in-depth idea I'm studying, drawn live in your browser.</p>
+        </div>
+        <button type="button" class="btn primary dd-btn" id="dd-launch" aria-pressed="false">Launch attack</button>
+      </div>
+      <div class="dd-stage">
+        <canvas id="dd-canvas" aria-label="Animated simulation: bot requests are blocked at a shield while user requests reach the server" role="img"></canvas>
+        <div class="dd-legend" aria-hidden="true"><span class="u">user request</span><span class="b">bot request</span><span class="x">dropped</span></div>
+      </div>
+      <div class="dd-stats" aria-live="off">
+        <div><span>requests / s</span><b id="dd-rps">0</b></div>
+        <div><span>blocked</span><b id="dd-blocked" class="r">0</b></div>
+        <div><span>served</span><b id="dd-served" class="g">0</b></div>
+        <div><span id="dd-st-label">status · normal</span><b id="dd-status" class="g">200 OK</b></div>
+        <div class="dd-spark"><span>traffic · last 40 s</span><canvas id="dd-spark" aria-hidden="true"></canvas></div>
+      </div>
+    </div>
 
     <!-- LEARNING -->
     <section id="learning">
@@ -582,6 +607,6 @@
     <div class="mail-pop-addr">ashwin.j200423@gmail.com</div>
   </div>
 
-  <script src="script.js?v=20261107j"></script>
+  <script src="script.js?v=20261107m"></script>
 </body>
 </html>
