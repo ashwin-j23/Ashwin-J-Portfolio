@@ -133,7 +133,7 @@ const io = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0, rootMargin: "0px 0px -40px 0px" });
 
-document.querySelectorAll(".section-title, .card, .timeline li, .about-text, .facts, .pipeline, .contact > p").forEach((el) => {
+document.querySelectorAll(".section-title, .card, .timeline li, .about-text, .facts, .pipeline, .contact > p, .il-intro, .il-console, .il-principles li, .il-cta").forEach((el) => {
   // stagger siblings in grids
   const idx = [...el.parentElement.children].indexOf(el);
   el.style.setProperty("--d", `${Math.min(idx, 6) * 0.08}s`);
@@ -569,4 +569,37 @@ if (finePointer && !reduce) {
     .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
     .then((d) => { try { sessionStorage.setItem(KEY, JSON.stringify({ t: Date.now(), d })); } catch {} render(d); })
     .catch(fail);
+})();
+
+/* ---------- Ideas lab tabs ---------- */
+(function ideasLab() {
+  const list = document.querySelector(".il-tabs");
+  if (!list) return;
+  const tabs = [...list.querySelectorAll('[role="tab"]')];
+  const rail = () => {
+    const panel = document.querySelector(".il-panel:not([hidden]) .il-rail");
+    if (panel) panel.style.setProperty("--rail-w", panel.offsetWidth + "px");
+  };
+  const select = (tab, focus) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute("aria-selected", on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+    if (focus) tab.focus();
+    tab.scrollIntoView({ block: "nearest", inline: "nearest" });
+    rail();
+  };
+  tabs.forEach((t) => t.addEventListener("click", () => select(t)));
+  list.addEventListener("keydown", (e) => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (k) { e.preventDefault(); select(tabs[(i + k + tabs.length) % tabs.length], true); }
+    if (e.key === "Home") { e.preventDefault(); select(tabs[0], true); }
+    if (e.key === "End") { e.preventDefault(); select(tabs[tabs.length - 1], true); }
+  });
+  addEventListener("resize", rail);
+  rail();
 })();

@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20261107d" />
+  <link rel="stylesheet" href="style.css?v=20261107e" />
 </head>
 <body>
   <a class="skip-link" href="#about">Skip to content</a>
@@ -49,6 +49,7 @@
       <a href="#skills">Skills</a>
       <a href="#learning">Learning</a>
       <a href="#projects">Projects</a>
+      <a href="#ideas">Ideas</a>
       <a href="#rolefit">Role fit</a>
       <a href="#contact">Contact</a>
       <a href="resume.html" class="nav-resume">Resume</a>
@@ -389,9 +390,82 @@
       </div>
     </section>
 
+    <!-- IDEAS LAB -->
+    <section id="ideas">
+      <h3 class="section-title"><span class="num">05.</span> <span class="t">Ideas lab</span></h3>
+      <div class="il-intro">
+        <p class="il-lead">Every project here is <em>version one</em>. I keep a running list of where each one goes next —
+          and that habit is what I bring to a team: I don't just close the ticket, I come back with the next improvement.</p>
+        <div class="il-meter" aria-hidden="true"><span>ideas.log</span><b data-count="12">0</b><small>queued</small></div>
+      </div>
+      <div class="il-console">
+        <div class="il-tabs" role="tablist" aria-label="Project roadmaps">
+          <button type="button" role="tab" class="il-tab" id="il-t-reelsmith" aria-controls="il-p-reelsmith" aria-selected="true"><img src="assets/logos/reelsmith.svg" alt="" />Reelsmith</button>
+          <button type="button" role="tab" class="il-tab" id="il-t-muse" aria-controls="il-p-muse" aria-selected="false" tabindex="-1"><img src="assets/logos/muse-studio.svg" alt="" />Muse Studio</button>
+          <button type="button" role="tab" class="il-tab" id="il-t-tempest" aria-controls="il-p-tempest" aria-selected="false" tabindex="-1"><img src="assets/icons/python.svg" alt="" />Tempest</button>
+          <button type="button" role="tab" class="il-tab" id="il-t-genesis" aria-controls="il-p-genesis" aria-selected="false" tabindex="-1"><img src="assets/icons/kubernetes.svg" alt="" />Genesis</button>
+          <button type="button" role="tab" class="il-tab" id="il-t-maybe" aria-controls="il-p-maybe" aria-selected="false" tabindex="-1"><img src="assets/icons/flutter.svg" alt="" />May~be</button>
+          <button type="button" role="tab" class="il-tab" id="il-t-tenseigan" aria-controls="il-p-tenseigan" aria-selected="false" tabindex="-1"><img src="assets/logos/tenseigan.svg" alt="" />Tenseigan</button>
+        </div>
+          <div class="il-panel" role="tabpanel" id="il-p-reelsmith" aria-labelledby="il-t-reelsmith">
+            <ol class="il-rail">
+              <li class="il-node now"><span class="il-stage">Now · shipped</span><p>Agent finds trends, writes, voices, edits and schedules shorts — rendered on GitHub Actions for free.</p></li>
+              <li class="il-node next"><span class="il-stage">Next · building</span><p>Closed-loop learning: A/B test hooks and thumbnails automatically and feed watch-time back into the script writer.</p></li>
+              <li class="il-node future"><span class="il-stage">Future · idea</span><p>Self-healing render farm — failed jobs retry on the cheapest healthy runner, so the channel never misses a slot.</p></li>
+            </ol>
+          </div>
+          <div class="il-panel" role="tabpanel" id="il-p-muse" aria-labelledby="il-t-muse" hidden>
+            <ol class="il-rail">
+              <li class="il-node now"><span class="il-stage">Now · shipped</span><p>Five AI creators behind an SFW gate, AI disclosure, posting caps, duplicate checks and a kill switch.</p></li>
+              <li class="il-node next"><span class="il-stage">Next · building</span><p>Policy-as-code: every safety rule versioned, reviewed and tested in CI like normal code.</p></li>
+              <li class="il-node future"><span class="il-stage">Future · idea</span><p>Tamper-proof audit trail — every post signed, so you can prove what was published, when and why.</p></li>
+            </ol>
+          </div>
+          <div class="il-panel" role="tabpanel" id="il-p-tempest" aria-labelledby="il-t-tempest" hidden>
+            <ol class="il-rail">
+              <li class="il-node now"><span class="il-stage">Now · shipped</span><p>28 standalone security tools — scanners, sniffer, brute-force detector, crypto, ML phishing detection.</p></li>
+              <li class="il-node next"><span class="il-stage">Next · building</span><p>Playbooks: chain tools into one command — recon → scan → verify → report.</p></li>
+              <li class="il-node future"><span class="il-stage">Future · idea</span><p>Risk-ranked triage — ML scores findings by real exploitability and drafts the fix for each one.</p></li>
+            </ol>
+          </div>
+          <div class="il-panel" role="tabpanel" id="il-p-genesis" aria-labelledby="il-t-genesis" hidden>
+            <ol class="il-rail">
+              <li class="il-node now"><span class="il-stage">Now · shipped</span><p>Dockerfile, Compose and Kubernetes manifests with SonarQube scanning.</p></li>
+              <li class="il-node next"><span class="il-stage">Next · building</span><p>GitOps delivery with automatic rollback when a health check fails after deploy.</p></li>
+              <li class="il-node future"><span class="il-stage">Future · idea</span><p>Secure supply chain by default — signed images, policy gates and SBOMs on every build.</p></li>
+            </ol>
+          </div>
+          <div class="il-panel" role="tabpanel" id="il-p-maybe" aria-labelledby="il-t-maybe" hidden>
+            <ol class="il-rail">
+              <li class="il-node now"><span class="il-stage">Now · shipped</span><p>Spotify, YouTube Music and Apple Music in one app via OAuth PKCE; tokens kept in the OS keychain.</p></li>
+              <li class="il-node next"><span class="il-stage">Next · building</span><p>One shared queue that hands off between services mid-song without the listener noticing.</p></li>
+              <li class="il-node future"><span class="il-stage">Future · idea</span><p>On-device recommendations — your taste profile never leaves your phone.</p></li>
+            </ol>
+          </div>
+          <div class="il-panel" role="tabpanel" id="il-p-tenseigan" aria-labelledby="il-t-tenseigan" hidden>
+            <ol class="il-rail">
+              <li class="il-node now"><span class="il-stage">Now · shipped</span><p>Ensemble deepfake detection across images, video and audio with temporal analysis.</p></li>
+              <li class="il-node next"><span class="il-stage">Next · building</span><p>Browser extension that flags suspicious media right where you see it.</p></li>
+              <li class="il-node future"><span class="il-stage">Future · idea</span><p>Provenance + model verdict together — content credentials checked alongside the detector's score.</p></li>
+            </ol>
+          </div>
+        <div class="il-beam" aria-hidden="true"></div>
+      </div>
+      <ul class="il-principles">
+        <li><b>Automate the boring part</b><span>If I do it twice, I script it.</span></li>
+        <li><b>Secure by default</b><span>Guardrails first, features second.</span></li>
+        <li><b>Free tier first</b><span>Prove it cheap, scale when it matters.</span></li>
+        <li><b>Ship v1, then iterate</b><span>Real feedback beats a perfect plan.</span></li>
+      </ul>
+      <div class="il-cta">
+        <p><span class="prompt">$</span> give ashwin --problem <span class="arg">"yours"</span><br /><span class="out">→ returns: 3 ways to solve it, the best one shipped.</span></p>
+        <a class="btn primary magnetic" href="#contact">Bring me a problem</a>
+      </div>
+    </section>
+
     <!-- ROLE FIT SCANNER -->
     <section id="rolefit">
-      <h3 class="section-title"><span class="num">05.</span> <span class="t">Role fit scan</span></h3>
+      <h3 class="section-title"><span class="num">06.</span> <span class="t">Role fit scan</span></h3>
       <p class="rf-intro">Recruiter or hiring manager? Pick a role or paste your job description. This page checks it against my
         real projects and studies and gives an honest match — including what I'm still learning. It runs in your browser; nothing is sent anywhere.</p>
 
@@ -447,7 +521,7 @@
 
     <!-- CONTACT -->
     <section id="contact" class="contact">
-      <h3 class="section-title"><span class="num">06.</span> <span class="t">Contact</span></h3>
+      <h3 class="section-title"><span class="num">07.</span> <span class="t">Contact</span></h3>
       <p>I'm open to DevOps, DevSecOps, cloud and backend roles. Feel free to reach out.</p>
       <div class="contact-grid">
         <a class="card contact-item" href="mailto:ashwin.j200423@gmail.com">
@@ -477,6 +551,6 @@
     <div class="mail-pop-addr">ashwin.j200423@gmail.com</div>
   </div>
 
-  <script src="script.js?v=20261107d"></script>
+  <script src="script.js?v=20261107e"></script>
 </body>
 </html>
