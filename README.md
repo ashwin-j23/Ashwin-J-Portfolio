@@ -3,6 +3,8 @@
 Personal portfolio: DevOps · SecOps · Pentesting · AWS · Node.js backend.
 Plain HTML / CSS / JavaScript — no framework, no build step.
 
+**Live:** https://ashwinportfolio-iota.vercel.app
+
 ## What's inside
 
 | Path | What it is |
@@ -26,7 +28,8 @@ node scripts/check-site.mjs . # run the same checks as CI
 ## Deploy
 
 **Vercel (recommended — security headers applied)**
-Import the repo (it can stay private), Framework Preset: Other, no build command, output directory = root. Every push to `main` redeploys.
+Connected to this repo — every push to `main` redeploys automatically. (Setup: Framework Preset: Other, no build command, output directory = root.)
+Commits must use the email linked to the GitHub account (`j.ashwinashwin2004@gmail.com`), otherwise Vercel blocks the deploy.
 Netlify / Cloudflare Pages work the same way. Headers come from `vercel.json` (Vercel) or `_headers` (Netlify / Cloudflare). Check the result at https://securityheaders.com.
 
 ## Updating
