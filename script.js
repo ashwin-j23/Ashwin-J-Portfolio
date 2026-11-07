@@ -123,14 +123,15 @@ function countUp(el) {
 /* ---------- Scroll reveal ---------- */
 const io = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
-    if (!e.isIntersecting) return;
+    // also reveal anything already scrolled past (nav jumps skip over sections)
+    if (!e.isIntersecting && e.boundingClientRect.top > 0) return;
     const el = e.target;
     el.classList.add("show");
     if (el.classList.contains("section-title") && !reduce) scramble(el.querySelector(".t"));
     el.querySelectorAll?.("[data-count]").forEach(countUp);
     io.unobserve(el);
   });
-}, { threshold: 0.15 });
+}, { threshold: 0, rootMargin: "0px 0px -40px 0px" });
 
 document.querySelectorAll(".section-title, .card, .timeline li, .about-text, .facts, .pipeline, .contact > p").forEach((el) => {
   // stagger siblings in grids
