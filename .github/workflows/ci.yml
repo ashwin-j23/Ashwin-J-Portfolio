@@ -1,4 +1,4 @@
-name: CI / Deploy
+name: CI
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: pages-${{ github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -35,29 +35,3 @@ jobs:
           if grep -rInE "(api[_-]?key|secret|token|password)\s*[:=]\s*['\"][A-Za-z0-9_\-]{16,}" --include='*.html' --include='*.js' --include='*.json' . ; then
             echo "::error::Possible secret found in the repository"; exit 1
           fi
-
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: check
-    # Free GitHub Pages needs a public repo — deploy runs automatically once the repo is public.
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !github.event.repository.private
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build site folder (only public files)
-        run: |
-          mkdir -p _site
-          cp -r index.html 404.html resume.html script.js resume.js style.css assets demos .well-known _site/
-          touch _site/.nojekyll
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-      - id: deployment
-        uses: actions/deploy-pages@v4

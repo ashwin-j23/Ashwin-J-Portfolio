@@ -15,7 +15,7 @@ Plain HTML / CSS / JavaScript — no framework, no build step.
 | `vercel.json`, `_headers` | Security headers (CSP, HSTS, nosniff, frame-deny, referrer, permissions) |
 | `.well-known/security.txt` | How to report a security issue |
 | `scripts/check-site.mjs` | Site checks: broken links/anchors, alt text, CSP-safe markup |
-| `.github/workflows/ci.yml` | CI on every push + deploy to GitHub Pages from `main` |
+| `.github/workflows/ci.yml` | CI site checks on every push and pull request |
 
 ## Run locally
 ```bash
@@ -25,13 +25,9 @@ node scripts/check-site.mjs . # run the same checks as CI
 
 ## Deploy
 
-**GitHub Pages (CI included)**
-1. Push this folder to a GitHub repo on the `main` branch.
-2. Repo → Settings → Pages → Source: **GitHub Actions**.
-3. Every push runs the checks, then deploys. Note: GitHub Pages cannot send custom headers, so `vercel.json` / `_headers` are not applied there.
-
-**Vercel / Netlify / Cloudflare Pages (security headers applied)**
-Import the repo; no build command, output directory = root. Headers come from `vercel.json` (Vercel) or `_headers` (Netlify / Cloudflare). Check the result at https://securityheaders.com.
+**Vercel (recommended — security headers applied)**
+Import the repo (it can stay private), Framework Preset: Other, no build command, output directory = root. Every push to `main` redeploys.
+Netlify / Cloudflare Pages work the same way. Headers come from `vercel.json` (Vercel) or `_headers` (Netlify / Cloudflare). Check the result at https://securityheaders.com.
 
 ## Updating
 - Text lives in `index.html`; colours are CSS variables at the top of `style.css`.
