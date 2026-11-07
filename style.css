@@ -793,3 +793,24 @@ main > section[data-n]::before { content: attr(data-n); position: absolute; righ
   color: transparent; -webkit-text-stroke: 1px rgba(236, 236, 234, 0.07); }
 @media (max-width: 900px) { main > section[data-n]::before { font-size: 5.5rem; top: 46px; right: 0; } }
 @media (prefers-reduced-motion: reduce) { .side-log p { animation: none; } }
+
+/* ============ MORE BACKGROUND ============ */
+/* floating tech icons at the page edges */
+body { position: relative; }
+.bg-icons { position: absolute; left: 0; top: 0; width: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
+.bgi { position: absolute; fill: currentColor; color: rgba(236, 236, 234, 0.07); animation: bgDrift 20s ease-in-out infinite; }
+.bgi:nth-child(5n) { color: rgba(232, 116, 59, 0.12); }
+@keyframes bgDrift { 0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); } 50% { transform: translateY(-26px) rotate(calc(var(--r, 0deg) * -1)); } }
+
+/* network "cable" between sections with a travelling packet */
+main > section:not(#contact):not(.hero)::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -36px; height: 7px; pointer-events: none;
+  background:
+    radial-gradient(circle, rgba(232, 116, 59, 0.95) 0 2.5px, rgba(232, 116, 59, 0.25) 3.5px, transparent 7px) no-repeat,
+    linear-gradient(90deg, transparent, var(--border-2) 15%, var(--border-2) 85%, transparent) 0 50% / 100% 1px no-repeat;
+  background-size: 14px 7px, 100% 1px;
+  animation: cablePacket 6s linear infinite;
+}
+main > section:nth-of-type(odd)::after { animation-direction: reverse; animation-duration: 7.5s; }
+@keyframes cablePacket { from { background-position: -2% 0, 0 50%; } to { background-position: 102% 0, 0 50%; } }
+@media (prefers-reduced-motion: reduce) { main > section::after { animation: none; } }

@@ -201,7 +201,7 @@ if (finePointer && !reduce) {
     dpr = Math.min(devicePixelRatio || 1, 2);
     W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr;
     cv.style.width = innerWidth + "px"; cv.style.height = innerHeight + "px";
-    const count = Math.min(70, Math.floor((innerWidth * innerHeight) / 22000));
+    const count = Math.min(110, Math.floor((innerWidth * innerHeight) / 13000));
     nodes = Array.from({ length: count }, () => ({
       x: Math.random() * W, y: Math.random() * H,
       vx: (Math.random() - 0.5) * 0.25 * dpr, vy: (Math.random() - 0.5) * 0.25 * dpr,
@@ -223,16 +223,16 @@ if (finePointer && !reduce) {
         const a = nodes[i], b = nodes[j];
         const d = Math.hypot(a.x - b.x, a.y - b.y);
         if (d < md) {
-          ctx.strokeStyle = `rgba(150,148,142,${(1 - d / md) * 0.14})`;
+          ctx.strokeStyle = `rgba(150,148,142,${(1 - d / md) * 0.24})`;
           ctx.lineWidth = dpr * 0.8;
           ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-          if (packets.length < 18 && Math.random() < 0.0009)
+          if (packets.length < 30 && Math.random() < 0.0016)
             packets.push({ a, b, t: 0, c: colors[(Math.random() * colors.length) | 0] });
         }
       }
     }
     for (const n of nodes) {
-      ctx.fillStyle = "rgba(160,158,152,0.45)";
+      ctx.fillStyle = "rgba(170,168,162,0.6)";
       ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
     }
     packets = packets.filter((p) => {
@@ -705,4 +705,39 @@ document.querySelectorAll("main > section").forEach((s) => {
     if (on && wide.matches) Math.random() < 0.5 ? push(L, pick(ops)) : push(R, pick(sec));
     setTimeout(loop, 700 + Math.random() * 900);
   })();
+})();
+
+/* ---------- Floating tech icons (background) ---------- */
+(function floatingIcons() {
+  if (reduce) return;
+  const src = [...document.querySelectorAll(".marquee .si, .float-chip .si, .socials .si")];
+  const seen = new Set(), icons = src.filter((e) => { const k = e.innerHTML.length; if (seen.has(k)) return false; seen.add(k); return true; });
+  if (!icons.length) return;
+  const layer = document.createElement("div");
+  layer.className = "bg-icons"; layer.setAttribute("aria-hidden", "true");
+  document.body.appendChild(layer);
+  function build() {
+    layer.textContent = "";
+    layer.style.height = "0px";
+    const H = document.documentElement.scrollHeight, W = document.documentElement.clientWidth;
+    layer.style.height = H + "px";
+    const n = Math.round(H / (W < 700 ? 520 : 300));
+    for (let i = 0; i < n; i++) {
+      const el = icons[i % icons.length].cloneNode(true);
+      el.removeAttribute("class"); el.setAttribute("class", "bgi");
+      el.querySelectorAll("title").forEach((t) => t.remove());
+      const size = 26 + Math.random() * 34;
+      const side = i % 2 === 0;
+      // keep them mostly at the edges, where there is empty space
+      const x = side ? Math.random() * 14 : 86 + Math.random() * 12;
+      el.style.cssText = `left:${x}%;top:${(i + Math.random()) * (H / n)}px;width:${size}px;height:${size}px;` +
+        `animation-duration:${14 + Math.random() * 14}s;animation-delay:${-Math.random() * 20}s;--r:${(Math.random() * 40 - 20) | 0}deg`;
+      layer.appendChild(el);
+    }
+  }
+  let t;
+  const rebuild = () => { clearTimeout(t); t = setTimeout(build, 300); };
+  addEventListener("resize", rebuild);
+  addEventListener("load", rebuild);
+  build();
 })();
