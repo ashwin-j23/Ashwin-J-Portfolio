@@ -724,3 +724,23 @@ button.btn { font-family: var(--sans); font-size: 0.95rem; cursor: pointer; }
 .gh-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 900px) { .gh-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .gh-grid { grid-template-columns: 1fr; } }
+
+/* ============ PHONE POLISH (fill gaps) ============ */
+@media (max-width: 520px) {
+  /* pipeline: 4 + 3, centred — no lonely last box */
+  .pipeline { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 10px; }
+  .pipeline .stage { flex: 0 0 calc(25% - 8px); }
+  /* hero links: tidy 2 × 2 */
+  .socials { display: grid; grid-template-columns: repeat(2, max-content); gap: 12px 28px; }
+  /* ideas counter becomes a slim strip */
+  .il-meter { justify-self: stretch; display: flex; align-items: baseline; gap: 10px; text-align: left; padding: 10px 16px; }
+  .il-meter b { font-size: 1.6rem; }
+  .il-meter span, .il-meter small { display: inline; }
+  /* principles: 2 × 2 */
+  .il-principles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .il-principles li { padding: 12px; }
+  /* contact: compact rows, icon beside the text */
+  .contact-grid { gap: 10px; }
+  .contact-item { display: grid; grid-template-columns: 34px 1fr; column-gap: 12px; align-items: center; padding: 14px 16px; }
+  .contact-item .si.big { grid-row: 1 / span 2; margin: 0; }
+}
