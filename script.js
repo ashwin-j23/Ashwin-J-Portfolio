@@ -189,67 +189,6 @@ if (finePointer && !reduce) {
   });
 }
 
-/* ---------- Background: network topology with travelling packets ---------- */
-(function network() {
-  if (reduce) return;
-  const cv = document.getElementById("net");
-  const ctx = cv.getContext("2d");
-  const colors = ["255,107,74", "90,96,104"];
-  let W, H, nodes, packets = [], dpr;
-
-  function init() {
-    dpr = Math.min(devicePixelRatio || 1, 2);
-    W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr;
-    cv.style.width = innerWidth + "px"; cv.style.height = innerHeight + "px";
-    const count = Math.min(110, Math.floor((innerWidth * innerHeight) / 13000));
-    nodes = Array.from({ length: count }, () => ({
-      x: Math.random() * W, y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.25 * dpr, vy: (Math.random() - 0.5) * 0.25 * dpr,
-      r: (Math.random() * 1.6 + 1) * dpr,
-    }));
-  }
-  const maxD = () => 150 * dpr;
-
-  function frame() {
-    ctx.clearRect(0, 0, W, H);
-    const md = maxD();
-    for (const n of nodes) {
-      n.x += n.vx; n.y += n.vy;
-      if (n.x < 0 || n.x > W) n.vx *= -1;
-      if (n.y < 0 || n.y > H) n.vy *= -1;
-    }
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const a = nodes[i], b = nodes[j];
-        const d = Math.hypot(a.x - b.x, a.y - b.y);
-        if (d < md) {
-          ctx.strokeStyle = `rgba(90,96,104,${(1 - d / md) * 0.22})`;
-          ctx.lineWidth = dpr * 0.8;
-          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-          if (packets.length < 30 && Math.random() < 0.0016)
-            packets.push({ a, b, t: 0, c: colors[(Math.random() * colors.length) | 0] });
-        }
-      }
-    }
-    for (const n of nodes) {
-      ctx.fillStyle = "rgba(90,96,104,0.45)";
-      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
-    }
-    packets = packets.filter((p) => {
-      p.t += 0.012;
-      if (p.t >= 1 || Math.hypot(p.a.x - p.b.x, p.a.y - p.b.y) > md) return false;
-      const x = p.a.x + (p.b.x - p.a.x) * p.t, y = p.a.y + (p.b.y - p.a.y) * p.t;
-      ctx.fillStyle = `rgba(${p.c},0.95)`;
-      
-      ctx.beginPath(); ctx.arc(x, y, 2.4 * dpr, 0, Math.PI * 2); ctx.fill();
-            return true;
-    });
-    requestAnimationFrame(frame);
-  }
-  init();
-  addEventListener("resize", init);
-  frame();
-})();
 
 /* ---------- Role fit scanner (honest, client-side) ---------- */
 (function roleFit() {
@@ -651,11 +590,6 @@ if (finePointer && !reduce) {
   requestAnimationFrame(frame);
 })();
 
-/* ---------- Section number watermarks ---------- */
-document.querySelectorAll("main > section").forEach((s) => {
-  const n = s.querySelector(".section-title .num");
-  if (n) s.dataset.n = n.textContent.replace(".", "").trim();
-});
 
 /* ---------- Side-margin log streams (decorative sample logs) ---------- */
 (function sideLogs() {

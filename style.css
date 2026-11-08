@@ -40,7 +40,6 @@ body {
 a { color: var(--cyan); text-decoration: none; }
 ::selection { background: var(--accent); color: #2b2d31; }
 
-#net { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 .cursor-glow { display: none; }
 .progress {
   position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 50;
@@ -792,12 +791,6 @@ button.btn { font-family: var(--sans); font-size: 0.95rem; cursor: pointer; }
 @keyframes logIn { from { opacity: 0; transform: translateY(6px); } }
 @media (min-width: 1500px) { .side-log { display: flex; } }
 
-/* 3 · big outlined section numbers behind each heading */
-main > section[data-n] { position: relative; }
-main > section[data-n]::before { content: attr(data-n); position: absolute; right: -8px; top: 34px; z-index: -1; pointer-events: none;
-  font: 700 clamp(6rem, 14vw, 11rem)/1 var(--mono); letter-spacing: -0.04em;
-  color: transparent; -webkit-text-stroke: 1px rgba(43, 45, 49, 0.07); }
-@media (max-width: 900px) { main > section[data-n]::before { font-size: 5.5rem; top: 46px; right: 0; } }
 @media (prefers-reduced-motion: reduce) { .side-log p { animation: none; } }
 
 /* ============ MORE BACKGROUND ============ */
@@ -874,3 +867,15 @@ h1 { font-weight: 600; letter-spacing: -0.015em; line-height: 0.98; }
 /* side logs: slate only, orange just for deploy / CI lines */
 .side-log .ok, .side-log .warn, .side-log .bad { color: rgba(90, 96, 104, 0.38); }
 .side-log .info { color: rgba(255, 107, 74, 0.5); }
+
+/* ============ CONCRETE PAGE ============ */
+/* page = concrete #d8dadd · cards and panels = off-white #f7f7f5 */
+:root { --bg: #d8dadd; --card: #f7f7f5; --border: rgba(90, 96, 104, 0.22); --bg-2: rgba(216, 218, 221, 0.45); }
+body { background: var(--bg); }
+.nav { background: rgba(216, 218, 221, 0.9); border-bottom-color: rgba(90, 96, 104, 0.25); }
+/* things that sat directly on the page get an off-white surface */
+.il-principles li, .il-meter, .il-cta, .chip-row .float-chip, .study-panel, .rf-chip, #rf-jd { background: var(--card); }
+.il-cta { border-color: rgba(90, 96, 104, 0.35); }
+.section-title::after { background: rgba(90, 96, 104, 0.35); }
+.bg-grid { background-image: radial-gradient(rgba(43, 45, 49, 0.16) 1px, transparent 1.4px); }
+.timeline::before { opacity: 0.9; }
