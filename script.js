@@ -94,7 +94,7 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
       const rows = [];
       PROJECTS.forEach(([id, name, st, desc]) => {
         rows.push(`${st === "live" ? '<span class="st live">● live</span>' : '<span class="st wip">⚒ wip&nbsp;</span>'}  ${k(name)}  ${d("· open " + id)}`);
-        rows.push(`${"&nbsp;".repeat(9)}${d(desc)}`);
+        rows.push(`<span class="ind">${d(desc)}</span>`);
       });
       rows.push("", d("type ") + a("open reelsmith") + d(" (or any name above) to see its demo"));
       return rows;

@@ -983,3 +983,4 @@ main > section:not(#contact):not(.hero)::after {
 /* the old auto-typing #term rules no longer apply */
 #term.term-body { white-space: normal; overflow-y: auto; height: 380px; padding: 14px 16px 16px; font: 0.8rem/1.6 var(--mono); color: #f7f7f5; }
 @media (max-width: 900px) { #term.term-body { height: 340px; font-size: 0.74rem; } }
+.term-body .ind { display: block; padding-left: 9ch; }
