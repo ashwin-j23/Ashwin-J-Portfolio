@@ -984,3 +984,4 @@ main > section:not(#contact):not(.hero)::after {
 #term.term-body { white-space: normal; overflow-y: auto; height: 380px; padding: 14px 16px 16px; font: 0.8rem/1.6 var(--mono); color: #f7f7f5; }
 @media (max-width: 900px) { #term.term-body { height: 340px; font-size: 0.74rem; } }
 .term-body .ind { display: block; padding-left: 9ch; }
+@media (max-width: 700px) { .bgi { color: rgba(43, 45, 49, 0.1); } .bgi:nth-child(5n) { color: rgba(255, 107, 74, 0.22); } }
