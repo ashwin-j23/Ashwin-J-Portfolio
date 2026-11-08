@@ -6,7 +6,7 @@
 <title>AnizOoal Studio — Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Jost:wght@300..700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
-<link rel="stylesheet" href="demo.css?v=20261107g" />
+<link rel="stylesheet" href="demo.css?v=20261108b" />
 <style>
   
   .top { display: flex; gap: 10px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--surface); flex-wrap: wrap; }
@@ -14,14 +14,14 @@
   .studio { display: grid; grid-template-columns: 1fr 300px; gap: 14px; }
   .stage { position: relative; aspect-ratio: 16/9; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line);
     background: linear-gradient(#262626 0 62%, #1c1c1c 62% 100%); }
-  .sun { position: absolute; top: 10%; right: 12%; width: 60px; height: 60px; border-radius: 50%; background: #c9a43a; box-shadow: 0 0 40px #c9a43a; animation: pulse 3s infinite; }
+  .sun { position: absolute; top: 10%; right: 12%; width: 60px; height: 60px; border-radius: 50%; background: #e3b54f; box-shadow: 0 0 40px #e3b54f; animation: pulse 3s infinite; }
   .cloud { position: absolute; top: 14%; width: 90px; height: 26px; border-radius: 20px; background: #fff; opacity: .9; animation: drift 18s linear infinite; }
   .cloud::before { content: ""; position: absolute; left: 18px; top: -14px; width: 40px; height: 34px; border-radius: 50%; background: #fff; }
   .cloud.c2 { top: 26%; animation-duration: 26s; animation-delay: -10s; transform: scale(.7); }
   @keyframes drift { from { left: -120px; } to { left: 110%; } }
   .char { position: absolute; bottom: 14%; left: 40%; height: 62%; animation: walk 6s ease-in-out infinite alternate; }
   .char img { height: 100%; display: block; animation: bob .5s ease-in-out infinite alternate; transform-origin: bottom; }
-  .char .body { width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff, #e8743b 45%, #8a4220); position: relative; animation: bob .5s ease-in-out infinite alternate; }
+  .char .body { width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff, #ff6b4a 45%, #8a4220); position: relative; animation: bob .5s ease-in-out infinite alternate; }
   .char .body::before, .char .body::after { content: ""; position: absolute; top: 24px; width: 9px; height: 12px; border-radius: 50%; background: #1a1a1a; animation: blink 4s infinite; }
   .char .body::before { left: 20px; } .char .body::after { right: 20px; }
   .char .mouth { position: absolute; left: 50%; top: 44px; width: 18px; height: 9px; transform: translateX(-50%); border-radius: 0 0 18px 18px; background: #1a1a1a; }
@@ -39,7 +39,7 @@
   .track b { width: 64px; font-weight: 400; }
   .track span { height: 20px; border-radius: 4px; background: var(--accent-soft); border: 1px solid var(--accent); }
   .track.v span { background: rgba(143, 163, 184, .15); border-color: var(--info); }
-  .track.m span { background: rgba(111, 174, 117, .15); border-color: var(--ok); }
+  .track.m span { background: rgba(124, 196, 146, .15); border-color: var(--ok); }
   .playhead { position: absolute; top: 8px; bottom: 8px; width: 2px; background: #fff; box-shadow: 0 0 8px #fff; left: 80px; animation: ph 8s linear infinite; }
   @keyframes ph { from { left: 80px; } to { left: calc(100% - 14px); } }
   .ep { display: grid; grid-template-columns: 70px 1fr; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
@@ -76,10 +76,10 @@
       <div class="card"><h3>Episode · Healthy Food <span class="pill acc">rendering</span></h3>
         <div class="bar"><i style="width:68%"></i></div><p class="small muted" style="margin-top:6px">frame 1224 / 1800 · 68%</p></div>
       <div class="card"><h3>Episodes</h3>
-        <div class="ep"><div class="th" style="--a:#e8743b"></div><div><b class="small">Healthy Food</b><div class="small muted">1:00 · rendering</div></div></div>
+        <div class="ep"><div class="th" style="--a:#ff6b4a"></div><div><b class="small">Healthy Food</b><div class="small muted">1:00 · rendering</div></div></div>
         <div class="ep"><div class="th" style="--a:#8fa3b8"></div><div><b class="small">A Quiet Moment of Creativity</b><div class="small muted">0:48 · ready</div></div></div>
-        <div class="ep"><div class="th" style="--a:#6fae75"></div><div><b class="small">A Small Creative Practice</b><div class="small muted">0:52 · ready</div></div></div>
-        <div class="ep"><div class="th" style="--a:#c9a43a"></div><div><b class="small">An Original Idea for the Afternoon</b><div class="small muted">0:55 · in review</div></div></div></div>
+        <div class="ep"><div class="th" style="--a:#7cc492"></div><div><b class="small">A Small Creative Practice</b><div class="small muted">0:52 · ready</div></div></div>
+        <div class="ep"><div class="th" style="--a:#e3b54f"></div><div><b class="small">An Original Idea for the Afternoon</b><div class="small muted">0:55 · in review</div></div></div></div>
       <div class="card"><h3>Publishing</h3>
         <p class="small">Kill switch <span class="pill bad">off by default</span></p>
         <p class="small muted" style="margin-top:6px">Secrets stay server-side · Supabase row-level security on every table.</p></div>
