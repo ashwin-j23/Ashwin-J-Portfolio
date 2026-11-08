@@ -349,7 +349,7 @@ svg text { font-family: var(--mono); font-size: 9px; fill: var(--muted); }
 /* Muse Studio: five creators posting */
 .muse { display: flex; align-items: center; justify-content: center; gap: 14px; }
 .muse i { position: relative; width: 34px; height: 34px; border-radius: 50%;
-  background: conic-gradient(from calc(var(--i) * 72deg), var(--accent) 0 25%, #2b2d31 25% 100%);
+  background: conic-gradient(from calc(var(--i) * 72deg), var(--accent) 0 25%, #5a6068 25% 100%);
   animation: museBob 2.5s ease-in-out infinite; animation-delay: calc(var(--i) * 0.5s); }
 .muse i::before { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: #2b2d31; }
 .muse i::after { content: "♥"; position: absolute; left: 50%; top: -4px; transform: translateX(-50%); color: var(--pink); font-size: 12px; font-style: normal; opacity: 0;
@@ -871,3 +871,6 @@ h1 { font-weight: 600; letter-spacing: -0.015em; line-height: 0.98; }
 .section-title .num, .role .at, .il-meter b, .nc-facts b { color: var(--accent); }
 .explain dt { color: var(--text); }
 .explain { border-left-color: var(--accent); }
+/* side logs: slate only, orange just for deploy / CI lines */
+.side-log .ok, .side-log .warn, .side-log .bad { color: rgba(90, 96, 104, 0.38); }
+.side-log .info { color: rgba(255, 107, 74, 0.5); }
