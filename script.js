@@ -25,54 +25,205 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
   el.prepend(frag);
 });
 
-/* ---------- Terminal: my studies + projects ---------- */
-const lines = [
-  ["$ ", "whoami"],
-  ["", "ashwin-j · intern + team lead @ opsmonsters"],
-  ["$ ", "cat ~/studying.txt"],
-  ["info", "→ aws · pentesting · node.js · devops · secops"],
-  ["$ ", "sudo ./server_audit.sh"],
-  ["ok", "[✓] users & permissions checked"],
-  ["ok", "[✓] open ports reviewed"],
-  ["$ ", "nmap -sV lab.local"],
-  ["warn", "22/tcp open ssh · 80/tcp open http"],
-  ["$ ", "docker compose up -d"],
-  ["ok", "✔ container may-be-api   started"],
-  ["$ ", "systemctl status reelsmith"],
-  ["ok", "● active (running) · live in production"],
-  ["$ ", "systemctl status muse-studio"],
-  ["ok", "● active (running) · live in production"],
-  ["$ ", "echo $NEXT"],
-  ["info", "keep learning."],
-];
+/* ---------- Interactive terminal ---------- */
+(function terminal() {
+  const box = document.getElementById("terminal");
+  const out = document.getElementById("term-out");
+  const body = document.getElementById("term");
+  const input = document.getElementById("term-input");
+  if (!box || !out || !input) return;
+  const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const PS1 = '<span class="ps1"><b>ashwin@arch</b>:<i>~</i>$</span> ';
+  const L = (h = "") => h; // a line of trusted HTML (static portfolio data only)
+  const k = (t) => `<span class="k">${t}</span>`;     // keyword / heading
+  const d = (t) => `<span class="d">${t}</span>`;     // dim
+  const a = (t) => `<span class="a">${t}</span>`;     // accent
+  const tag = (lvl) => ({ prod: '<span class="tg prod">prod</span>', proj: '<span class="tg proj">built</span>', learn: '<span class="tg learn">learning</span>' }[lvl]);
+  const link = (href, text, ext) => `<a href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>${text}</a>`;
 
-const term = document.getElementById("term");
-const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-const lineHTML = ([p, t]) => (p === "$ " ? `<span class="p">$ </span>${esc(t)}` : `<span class="${p}">${esc(t)}</span>`);
+  const PROJECTS = [
+    ["reelsmith", "Reelsmith v2", "live", "AI agent: trends → script → voice → video → YouTube Shorts & Reels", "demos/reelsmith.html"],
+    ["muse", "Muse Studio", "live", "5 fictional AI creators on Instagram, with a Publish Gate + kill switch", "demos/muse-studio.html"],
+    ["pm-api", "Project Management API", "wip", "36-endpoint Node.js / Express / MongoDB REST API with JWT + roles", "demos/project-management-api.html"],
+    ["anizooal", "AnizOoal", "wip", "browser studio for short animated episodes → MP4 → Shorts / Reels", "demos/anizooal.html"],
+    ["tempest", "Tempest", "wip", "Python security toolkit — 28 tools in one CLI", "demos/tempest.html"],
+    ["maybe", "May~be", "wip", "Flutter music app for Spotify, YouTube Music & Apple Music", "demos/maybe.html"],
+    ["tenseigan", "Tenseigan", "wip", "deepfake detector for images, video and audio", "demos/tenseigan.html"],
+  ];
+  const FILES = ["about.txt", "skills.txt", "experience.txt", "education.txt", "contact.txt", "projects/", "resume.pdf"];
 
-function render(done, partial) {
-  let html = done.map(lineHTML).join("\n");
-  if (partial) html += (html ? "\n" : "") + `<span class="p">$ </span>${esc(partial)}`;
-  term.innerHTML = html + '<span class="cursor">&nbsp;</span>';
-  term.scrollTop = term.scrollHeight;
-}
-
-if (reduce) {
-  render(lines);
-} else {
-  const run = () => {
-    let i = 0, j = 0;
-    const done = [];
-    (function tick() {
-      if (i >= lines.length) { render(done); return setTimeout(run, 4000); }
-      const [p, t] = lines[i];
-      if (p !== "$ ") { done.push(lines[i++]); render(done); return setTimeout(tick, 160); }
-      if (j <= t.length) { render(done, t.slice(0, j++)); return setTimeout(tick, 38 + Math.random() * 40); }
-      done.push(lines[i++]); j = 0; render(done); setTimeout(tick, 380);
-    })();
+  const C = {
+    help: () => [
+      k("available commands"),
+      `  ${a("about")}        who I am`,
+      `  ${a("skills")}       what I use — and what I'm still learning`,
+      `  ${a("projects")}     things I've built ${d("(open <name> to see a demo)")}`,
+      `  ${a("experience")}   work at OpsMonsters`,
+      `  ${a("education")}    degree and college`,
+      `  ${a("studying")}     what I'm learning right now`,
+      `  ${a("contact")}      email, phone, GitHub, LinkedIn`,
+      `  ${a("resume")}       open my resume`,
+      `  ${a("neofetch")}     system info, the fun way`,
+      d("  also: whoami · ls · cat <file> · pwd · date · history · echo · clear"),
+      d("  tips: ↑/↓ history · Tab completes · Ctrl+L clears"),
+    ],
+    whoami: () => ["ashwin-j — Intern · Team Lead @ OpsMonsters"],
+    about: () => [
+      k("Ashwin J") + d("  ·  DevOps · SecOps · Node.js backend"),
+      "Computer Science graduate (2022 – 2025) leading an intern team at OpsMonsters",
+      "while working through a structured DevSecOps roadmap — 8 hours a day.",
+      "I like understanding a system end to end: the Linux box, the network, the",
+      "containers and pipelines that ship the code, and the controls that keep it safe.",
+      d("from Kanniyakumari, Tamil Nadu · daily driver: Arch Linux"),
+    ],
+    skills: () => [
+      k("devops   ") + ` Linux ${tag("prod")} Bash ${tag("proj")} Git & GitHub ${tag("prod")} Docker ${tag("prod")}`,
+      "          " + ` Docker Compose ${tag("proj")} GitHub Actions ${tag("prod")} Vercel / Render ${tag("prod")}`,
+      "          " + ` Kubernetes ${tag("learn")}`,
+      k("security ") + ` server auditing ${tag("proj")} log review ${tag("proj")} OWASP Top 10 ${tag("learn")}`,
+      "          " + ` Nmap ${tag("learn")} Burp Suite ${tag("learn")} Kali Linux ${tag("learn")}`,
+      k("cloud    ") + ` AWS — EC2 · S3 · IAM · VPC ${tag("learn")} Supabase ${tag("prod")}`,
+      k("backend  ") + ` Node.js · Express ${tag("proj")} FastAPI ${tag("prod")} REST · JWT ${tag("prod")}`,
+      "          " + ` MongoDB ${tag("proj")} PostgreSQL ${tag("proj")}`,
+      k("also     ") + ` Python ${tag("prod")} JavaScript / TypeScript ${tag("proj")} React ${tag("proj")} Flutter ${tag("proj")}`,
+      d("prod = running in production · built = used in a project · learning = studying now"),
+    ],
+    projects: () => [
+      ...PROJECTS.map(([id, name, st, desc]) =>
+        `${st === "live" ? '<span class="st live">● live</span>' : '<span class="st wip">⚒ wip </span>'} ${k(name.padEnd(24, " ").replace(/ /g, "&nbsp;"))}${d(desc)}`),
+      d("type ") + a("open reelsmith") + d(" (or any name above) to see its demo"),
+    ],
+    experience: () => [
+      k("Intern · Team Lead — OpsMonsters") + d("   2026 — present"),
+      "• lead the intern team while completing a DevSecOps roadmap (8 hrs/day)",
+      "• Linux, users & permissions, services, networking, shell scripting",
+      "• daily study reports + cybersecurity audit logs (failed logins, unknown IPs, file integrity)",
+      "• built server_audit.sh — host, user, uptime and system details for routine checks",
+      "• studying AWS (EC2, S3, IAM, VPC) and penetration testing in lab environments",
+    ],
+    education: () => [
+      k("BSc Computer Science") + d("   2022 — 2025"),
+      "St. Joseph's College (Arts & Science), Koovur, Chennai",
+      d("programming · data structures · databases · operating systems · computer networks"),
+    ],
+    studying: () => ["→ aws · pentesting · node.js backend · devops · secops", d("every day ends with a study report, an audit log and lab notes")],
+    contact: () => [
+      `${k("email   ")} ${link("mailto:ashwin.j200423@gmail.com", "ashwin.j200423@gmail.com")}`,
+      `${k("phone   ")} ${link("tel:+918428259646", "+91 84282 59646")}`,
+      `${k("github  ")} ${link("https://github.com/ashwin-j23", "github.com/ashwin-j23", 1)}`,
+      `${k("linkedin")} ${link("https://www.linkedin.com/in/ashwin-j-563047288/", "linkedin.com/in/ashwin-j-563047288", 1)}`,
+    ],
+    resume: () => { setTimeout(() => window.open("resume.html", "_blank", "noopener"), 250); return [`opening ${link("resume.html", "resume.html", 1)} …`]; },
+    neofetch: () => {
+      const logo = ["   ▄▄▄       ▄▄▄ ", "  ██▀██▄     ███ ", " ██▄▄▄██     ███ ", " ██▀▀▀██ ▄▄  ███ ", " ██   ██ ▀████▀  "];
+      const info = [
+        `${k("ashwin")}@${k("arch")}`, d("-----------------"),
+        `${k("role")}     Intern · Team Lead`, `${k("company")}  OpsMonsters`, `${k("os")}       Arch Linux`,
+        `${k("shell")}    bash`, `${k("stack")}    DevOps · SecOps · Node.js`, `${k("projects")} 7 (2 live)`, `${k("home")}     Kanniyakumari, TN`,
+      ];
+      const rows = [];
+      for (let i = 0; i < info.length; i++) rows.push(`<span class="a">${esc((logo[i] || "").padEnd(18, " ")).replace(/ /g, "&nbsp;")}</span>${info[i]}`);
+      rows.push(`${"&nbsp;".repeat(18)}<span class="sw"><i></i><i></i><i></i><i></i><i></i></span>`);
+      return rows;
+    },
+    ls: (args) => (args[0] && /^projects\/?$/.test(args[0]) ? [PROJECTS.map((p) => a(p[0] + "/")).join("  ")] : [FILES.map((f) => (f.endsWith("/") ? a(f) : f)).join("  ")]),
+    cat: (args) => {
+      const f = (args[0] || "").replace(/\.(txt|pdf)$/, "").replace(/\/$/, "");
+      if (!f) return [d("usage: cat <file> — try ls")];
+      return C[f] ? C[f]([]) : [`cat: ${esc(args[0])}: No such file or directory`];
+    },
+    cd: (args) => (!args[0] || args[0] === "~" ? [] : /^projects\/?$/.test(args[0]) ? C.projects() : [`cd: ${esc(args[0])}: try "ls"`]),
+    open: (args) => {
+      const q = (args.join(" ") || "").toLowerCase();
+      if (!q) return [d("usage: open <project> — e.g. open reelsmith")];
+      const p = PROJECTS.find((p) => p[0].startsWith(q) || p[1].toLowerCase().startsWith(q));
+      if (!p) return [`open: no project called "${esc(q)}" — try projects`];
+      setTimeout(() => window.open(p[4], "_blank", "noopener"), 250);
+      return [`opening ${k(p[1])} demo … ${d("(sample data — the real app holds private API keys)")}`];
+    },
+    pwd: () => ["/home/ashwin"],
+    date: () => [new Date().toString().replace(/ \(.+\)$/, "")],
+    echo: (args) => [esc(args.join(" "))],
+    history: () => hist.map((h, i) => `${d(String(i + 1).padStart(3, " ").replace(/ /g, "&nbsp;"))}  ${esc(h)}`),
+    sudo: () => ["ashwin is not in the sudoers file. This incident will be reported. 😉"],
+    exit: () => ["there's no exit — but there is " + a("contact") + " 🙂"],
+    clear: () => { out.innerHTML = ""; return null; },
   };
-  run();
-}
+  C.studies = C.studying; C.work = C.experience; C.cv = C.resume; C.man = C.help; C["?"] = C.help;
+  const NAMES = Object.keys(C).filter((n) => n.length > 1);
+
+  const hist = [];
+  let hpos = 0, busy = false, auto = true;
+
+  function print(lines, cls) {
+    const frag = document.createDocumentFragment();
+    (lines || []).forEach((h) => { const div = document.createElement("div"); div.className = "tl" + (cls ? " " + cls : ""); div.innerHTML = h === "" ? "&nbsp;" : h; frag.appendChild(div); });
+    out.appendChild(frag);
+    while (out.children.length > 400) out.firstChild.remove();
+    body.scrollTop = body.scrollHeight;
+  }
+  function run(raw) {
+    const line = raw.trim();
+    print([PS1 + esc(raw)], "cmd");
+    if (!line) return;
+    hist.push(line); hpos = hist.length;
+    if (/^rm\s+-rf/.test(line)) return print(["nice try. permission denied 🔒"]);
+    const [cmd, ...args] = line.split(/\s+/);
+    const fn = C[cmd.toLowerCase()];
+    if (!fn) return print([`${esc(cmd)}: command not found — type ${a("help")}`]);
+    const res = fn(args);
+    if (res) print(res);
+  }
+
+  // ---- typing the intro by itself (stops the moment a visitor types)
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  async function typeCmd(cmd) {
+    for (let i = 1; i <= cmd.length && auto; i++) { input.value = cmd.slice(0, i); await sleep(45 + Math.random() * 45); }
+    if (!auto) return false;
+    await sleep(220); input.value = ""; run(cmd); return true;
+  }
+  async function boot() {
+    print([d("Last login: " + new Date().toDateString() + " on ttys001"), d("Welcome — this is a real terminal. Click here and type ") + a("help") + d(".")]);
+    if (reduce) { run("whoami"); run("studying"); return; }
+    await sleep(700);
+    for (const c of ["whoami", "studying", "projects"]) { if (!(await typeCmd(c))) return; await sleep(650); }
+    if (auto) print([d("…now it's your turn — try ") + a("about") + d(", ") + a("skills") + d(" or ") + a("contact")]);
+  }
+  const takeOver = () => { if (auto) { auto = false; input.value = ""; } };
+
+  input.addEventListener("keydown", (e) => {
+    if (auto && e.key.length === 1) takeOver();
+    if (e.key === "Enter") { e.preventDefault(); takeOver(); const v = input.value; input.value = ""; run(v); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); if (hpos > 0) input.value = hist[--hpos]; }
+    else if (e.key === "ArrowDown") { e.preventDefault(); hpos = Math.min(hist.length, hpos + 1); input.value = hist[hpos] || ""; }
+    else if (e.key === "Tab") {
+      e.preventDefault(); takeOver();
+      const v = input.value.trim().toLowerCase(); if (!v) return;
+      const parts = v.split(/\s+/);
+      if (parts.length === 1) {
+        const m = NAMES.filter((n) => n.startsWith(v));
+        if (m.length === 1) input.value = m[0] + " "; else if (m.length) print([PS1 + esc(v), m.map(a).join("  ")]);
+      } else if (parts[0] === "open") {
+        const m = PROJECTS.map((p) => p[0]).filter((n) => n.startsWith(parts[1] || ""));
+        if (m.length === 1) input.value = "open " + m[0]; else if (m.length) print([m.map(a).join("  ")]);
+      } else if (parts[0] === "cat") {
+        const m = FILES.filter((f) => f.startsWith(parts[1] || ""));
+        if (m.length === 1) input.value = "cat " + m[0];
+      }
+    } else if (e.key.toLowerCase() === "l" && e.ctrlKey) { e.preventDefault(); out.innerHTML = ""; }
+    else if (e.key.toLowerCase() === "c" && e.ctrlKey && !input.selectionEnd) { print([PS1 + esc(input.value) + "^C"], "cmd"); input.value = ""; }
+  });
+  input.addEventListener("pointerdown", takeOver);
+  // clicking anywhere in the window focuses the prompt (but keep links clickable and text selectable)
+  box.addEventListener("click", (e) => {
+    if (e.target.closest("a") || String(window.getSelection())) return;
+    takeOver(); input.focus({ preventScroll: true });
+  });
+  // start once the intro is out of the way
+  const start = () => boot();
+  if (document.documentElement.classList.contains("intro-done") || !document.getElementById("intro")) start();
+  else document.addEventListener("intro:done", start, { once: true });
+})();
 
 /* ---------- Rotating "currently learning" word ---------- */
 const words = ["DevOps", "SecOps", "AWS", "Pentesting", "Node.js backend", "Linux"];
@@ -577,8 +728,8 @@ if (finePointer && !reduce) {
       for (let k = 0; k < TRAIL; k++) {
         const y = (Math.floor(c.y) - k) * SIZE;
         if (y < -SIZE || y > H) continue;
-        const a = (1 - k / TRAIL) * (k === 0 ? 0.55 : 0.22);
-        ctx.fillStyle = k === 0 && c.hot ? `rgba(255,107,74,${a + 0.25})` : `rgba(43,45,49,${a * 0.75})`;
+        const a = (1 - k / TRAIL) * (k === 0 ? 0.85 : 0.42);
+        ctx.fillStyle = k === 0 && c.hot ? `rgba(255,107,74,${Math.min(1, a + 0.2)})` : `rgba(43,45,49,${a})`;
         ctx.fillText(c.chars[k], x, y);
       }
     });
@@ -674,4 +825,63 @@ if (finePointer && !reduce) {
   addEventListener("resize", rebuild);
   addEventListener("load", rebuild);
   build();
+})();
+
+/* ---------- Opening: face scan → access granted ---------- */
+(function intro() {
+  const el = document.getElementById("intro");
+  const root = document.documentElement;
+  if (!el) return;
+  const finish = () => {
+    root.classList.remove("intro-on"); root.classList.add("intro-done");
+    try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
+    el.remove();
+    document.dispatchEvent(new Event("intro:done"));
+  };
+  if (root.classList.contains("intro-done")) { el.remove(); return; }
+  root.classList.add("intro-on");
+
+  // --- wireframe face: landmarks joined to their nearest neighbours
+  const svg = document.getElementById("intro-face"), NS = "http://www.w3.org/2000/svg";
+  const P = [[100,30],[68,38],[132,38],[44,70],[156,70],[40,105],[160,105],[62,92],[80,86],[96,90],[104,90],[120,86],[138,92],
+    [64,106],[78,100],[92,106],[78,111],[108,106],[122,100],[136,106],[122,111],[100,104],[100,128],[88,142],[100,147],[112,142],
+    [54,135],[146,135],[80,170],[100,164],[120,170],[100,178],[48,150],[58,182],[76,204],[100,214],[124,204],[142,182],[152,150]];
+  const add = (tag, attrs, cls) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (cls) n.setAttribute("class", cls); svg.appendChild(n); return n; };
+  add("ellipse", { cx: 100, cy: 120, rx: 66, ry: 100, pathLength: 1 }, "outline");
+  const seen = new Set();
+  P.forEach((p, i) => {
+    P.map((q, j) => [j, Math.hypot(p[0] - q[0], p[1] - q[1])]).filter(([j]) => j !== i).sort((x, y) => x[1] - y[1]).slice(0, 3)
+      .forEach(([j]) => { const key = i < j ? i + "-" + j : j + "-" + i; if (seen.has(key)) return; seen.add(key);
+        const l = add("line", { x1: p[0], y1: p[1], x2: P[j][0], y2: P[j][1], pathLength: 1 }, "mesh"); l.style.animationDelay = (0.15 + Math.random() * 0.9).toFixed(2) + "s"; });
+  });
+  P.forEach((p, i) => { const c = add("circle", { cx: p[0], cy: p[1], r: 2.2 }, "lm"); c.style.animationDelay = (0.3 + i * 0.035).toFixed(2) + "s"; });
+
+  // --- log + progress
+  const log = document.getElementById("intro-log"), bar = document.getElementById("intro-bar"), pct = document.getElementById("intro-pct"), state = document.getElementById("intro-state");
+  const steps = [[0, "initialising biometric scanner"], [18, "detecting face"], [36, "mapping 39 facial landmarks"], [58, "building depth mesh"], [78, "matching identity · ashwin.j"], [96, "verifying clearance level"]];
+  const DUR = reduce ? 700 : 3200;
+  let shown = 0, t0 = 0, raf = 0, ended = false;
+  function frame(t) {
+    if (!t0) t0 = t;
+    const p = Math.min(100, Math.round(((t - t0) / DUR) * 100));
+    bar.style.width = p + "%"; pct.textContent = p;
+    while (shown < steps.length && p >= steps[shown][0]) {
+      if (log.lastElementChild) log.lastElementChild.classList.add("ok");
+      const li = document.createElement("li"); li.textContent = steps[shown][1]; log.appendChild(li); shown++;
+    }
+    if (p < 100) { raf = requestAnimationFrame(frame); return; }
+    if (log.lastElementChild) log.lastElementChild.classList.add("ok");
+    state.textContent = "match 99.8%";
+    el.classList.add("granted");
+    setTimeout(leave, reduce ? 500 : 1300);
+  }
+  function leave() {
+    if (ended) return; ended = true;
+    cancelAnimationFrame(raf);
+    el.classList.add("leave");
+    setTimeout(finish, reduce ? 0 : 700);
+  }
+  document.getElementById("intro-skip").addEventListener("click", leave);
+  addEventListener("keydown", function k(e) { if (e.key === "Escape" || e.key === "Enter") { removeEventListener("keydown", k); leave(); } });
+  setTimeout(() => (raf = requestAnimationFrame(frame)), reduce ? 0 : 450);
 })();
