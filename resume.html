@@ -11,43 +11,45 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&amp;family=Jost:wght@300..700&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
   <style>
-    :root { --ink: #040D12; --ink-2: #183D3D; --muted: #183D3D; --line: #5C8374; --accent: #183D3D; --paper: #93B1A6; --bg: #040D12; }
+    /* Professional resume: white paper, black text, one font family, no colour */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--ink); font: 14.5px/1.55 "Jost", system-ui, sans-serif; padding: 24px 16px 60px; }
-    a { color: inherit; }
-    .bar { max-width: 820px; margin: 0 auto 16px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-    .bar a, .bar button { font: 500 13px "Jost", sans-serif; padding: 9px 16px; border-radius: 8px; border: 1px solid #183D3D; background: #040D12; color: var(--ink); cursor: pointer; text-decoration: none; }
-    .bar button { background: #93B1A6; border-color: #93B1A6; color: #93B1A6; }
-    .page { max-width: 820px; margin: 0 auto; background: var(--paper); padding: 46px 52px; border-radius: 6px; box-shadow: 0 10px 40px rgba(147, 177, 166, 0.12); }
-    header { display: flex; justify-content: space-between; gap: 24px; border-bottom: 2px solid #93B1A6; padding-bottom: 16px; margin-bottom: 18px; flex-wrap: wrap; }
-    h1 { font: 600 40px/1 "Bodoni Moda", Didot, serif; letter-spacing: -0.015em; }
-    .role { color: var(--accent); font-weight: 600; margin-top: 4px; }
-    .contact { font: 12px/1.75 "DM Mono", monospace; text-align: right; color: var(--ink-2); }
-    .contact a { text-decoration: none; }
-    h2 { font: 500 11px "DM Mono", monospace; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin: 22px 0 8px; }
-    .summary { color: var(--ink-2); }
-    .item { margin-bottom: 12px; page-break-inside: avoid; }
-    .item-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-    .item-head b { font: 600 16px "Bodoni Moda", Didot, serif; }
-    .when { font: 11.5px "DM Mono", monospace; color: var(--muted); white-space: nowrap; }
-    .sub { color: var(--muted); font-size: 12.5px; }
-    ul { padding-left: 18px; margin-top: 4px; color: var(--ink-2); }
-    li { margin: 2px 0; }
-    .tag { display: inline-block; font: 10px "DM Mono", monospace; border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; margin-left: 6px; vertical-align: 1px; color: var(--ink-2); }
-    .tag.live { border-color: #183D3D; color: #93B1A6; }
-    .skills { display: grid; grid-template-columns: 150px 1fr; gap: 4px 14px; }
+    body { background: #ffffff; color: #000000; font: 13.5px/1.5 "Jost", "Helvetica Neue", Arial, sans-serif; padding: 24px 16px 60px; }
+    a { color: inherit; text-decoration: none; }
+    .bar { max-width: 820px; margin: 0 auto 18px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .bar a, .bar button { font: 500 13px "Jost", sans-serif; padding: 8px 16px; border-radius: 6px; border: 1px solid #000; background: #fff; color: #000; cursor: pointer; }
+    .bar button { background: #000; color: #fff; }
+    .bar a:hover { background: #f2f2f2; }
+    .page { max-width: 820px; margin: 0 auto; background: #ffffff; padding: 44px 52px; border: 1px solid #d9d9d9; }
+    header { text-align: left; padding-bottom: 12px; border-bottom: 1.5px solid #000; margin-bottom: 4px; }
+    h1 { font: 600 30px/1.1 "Jost", sans-serif; letter-spacing: 0.02em; text-transform: uppercase; }
+    .role { font-weight: 500; font-size: 15px; margin-top: 4px; }
+    .sub { color: #333; font-size: 13px; }
+    .contact { margin-top: 8px; font-size: 12.5px; color: #000; display: flex; flex-wrap: wrap; gap: 2px 0; }
+    .contact > * + *::before { content: "|"; margin: 0 9px; color: #888; }
+    h2 { font: 600 12px "Jost", sans-serif; text-transform: uppercase; letter-spacing: 0.12em; color: #000;
+      margin: 18px 0 8px; padding-bottom: 3px; border-bottom: 1px solid #000; }
+    .summary { color: #111; text-align: justify; }
+    .item { margin-bottom: 10px; page-break-inside: avoid; }
+    .item-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .item-head b { font-weight: 600; font-size: 14px; }
+    .when { font-size: 12.5px; color: #333; white-space: nowrap; }
+    .note { font-weight: 400; font-style: italic; font-size: 12.5px; color: #333; margin-left: 4px; }
+    ul { padding-left: 16px; margin-top: 3px; color: #111; }
+    li { margin: 1px 0; }
+    code { font-family: inherit; font-weight: 500; }
+    .skills { display: grid; grid-template-columns: 120px 1fr; gap: 3px 14px; }
     .skills dt { font-weight: 600; }
-    .skills dd { color: var(--ink-2); }
+    .skills dd { color: #111; }
     .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
     @media (max-width: 640px) {
-      .page { padding: 28px 22px; } .contact { text-align: left; } .skills, .two { grid-template-columns: 1fr; } .skills dd { margin-bottom: 6px; }
+      .page { padding: 26px 20px; } .skills, .two { grid-template-columns: 1fr; } .skills dd { margin-bottom: 6px; }
+      .contact { flex-direction: column; } .contact > * + *::before { content: none; }
     }
     @page { size: A4; margin: 14mm; }
     @media print {
-      body { background: #040D12; padding: 0; font-size: 12.5px; }
+      body { background: #fff; padding: 0; font-size: 12px; }
       .bar { display: none; }
-      .page { box-shadow: none; padding: 0; max-width: none; background: #040D12; }
-      a { text-decoration: none; }
+      .page { border: 0; padding: 0; max-width: none; }
     }
   </style>
 </head>
@@ -65,11 +67,11 @@
         <div class="sub">DevOps · SecOps · Cloud (AWS) · Node.js backend</div>
       </div>
       <div class="contact">
-        <a href="mailto:ashwin.j200423@gmail.com">ashwin.j200423@gmail.com</a><br />
-        <a href="tel:+918428259646">+91 84282 59646</a><br />
-        <a href="https://github.com/ashwin-j23">github.com/ashwin-j23</a><br />
-        <a href="https://www.linkedin.com/in/ashwin-j-563047288/">linkedin.com/in/ashwin-j-563047288</a><br />
-        Native: Kanniyakumari, Tamil Nadu
+        <a href="mailto:ashwin.j200423@gmail.com">ashwin.j200423@gmail.com</a>
+        <a href="tel:+918428259646">+91 84282 59646</a>
+        <a href="https://github.com/ashwin-j23">github.com/ashwin-j23</a>
+        <a href="https://www.linkedin.com/in/ashwin-j-563047288/">linkedin.com/in/ashwin-j-563047288</a>
+        <span>Kanniyakumari, Tamil Nadu</span>
       </div>
     </header>
 
@@ -91,11 +93,11 @@
 
     <h2>Projects</h2>
     <div class="item">
-      <div class="item-head"><b>Reelsmith v2 <span class="tag live">live in production</span></b><span class="when">Python · GitHub Actions · Supabase · Vercel</span></div>
+      <div class="item-head"><b>Reelsmith v2 <span class="note">— Live in production</span></b><span class="when">Python · GitHub Actions · Supabase · Vercel</span></div>
       <ul><li>AI agent that finds trends, writes, voices, edits and schedules short videos; GitHub Actions used as the render farm, all on free tiers.</li></ul>
     </div>
     <div class="item">
-      <div class="item-head"><b>Muse Studio <span class="tag live">live in production</span></b><span class="when">FastAPI · JWT · Docker · Vercel</span></div>
+      <div class="item-head"><b>Muse Studio <span class="note">— Live in production</span></b><span class="when">FastAPI · JWT · Docker · Vercel</span></div>
       <ul><li>Dashboard for five fictional AI creators with an SFW publish gate, AI disclosure, posting caps, duplicate checks and a kill switch; 64 automated tests.</li></ul>
     </div>
     <div class="two">
@@ -116,8 +118,8 @@
     <h2>Skills</h2>
     <dl class="skills">
       <dt>DevOps</dt><dd>Linux (daily driver), Bash, Git &amp; GitHub, Docker, Docker Compose, Kubernetes basics, GitHub Actions, Vercel, Render</dd>
-      <dt>Security</dt><dd>Server auditing, log review, SonarQube (SAST), OWASP Top 10, network security basics, Nmap, Burp Suite, Kali Linux <span class="tag">learning</span></dd>
-      <dt>Cloud</dt><dd>AWS — EC2, S3, IAM, VPC, Security Groups <span class="tag">learning</span>; Supabase</dd>
+      <dt>Security</dt><dd>Server auditing, log review, SonarQube (SAST), OWASP Top 10, network security basics, Nmap, Burp Suite, Kali Linux (learning)</dd>
+      <dt>Cloud</dt><dd>AWS — EC2, S3, IAM, VPC, Security Groups (learning); Supabase</dd>
       <dt>Backend</dt><dd>Node.js, Express, FastAPI, REST APIs, JWT / OAuth, MongoDB, PostgreSQL, Prisma, pytest</dd>
       <dt>Other</dt><dd>Python, JavaScript / TypeScript, React, HTML &amp; CSS, Flutter, PyTorch</dd>
     </dl>
