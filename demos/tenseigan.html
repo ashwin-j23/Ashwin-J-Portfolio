@@ -6,7 +6,7 @@
 <title>Tenseigan — Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&amp;family=Jost:wght@300..700&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
-<link rel="stylesheet" href="demo.css?v=20261108b" />
+<link rel="stylesheet" href="demo.css?v=20261108c" />
 <style>
   
   .top { display: flex; gap: 10px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--surface); flex-wrap: wrap; }
@@ -19,18 +19,18 @@
   #t-img:checked ~ .panels .p-img, #t-vid:checked ~ .panels .p-vid, #t-aud:checked ~ .panels .p-aud { display: grid; }
   .an { grid-template-columns: 1.1fr 1fr; gap: 14px; }
   .frame { position: relative; aspect-ratio: 4/3; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line);
-    background: radial-gradient(circle at 50% 40%, #2a2a2a, #141414 70%); display: grid; place-items: center; }
-  .face { width: 140px; height: 175px; border-radius: 45% 45% 40% 40%; background: linear-gradient(160deg, #d9b8a0, #a77f66); position: relative; }
-  .face::before, .face::after { content: ""; position: absolute; top: 62px; width: 18px; height: 10px; border-radius: 50%; background: #2a1a12; }
+    background: radial-gradient(circle at 50% 40%, #2b2d31, #2b2d31 70%); display: grid; place-items: center; }
+  .face { width: 140px; height: 175px; border-radius: 45% 45% 40% 40%; background: linear-gradient(160deg, #d8dadd, #ff6b4a); position: relative; }
+  .face::before, .face::after { content: ""; position: absolute; top: 62px; width: 18px; height: 10px; border-radius: 50%; background: #2b2d31; }
   .face::before { left: 34px; } .face::after { right: 34px; }
-  .face i { position: absolute; left: 50%; top: 118px; width: 40px; height: 10px; transform: translateX(-50%); border-radius: 0 0 20px 20px; background: #6a3a30; }
+  .face i { position: absolute; left: 50%; top: 118px; width: 40px; height: 10px; transform: translateX(-50%); border-radius: 0 0 20px 20px; background: #ff6b4a; }
   .box { position: absolute; border: 2px solid var(--bad); border-radius: 4px; }
-  .box span { position: absolute; top: -20px; left: -2px; font: 600 10px var(--mono); background: var(--bad); color: #fff; padding: 1px 5px; border-radius: 3px; white-space: nowrap; }
+  .box span { position: absolute; top: -20px; left: -2px; font: 600 10px var(--mono); background: var(--bad); color: #f7f7f5; padding: 1px 5px; border-radius: 3px; white-space: nowrap; }
   .scan { position: absolute; left: 0; right: 0; height: 3px; background: var(--accent); box-shadow: 0 0 16px var(--accent); animation: sc 2.4s ease-in-out infinite alternate; }
   @keyframes sc { from { top: 0; } to { top: calc(100% - 3px); } }
-  .heat { position: absolute; inset: 0; background: radial-gradient(circle at 50% 62%, rgba(255, 80, 80, .35), transparent 30%), radial-gradient(circle at 42% 45%, rgba(255, 180, 60, .25), transparent 18%); mix-blend-mode: screen; animation: pulse 2s infinite; }
-  .verdict { display: flex; align-items: center; gap: 16px; padding: 16px; border-radius: var(--r); border: 1px solid rgba(208, 100, 79, .5); background: rgba(208, 100, 79, .08); margin-bottom: 14px; }
-  .verdict.real { border-color: rgba(124, 196, 146, .5); background: rgba(124, 196, 146, .08); }
+  .heat { position: absolute; inset: 0; background: radial-gradient(circle at 50% 62%, rgba(255, 107, 74, .35), transparent 30%), radial-gradient(circle at 42% 45%, rgba(255, 107, 74, .25), transparent 18%); mix-blend-mode: screen; animation: pulse 2s infinite; }
+  .verdict { display: flex; align-items: center; gap: 16px; padding: 16px; border-radius: var(--r); border: 1px solid rgba(255, 107, 74, .5); background: rgba(255, 107, 74, .08); margin-bottom: 14px; }
+  .verdict.real { border-color: rgba(216, 218, 221, .5); background: rgba(216, 218, 221, .08); }
   .verdict b { font: 700 26px var(--mono); color: var(--bad); }
   .verdict.real b { color: var(--ok); }
   .model { display: grid; grid-template-columns: 130px 1fr 52px; gap: 10px; align-items: center; margin-bottom: 10px; font-size: 13px; }

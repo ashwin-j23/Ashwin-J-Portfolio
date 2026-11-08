@@ -6,45 +6,45 @@
 <title>AnizOoal Studio — Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Jost:wght@300..700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
-<link rel="stylesheet" href="demo.css?v=20261108b" />
+<link rel="stylesheet" href="demo.css?v=20261108c" />
 <style>
   
   .top { display: flex; gap: 10px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--surface); flex-wrap: wrap; }
   .wrap { max-width: 1160px; margin: 0 auto; padding: 26px 18px 60px; }
   .studio { display: grid; grid-template-columns: 1fr 300px; gap: 14px; }
   .stage { position: relative; aspect-ratio: 16/9; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line);
-    background: linear-gradient(#262626 0 62%, #1c1c1c 62% 100%); }
-  .sun { position: absolute; top: 10%; right: 12%; width: 60px; height: 60px; border-radius: 50%; background: #e3b54f; box-shadow: 0 0 40px #e3b54f; animation: pulse 3s infinite; }
-  .cloud { position: absolute; top: 14%; width: 90px; height: 26px; border-radius: 20px; background: #fff; opacity: .9; animation: drift 18s linear infinite; }
-  .cloud::before { content: ""; position: absolute; left: 18px; top: -14px; width: 40px; height: 34px; border-radius: 50%; background: #fff; }
+    background: linear-gradient(#2b2d31 0 62%, #2b2d31 62% 100%); }
+  .sun { position: absolute; top: 10%; right: 12%; width: 60px; height: 60px; border-radius: 50%; background: #ff6b4a; box-shadow: 0 0 40px #ff6b4a; animation: pulse 3s infinite; }
+  .cloud { position: absolute; top: 14%; width: 90px; height: 26px; border-radius: 20px; background: #f7f7f5; opacity: .9; animation: drift 18s linear infinite; }
+  .cloud::before { content: ""; position: absolute; left: 18px; top: -14px; width: 40px; height: 34px; border-radius: 50%; background: #f7f7f5; }
   .cloud.c2 { top: 26%; animation-duration: 26s; animation-delay: -10s; transform: scale(.7); }
   @keyframes drift { from { left: -120px; } to { left: 110%; } }
   .char { position: absolute; bottom: 14%; left: 40%; height: 62%; animation: walk 6s ease-in-out infinite alternate; }
   .char img { height: 100%; display: block; animation: bob .5s ease-in-out infinite alternate; transform-origin: bottom; }
-  .char .body { width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff, #ff6b4a 45%, #8a4220); position: relative; animation: bob .5s ease-in-out infinite alternate; }
-  .char .body::before, .char .body::after { content: ""; position: absolute; top: 24px; width: 9px; height: 12px; border-radius: 50%; background: #1a1a1a; animation: blink 4s infinite; }
+  .char .body { width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #f7f7f5, #ff6b4a 45%, #ff6b4a); position: relative; animation: bob .5s ease-in-out infinite alternate; }
+  .char .body::before, .char .body::after { content: ""; position: absolute; top: 24px; width: 9px; height: 12px; border-radius: 50%; background: #2b2d31; animation: blink 4s infinite; }
   .char .body::before { left: 20px; } .char .body::after { right: 20px; }
-  .char .mouth { position: absolute; left: 50%; top: 44px; width: 18px; height: 9px; transform: translateX(-50%); border-radius: 0 0 18px 18px; background: #1a1a1a; }
+  .char .mouth { position: absolute; left: 50%; top: 44px; width: 18px; height: 9px; transform: translateX(-50%); border-radius: 0 0 18px 18px; background: #2b2d31; }
   .char .feet { display: flex; justify-content: center; gap: 14px; margin-top: -4px; }
-  .char .feet i { width: 16px; height: 10px; border-radius: 8px; background: #8a4220; animation: step .5s ease-in-out infinite alternate; }
+  .char .feet i { width: 16px; height: 10px; border-radius: 8px; background: #ff6b4a; animation: step .5s ease-in-out infinite alternate; }
   .char .feet i:last-child { animation-direction: alternate-reverse; }
   @keyframes walk { from { left: 12%; } to { left: 70%; } }
   @keyframes bob { to { transform: translateY(-6px); } }
   @keyframes step { to { transform: translateY(-5px); } }
   @keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
-  .caption { position: absolute; left: 50%; bottom: 8%; transform: translateX(-50%); background: rgba(0, 0, 0, .65); color: #fff; padding: 6px 14px; border-radius: 6px; font-weight: 600; white-space: nowrap; font-size: 13px; }
+  .caption { position: absolute; left: 50%; bottom: 8%; transform: translateX(-50%); background: rgba(43, 45, 49, .65); color: #f7f7f5; padding: 6px 14px; border-radius: 6px; font-weight: 600; white-space: nowrap; font-size: 13px; }
   .timeline { margin-top: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px; position: relative; }
   .tracks { display: grid; gap: 6px; }
   .track { display: flex; gap: 4px; align-items: center; font: 11px var(--mono); color: var(--muted); }
   .track b { width: 64px; font-weight: 400; }
   .track span { height: 20px; border-radius: 4px; background: var(--accent-soft); border: 1px solid var(--accent); }
-  .track.v span { background: rgba(143, 163, 184, .15); border-color: var(--info); }
-  .track.m span { background: rgba(124, 196, 146, .15); border-color: var(--ok); }
-  .playhead { position: absolute; top: 8px; bottom: 8px; width: 2px; background: #fff; box-shadow: 0 0 8px #fff; left: 80px; animation: ph 8s linear infinite; }
+  .track.v span { background: rgba(216, 218, 221, .15); border-color: var(--info); }
+  .track.m span { background: rgba(216, 218, 221, .15); border-color: var(--ok); }
+  .playhead { position: absolute; top: 8px; bottom: 8px; width: 2px; background: #f7f7f5; box-shadow: 0 0 8px #f7f7f5; left: 80px; animation: ph 8s linear infinite; }
   @keyframes ph { from { left: 80px; } to { left: calc(100% - 14px); } }
   .ep { display: grid; grid-template-columns: 70px 1fr; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
   .ep:last-child { border: 0; }
-  .ep .th { aspect-ratio: 16/10; border-radius: 6px; background: linear-gradient(135deg, var(--a), #1e1e1e); }
+  .ep .th { aspect-ratio: 16/10; border-radius: 6px; background: linear-gradient(135deg, var(--a), #2b2d31); }
   @media (max-width: 900px) { .studio { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -77,9 +77,9 @@
         <div class="bar"><i style="width:68%"></i></div><p class="small muted" style="margin-top:6px">frame 1224 / 1800 · 68%</p></div>
       <div class="card"><h3>Episodes</h3>
         <div class="ep"><div class="th" style="--a:#ff6b4a"></div><div><b class="small">Healthy Food</b><div class="small muted">1:00 · rendering</div></div></div>
-        <div class="ep"><div class="th" style="--a:#8fa3b8"></div><div><b class="small">A Quiet Moment of Creativity</b><div class="small muted">0:48 · ready</div></div></div>
-        <div class="ep"><div class="th" style="--a:#7cc492"></div><div><b class="small">A Small Creative Practice</b><div class="small muted">0:52 · ready</div></div></div>
-        <div class="ep"><div class="th" style="--a:#e3b54f"></div><div><b class="small">An Original Idea for the Afternoon</b><div class="small muted">0:55 · in review</div></div></div></div>
+        <div class="ep"><div class="th" style="--a:#d8dadd"></div><div><b class="small">A Quiet Moment of Creativity</b><div class="small muted">0:48 · ready</div></div></div>
+        <div class="ep"><div class="th" style="--a:#d8dadd"></div><div><b class="small">A Small Creative Practice</b><div class="small muted">0:52 · ready</div></div></div>
+        <div class="ep"><div class="th" style="--a:#ff6b4a"></div><div><b class="small">An Original Idea for the Afternoon</b><div class="small muted">0:55 · in review</div></div></div></div>
       <div class="card"><h3>Publishing</h3>
         <p class="small">Kill switch <span class="pill bad">off by default</span></p>
         <p class="small muted" style="margin-top:6px">Secrets stay server-side · Supabase row-level security on every table.</p></div>
