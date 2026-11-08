@@ -57,14 +57,14 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
       k("available commands"),
       `  ${a("about")}        who I am`,
       `  ${a("skills")}       what I use — and what I'm still learning`,
-      `  ${a("projects")}     things I've built ${d("(open <name> to see a demo)")}`,
+      `  ${a("projects")}     things I've built ${d("(open &lt;name&gt; for a demo)")}`,
       `  ${a("experience")}   work at OpsMonsters`,
       `  ${a("education")}    degree and college`,
       `  ${a("studying")}     what I'm learning right now`,
       `  ${a("contact")}      email, phone, GitHub, LinkedIn`,
       `  ${a("resume")}       open my resume`,
       `  ${a("neofetch")}     system info, the fun way`,
-      d("  also: whoami · ls · cat <file> · pwd · date · history · echo · clear"),
+      d("  also: whoami · ls · cat &lt;file&gt; · pwd · date · history · echo · clear"),
       d("  tips: ↑/↓ history · Tab completes · Ctrl+L clears"),
     ],
     whoami: () => ["ashwin-j — Intern · Team Lead @ OpsMonsters"],
@@ -76,23 +76,29 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
       "containers and pipelines that ship the code, and the controls that keep it safe.",
       d("from Kanniyakumari, Tamil Nadu · daily driver: Arch Linux"),
     ],
-    skills: () => [
-      k("devops   ") + ` Linux ${tag("prod")} Bash ${tag("proj")} Git & GitHub ${tag("prod")} Docker ${tag("prod")}`,
-      "          " + ` Docker Compose ${tag("proj")} GitHub Actions ${tag("prod")} Vercel / Render ${tag("prod")}`,
-      "          " + ` Kubernetes ${tag("learn")}`,
-      k("security ") + ` server auditing ${tag("proj")} log review ${tag("proj")} OWASP Top 10 ${tag("learn")}`,
-      "          " + ` Nmap ${tag("learn")} Burp Suite ${tag("learn")} Kali Linux ${tag("learn")}`,
-      k("cloud    ") + ` AWS — EC2 · S3 · IAM · VPC ${tag("learn")} Supabase ${tag("prod")}`,
-      k("backend  ") + ` Node.js · Express ${tag("proj")} FastAPI ${tag("prod")} REST · JWT ${tag("prod")}`,
-      "          " + ` MongoDB ${tag("proj")} PostgreSQL ${tag("proj")}`,
-      k("also     ") + ` Python ${tag("prod")} JavaScript / TypeScript ${tag("proj")} React ${tag("proj")} Flutter ${tag("proj")}`,
-      d("prod = running in production · built = used in a project · learning = studying now"),
-    ],
-    projects: () => [
-      ...PROJECTS.map(([id, name, st, desc]) =>
-        `${st === "live" ? '<span class="st live">● live</span>' : '<span class="st wip">⚒ wip </span>'} ${k(name.padEnd(24, " ").replace(/ /g, "&nbsp;"))}${d(desc)}`),
-      d("type ") + a("open reelsmith") + d(" (or any name above) to see its demo"),
-    ],
+    skills: () => {
+      const G = [
+        ["devops", [["Linux", "prod"], ["Git & GitHub", "prod"], ["Docker", "prod"], ["GitHub Actions", "prod"], ["Vercel / Render", "prod"], ["Bash scripting", "proj"], ["Docker Compose", "proj"], ["Kubernetes", "learn"]]],
+        ["security", [["server auditing", "proj"], ["log review", "proj"], ["OWASP Top 10", "learn"], ["Nmap", "learn"], ["Burp Suite", "learn"], ["Kali Linux", "learn"]]],
+        ["cloud", [["Supabase", "prod"], ["AWS — EC2 · S3 · IAM · VPC", "learn"]]],
+        ["backend", [["FastAPI", "prod"], ["REST · JWT · OAuth", "prod"], ["Node.js · Express", "proj"], ["MongoDB", "proj"], ["PostgreSQL", "proj"]]],
+        ["also", [["Python", "prod"], ["JavaScript / TypeScript", "proj"], ["React", "proj"], ["Flutter", "proj"]]],
+      ];
+      const pad = (t, n) => esc(t) + "&nbsp;".repeat(Math.max(1, n - t.length));
+      const rows = [];
+      G.forEach(([g, items], i) => { if (i) rows.push(""); rows.push(k(g)); items.forEach(([n, l]) => rows.push("  " + pad(n, 27) + tag(l))); });
+      rows.push("", d("prod = running in production · built = used in a project · learning = studying now"));
+      return rows;
+    },
+    projects: () => {
+      const rows = [];
+      PROJECTS.forEach(([id, name, st, desc]) => {
+        rows.push(`${st === "live" ? '<span class="st live">● live</span>' : '<span class="st wip">⚒ wip&nbsp;</span>'}  ${k(name)}  ${d("· open " + id)}`);
+        rows.push(`${"&nbsp;".repeat(9)}${d(desc)}`);
+      });
+      rows.push("", d("type ") + a("open reelsmith") + d(" (or any name above) to see its demo"));
+      return rows;
+    },
     experience: () => [
       k("Intern · Team Lead — OpsMonsters") + d("   2026 — present"),
       "• lead the intern team while completing a DevSecOps roadmap (8 hrs/day)",
@@ -129,13 +135,13 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
     ls: (args) => (args[0] && /^projects\/?$/.test(args[0]) ? [PROJECTS.map((p) => a(p[0] + "/")).join("  ")] : [FILES.map((f) => (f.endsWith("/") ? a(f) : f)).join("  ")]),
     cat: (args) => {
       const f = (args[0] || "").replace(/\.(txt|pdf)$/, "").replace(/\/$/, "");
-      if (!f) return [d("usage: cat <file> — try ls")];
+      if (!f) return [d("usage: cat &lt;file&gt; — try ls")];
       return C[f] ? C[f]([]) : [`cat: ${esc(args[0])}: No such file or directory`];
     },
     cd: (args) => (!args[0] || args[0] === "~" ? [] : /^projects\/?$/.test(args[0]) ? C.projects() : [`cd: ${esc(args[0])}: try "ls"`]),
     open: (args) => {
       const q = (args.join(" ") || "").toLowerCase();
-      if (!q) return [d("usage: open <project> — e.g. open reelsmith")];
+      if (!q) return [d("usage: open &lt;project&gt; — e.g. open reelsmith")];
       const p = PROJECTS.find((p) => p[0].startsWith(q) || p[1].toLowerCase().startsWith(q));
       if (!p) return [`open: no project called "${esc(q)}" — try projects`];
       setTimeout(() => window.open(p[4], "_blank", "noopener"), 250);
