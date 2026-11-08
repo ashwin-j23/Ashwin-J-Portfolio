@@ -50,7 +50,7 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
     ["maybe", "May~be", "wip", "Flutter music app for Spotify, YouTube Music & Apple Music", "demos/maybe.html"],
     ["tenseigan", "Tenseigan", "wip", "deepfake detector for images, video and audio", "demos/tenseigan.html"],
   ];
-  const FILES = ["about.txt", "skills.txt", "experience.txt", "education.txt", "contact.txt", "projects/", "resume.pdf"];
+  const FILES = ["about.txt", "role.txt", "education.txt", "studying.txt", "experience.txt", "contact.txt", "skills/", "projects/", "resume.pdf"];
 
   const C = {
     help: () => [
@@ -67,7 +67,11 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
       d("  also: whoami · ls · cat &lt;file&gt; · pwd · date · history · echo · clear"),
       d("  tips: ↑/↓ history · Tab completes · Ctrl+L clears"),
     ],
-    whoami: () => ["ashwin-j — Intern · Team Lead @ OpsMonsters"],
+    whoami: () => ["ashwin j"],
+    role: () => ["intern · team lead @ opsmonsters"],
+    hostname: () => ["arch · opsmonsters lab"],
+    uptime: () => ["learning since 2022 · 8 hrs / day"],
+    uname: () => ["Linux arch 6.x x86_64 GNU/Linux"],
     about: () => [
       k("Ashwin J") + d("  ·  DevOps · SecOps · Node.js backend"),
       "Computer Science graduate (2022 – 2025) leading an intern team at OpsMonsters",
@@ -90,15 +94,10 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
       rows.push("", d("prod = running in production · built = used in a project · learning = studying now"));
       return rows;
     },
-    projects: () => {
-      const rows = [];
-      PROJECTS.forEach(([id, name, st, desc]) => {
-        rows.push(`${st === "live" ? '<span class="st live">● live</span>' : '<span class="st wip">⚒ wip&nbsp;</span>'}  ${k(name)}  ${d("· open " + id)}`);
-        rows.push(`<span class="ind">${d(desc)}</span>`);
-      });
-      rows.push("", d("type ") + a("open reelsmith") + d(" (or any name above) to see its demo"));
-      return rows;
-    },
+    projects: () => [
+      ...PROJECTS.map(([id, name, st]) => `${st === "live" ? '<span class="st live">●</span>' : '<span class="st wip">○</span>'} ${id.padEnd(11, " ").replace(/ /g, "&nbsp;")}${d(st === "live" ? "live in production" : "under construction")}`),
+      d("open &lt;name&gt; for a demo"),
+    ],
     experience: () => [
       k("Intern · Team Lead — OpsMonsters") + d("   2026 — present"),
       "• lead the intern team while completing a DevSecOps roadmap (8 hrs/day)",
@@ -107,12 +106,8 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
       "• built server_audit.sh — host, user, uptime and system details for routine checks",
       "• studying AWS (EC2, S3, IAM, VPC) and penetration testing in lab environments",
     ],
-    education: () => [
-      k("BSc Computer Science") + d("   2022 — 2025"),
-      "St. Joseph's College (Arts & Science), Koovur, Chennai",
-      d("programming · data structures · databases · operating systems · computer networks"),
-    ],
-    studying: () => ["→ aws · pentesting · node.js backend · devops · secops", d("every day ends with a study report, an audit log and lab notes")],
+    education: () => ["bsc computer science · 2022 – 2025", d("st. joseph's college (arts & science), koovur, chennai")],
+    studying: () => ["aws · pentesting · node.js backend · devops · secops"],
     contact: () => [
       `${k("email   ")} ${link("mailto:ashwin.j200423@gmail.com", "ashwin.j200423@gmail.com")}`,
       `${k("phone   ")} ${link("tel:+918428259646", "+91 84282 59646")}`,
@@ -132,7 +127,13 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
       rows.push(`${"&nbsp;".repeat(18)}<span class="sw"><i></i><i></i><i></i><i></i><i></i></span>`);
       return rows;
     },
-    ls: (args) => (args[0] && /^projects\/?$/.test(args[0]) ? [PROJECTS.map((p) => a(p[0] + "/")).join("  ")] : [FILES.map((f) => (f.endsWith("/") ? a(f) : f)).join("  ")]),
+    ls: (args) => {
+      const t = (args[0] || "").replace(/\/$/, "");
+      if (t === "projects") return [PROJECTS.map((p) => p[0]).join("  ")];
+      if (t === "skills") return ["linux  docker  github-actions  node.js  fastapi  aws  pentesting"];
+      return [FILES.map((f) => (f.endsWith("/") ? a(f) : f)).join("  ")];
+    },
+    "./contact.sh": () => [`${link("mailto:ashwin.j200423@gmail.com", "ashwin.j200423@gmail.com")}  ·  ${link("tel:+918428259646", "+91 84282 59646")}`],
     cat: (args) => {
       const f = (args[0] || "").replace(/\.(txt|pdf)$/, "").replace(/\/$/, "");
       if (!f) return [d("usage: cat &lt;file&gt; — try ls")];
@@ -155,7 +156,7 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
     exit: () => ["there's no exit — but there is " + a("contact") + " 🙂"],
     clear: () => { out.innerHTML = ""; return null; },
   };
-  C.studies = C.studying; C.work = C.experience; C.cv = C.resume; C.man = C.help; C["?"] = C.help;
+  C.studies = C.studying; C["role.txt"] = C.role; C.work = C.experience; C.cv = C.resume; C.man = C.help; C["?"] = C.help;
   const NAMES = Object.keys(C).filter((n) => n.length > 1);
 
   const hist = [];
@@ -188,12 +189,17 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
     if (!auto) return false;
     await sleep(220); input.value = ""; run(cmd); return true;
   }
+  const SHOW = ["whoami", "cat role.txt", "cat education.txt", "ls skills/", "cat studying.txt", "ls projects/", "systemctl status reelsmith", "./contact.sh"];
+  C.systemctl = (args) => {
+    const n = (args[1] || args[0] || "").replace(/\.service$/, "");
+    const p = PROJECTS.find((p) => p[0].startsWith(n) || p[1].toLowerCase().replace(/\s+/g, "-").startsWith(n));
+    if (!p) return [d("usage: systemctl status &lt;project&gt;")];
+    return [p[2] === "live" ? `<span class="st live">●</span> ${p[0]}.service — active (running) · live in production` : `<span class="st wip">○</span> ${p[0]}.service — building · under construction`];
+  };
   async function boot() {
-    print([d("Last login: " + new Date().toDateString() + " on ttys001"), d("Welcome — this is a real terminal. Click here and type ") + a("help") + d(".")]);
-    if (reduce) { run("whoami"); run("studying"); return; }
-    await sleep(700);
-    for (const c of ["whoami", "studying", "projects"]) { if (!(await typeCmd(c))) return; await sleep(650); }
-    if (auto) print([d("…now it's your turn — try ") + a("about") + d(", ") + a("skills") + d(" or ") + a("contact")]);
+    if (reduce) { SHOW.forEach(run); return; }
+    await sleep(500);
+    for (const c of SHOW) { if (!(await typeCmd(c))) return; await sleep(520); }
   }
   const takeOver = () => { if (auto) { auto = false; input.value = ""; } };
 
@@ -735,7 +741,7 @@ if (finePointer && !reduce) {
         const y = (Math.floor(c.y) - k) * SIZE;
         if (y < -SIZE || y > H) continue;
         const a = (1 - k / TRAIL) * (k === 0 ? 0.85 : 0.42);
-        ctx.fillStyle = k === 0 && c.hot ? `rgba(255,107,74,${Math.min(1, a + 0.2)})` : `rgba(43,45,49,${a})`;
+        ctx.fillStyle = k === 0 && c.hot ? `rgba(147,177,166,${Math.min(1, a + 0.15)})` : `rgba(92,131,116,${a})`;
         ctx.fillText(c.chars[k], x, y);
       }
     });
