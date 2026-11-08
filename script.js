@@ -194,7 +194,7 @@ if (finePointer && !reduce) {
   if (reduce) return;
   const cv = document.getElementById("net");
   const ctx = cv.getContext("2d");
-  const colors = ["232,116,59", "201,198,191"];
+  const colors = ["255,107,74", "90,96,104"];
   let W, H, nodes, packets = [], dpr;
 
   function init() {
@@ -223,7 +223,7 @@ if (finePointer && !reduce) {
         const a = nodes[i], b = nodes[j];
         const d = Math.hypot(a.x - b.x, a.y - b.y);
         if (d < md) {
-          ctx.strokeStyle = `rgba(150,148,142,${(1 - d / md) * 0.24})`;
+          ctx.strokeStyle = `rgba(90,96,104,${(1 - d / md) * 0.22})`;
           ctx.lineWidth = dpr * 0.8;
           ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
           if (packets.length < 30 && Math.random() < 0.0016)
@@ -232,7 +232,7 @@ if (finePointer && !reduce) {
       }
     }
     for (const n of nodes) {
-      ctx.fillStyle = "rgba(170,168,162,0.6)";
+      ctx.fillStyle = "rgba(90,96,104,0.45)";
       ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
     }
     packets = packets.filter((p) => {
@@ -629,7 +629,7 @@ if (finePointer && !reduce) {
     if (!on || t - last < 50) return; // ~20 fps is plenty
     last = t;
     ctx.clearRect(0, 0, W, H);
-    ctx.font = `${SIZE}px "IBM Plex Mono", monospace`;
+    ctx.font = `${SIZE}px "DM Mono", monospace`;
     cols.forEach((c, i) => {
       c.y += c.v;
       if ((c.y - TRAIL) * SIZE > H) { c.y = Math.random() * -12; c.v = 0.12 + Math.random() * 0.22; c.hot = Math.random() < 0.12; }
@@ -639,7 +639,7 @@ if (finePointer && !reduce) {
         const y = (Math.floor(c.y) - k) * SIZE;
         if (y < -SIZE || y > H) continue;
         const a = (1 - k / TRAIL) * (k === 0 ? 0.55 : 0.22);
-        ctx.fillStyle = k === 0 && c.hot ? `rgba(232,116,59,${a + 0.2})` : `rgba(236,236,234,${a})`;
+        ctx.fillStyle = k === 0 && c.hot ? `rgba(255,107,74,${a + 0.25})` : `rgba(43,45,49,${a * 0.75})`;
         ctx.fillText(c.chars[k], x, y);
       }
     });
