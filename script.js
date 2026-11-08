@@ -25,7 +25,7 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
   el.prepend(frag);
 });
 
-/* ---------- Interactive terminal ---------- */
+/* ---------- Interactive terminal (animated command execution) ---------- */
 (function terminal() {
   const box = document.getElementById("terminal");
   const out = document.getElementById("term-out");
@@ -34,98 +34,75 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
   if (!box || !out || !input) return;
   const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const PS1 = '<span class="ps1"><b>ashwin@arch</b>:<i>~</i>$</span> ';
-  const L = (h = "") => h; // a line of trusted HTML (static portfolio data only)
-  const k = (t) => `<span class="k">${t}</span>`;     // keyword / heading
-  const d = (t) => `<span class="d">${t}</span>`;     // dim
-  const a = (t) => `<span class="a">${t}</span>`;     // accent
+  const k = (t) => `<span class="k">${t}</span>`, d = (t) => `<span class="d">${t}</span>`, a = (t) => `<span class="a">${t}</span>`;
+  const ok = (t) => `<span class="ok">✔</span> ${t}`;
   const tag = (lvl) => ({ prod: '<span class="tg prod">prod</span>', proj: '<span class="tg proj">built</span>', learn: '<span class="tg learn">learning</span>' }[lvl]);
   const link = (href, text, ext) => `<a href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>${text}</a>`;
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const SPIN = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏";
 
   const PROJECTS = [
-    ["reelsmith", "Reelsmith v2", "live", "AI agent: trends → script → voice → video → YouTube Shorts & Reels", "demos/reelsmith.html"],
-    ["muse", "Muse Studio", "live", "5 fictional AI creators on Instagram, with a Publish Gate + kill switch", "demos/muse-studio.html"],
-    ["pm-api", "Project Management API", "wip", "36-endpoint Node.js / Express / MongoDB REST API with JWT + roles", "demos/project-management-api.html"],
-    ["anizooal", "AnizOoal", "wip", "browser studio for short animated episodes → MP4 → Shorts / Reels", "demos/anizooal.html"],
-    ["tempest", "Tempest", "wip", "Python security toolkit — 28 tools in one CLI", "demos/tempest.html"],
-    ["maybe", "May~be", "wip", "Flutter music app for Spotify, YouTube Music & Apple Music", "demos/maybe.html"],
-    ["tenseigan", "Tenseigan", "wip", "deepfake detector for images, video and audio", "demos/tenseigan.html"],
+    ["reelsmith", "Reelsmith v2", "live", "demos/reelsmith.html"],
+    ["muse-studio", "Muse Studio", "live", "demos/muse-studio.html"],
+    ["pm-api", "Project Management API", "wip", "demos/project-management-api.html"],
+    ["anizooal", "AnizOoal", "wip", "demos/anizooal.html"],
+    ["tempest", "Tempest", "wip", "demos/tempest.html"],
+    ["maybe", "May~be", "wip", "demos/maybe.html"],
+    ["tenseigan", "Tenseigan", "wip", "demos/tenseigan.html"],
   ];
-  const FILES = ["about.txt", "role.txt", "education.txt", "studying.txt", "experience.txt", "contact.txt", "skills/", "projects/", "resume.pdf"];
+  const FILES = ["about.txt", "role.txt", "education.txt", "studying.txt", "experience.txt", "contact.txt", "skills/", "projects/", "server_audit.sh", "contact.sh", "resume.pdf"];
+  const findP = (q) => PROJECTS.find((p) => p[0].startsWith(q) || p[1].toLowerCase().replace(/\s+/g, "-").startsWith(q));
 
+  // A command returns lines (strings) or animated steps: ["spin", while, done, ms] · ["bar", label, ms] · ["wait", ms]
   const C = {
     help: () => [
-      k("available commands"),
-      `  ${a("about")}        who I am`,
-      `  ${a("skills")}       what I use — and what I'm still learning`,
-      `  ${a("projects")}     things I've built ${d("(open &lt;name&gt; for a demo)")}`,
-      `  ${a("experience")}   work at OpsMonsters`,
-      `  ${a("education")}    degree and college`,
-      `  ${a("studying")}     what I'm learning right now`,
-      `  ${a("contact")}      email, phone, GitHub, LinkedIn`,
-      `  ${a("resume")}       open my resume`,
-      `  ${a("neofetch")}     system info, the fun way`,
-      d("  also: whoami · ls · cat &lt;file&gt; · pwd · date · history · echo · clear"),
-      d("  tips: ↑/↓ history · Tab completes · Ctrl+L clears"),
+      k("commands"),
+      `  ${a("about")}  ${a("skills")}  ${a("projects")}  ${a("experience")}  ${a("education")}  ${a("contact")}  ${a("resume")}`,
+      `  ${a("whoami")}  ${a("neofetch")}  ${a("./server_audit.sh")}  ${a("nmap")}  ${a("docker ps")}`,
+      `  ${a("systemctl status")} &lt;project&gt;  ·  ${a("open")} &lt;project&gt;  ·  ls · cat · history · clear`,
+      d("↑/↓ history · Tab completes · Ctrl+L clears"),
     ],
     whoami: () => ["ashwin j"],
     role: () => ["intern · team lead @ opsmonsters"],
-    hostname: () => ["arch · opsmonsters lab"],
-    uptime: () => ["learning since 2022 · 8 hrs / day"],
-    uname: () => ["Linux arch 6.x x86_64 GNU/Linux"],
-    about: () => [
-      k("Ashwin J") + d("  ·  DevOps · SecOps · Node.js backend"),
-      "Computer Science graduate (2022 – 2025) leading an intern team at OpsMonsters",
-      "while working through a structured DevSecOps roadmap — 8 hours a day.",
-      "I like understanding a system end to end: the Linux box, the network, the",
-      "containers and pipelines that ship the code, and the controls that keep it safe.",
-      d("from Kanniyakumari, Tamil Nadu · daily driver: Arch Linux"),
-    ],
-    skills: () => {
-      const G = [
-        ["devops", [["Linux", "prod"], ["Git & GitHub", "prod"], ["Docker", "prod"], ["GitHub Actions", "prod"], ["Vercel / Render", "prod"], ["Bash scripting", "proj"], ["Docker Compose", "proj"], ["Kubernetes", "learn"]]],
-        ["security", [["server auditing", "proj"], ["log review", "proj"], ["OWASP Top 10", "learn"], ["Nmap", "learn"], ["Burp Suite", "learn"], ["Kali Linux", "learn"]]],
-        ["cloud", [["Supabase", "prod"], ["AWS — EC2 · S3 · IAM · VPC", "learn"]]],
-        ["backend", [["FastAPI", "prod"], ["REST · JWT · OAuth", "prod"], ["Node.js · Express", "proj"], ["MongoDB", "proj"], ["PostgreSQL", "proj"]]],
-        ["also", [["Python", "prod"], ["JavaScript / TypeScript", "proj"], ["React", "proj"], ["Flutter", "proj"]]],
-      ];
-      const pad = (t, n) => esc(t) + "&nbsp;".repeat(Math.max(1, n - t.length));
-      const rows = [];
-      G.forEach(([g, items], i) => { if (i) rows.push(""); rows.push(k(g)); items.forEach(([n, l]) => rows.push("  " + pad(n, 27) + tag(l))); });
-      rows.push("", d("prod = running in production · built = used in a project · learning = studying now"));
-      return rows;
-    },
-    projects: () => [
-      ...PROJECTS.map(([id, name, st]) => `${st === "live" ? '<span class="st live">●</span>' : '<span class="st wip">○</span>'} ${id.padEnd(11, " ").replace(/ /g, "&nbsp;")}${d(st === "live" ? "live in production" : "under construction")}`),
-      d("open &lt;name&gt; for a demo"),
-    ],
-    experience: () => [
-      k("Intern · Team Lead — OpsMonsters") + d("   2026 — present"),
-      "• lead the intern team while completing a DevSecOps roadmap (8 hrs/day)",
-      "• Linux, users & permissions, services, networking, shell scripting",
-      "• daily study reports + cybersecurity audit logs (failed logins, unknown IPs, file integrity)",
-      "• built server_audit.sh — host, user, uptime and system details for routine checks",
-      "• studying AWS (EC2, S3, IAM, VPC) and penetration testing in lab environments",
-    ],
+    about: () => ["ashwin j · devops · secops · node.js backend", d("bsc cs graduate leading an intern team at opsmonsters"), d("from kanniyakumari, tamil nadu · daily driver: arch linux")],
     education: () => ["bsc computer science · 2022 – 2025", d("st. joseph's college (arts & science), koovur, chennai")],
     studying: () => ["aws · pentesting · node.js backend · devops · secops"],
-    contact: () => [
-      `${k("email   ")} ${link("mailto:ashwin.j200423@gmail.com", "ashwin.j200423@gmail.com")}`,
-      `${k("phone   ")} ${link("tel:+918428259646", "+91 84282 59646")}`,
-      `${k("github  ")} ${link("https://github.com/ashwin-j23", "github.com/ashwin-j23", 1)}`,
-      `${k("linkedin")} ${link("https://www.linkedin.com/in/ashwin-j-563047288/", "linkedin.com/in/ashwin-j-563047288", 1)}`,
+    experience: () => [k("intern · team lead — opsmonsters") + d("  2026 – now"), "lead the intern team · devsecops roadmap 8 hrs/day", "daily study reports + security audit logs", "built server_audit.sh for routine host checks"],
+    skills: () => {
+      const G = [["devops", [["linux", "prod"], ["docker", "prod"], ["github actions", "prod"], ["git", "prod"], ["bash", "proj"], ["compose", "proj"], ["kubernetes", "learn"]]],
+        ["security", [["server auditing", "proj"], ["log review", "proj"], ["owasp top 10", "learn"], ["nmap", "learn"], ["burp suite", "learn"]]],
+        ["cloud", [["supabase", "prod"], ["aws", "learn"]]],
+        ["backend", [["fastapi", "prod"], ["jwt / oauth", "prod"], ["node.js", "proj"], ["express", "proj"], ["mongodb", "proj"], ["postgresql", "proj"]]]];
+      return G.map(([g, items]) => `${k(g.padEnd(9, " ").replace(/ /g, "&nbsp;"))}${items.map(([n, l]) => `${esc(n)} ${tag(l)}`).join(" ")}`);
+    },
+    projects: () => [...PROJECTS.map(([id, , st]) => `${st === "live" ? '<span class="st live">●</span>' : '<span class="st wip">○</span>'} ${id.padEnd(12, " ").replace(/ /g, "&nbsp;")}${d(st === "live" ? "live in production" : "under construction")}`), d("open &lt;name&gt; for a demo")],
+    contact: () => [`${k("email ")} ${link("mailto:ashwin.j200423@gmail.com", "ashwin.j200423@gmail.com")}`, `${k("phone ")} ${link("tel:+918428259646", "+91 84282 59646")}`, `${k("github")} ${link("https://github.com/ashwin-j23", "github.com/ashwin-j23", 1)}`, `${k("in    ")} ${link("https://www.linkedin.com/in/ashwin-j-563047288/", "linkedin.com/in/ashwin-j-563047288", 1)}`],
+    "./contact.sh": () => [["spin", "resolving contact…", ok("found 2 channels"), 600], `${link("mailto:ashwin.j200423@gmail.com", "ashwin.j200423@gmail.com")}  ·  ${link("tel:+918428259646", "+91 84282 59646")}`],
+    "./server_audit.sh": () => [
+      d("== server audit · arch =="), ["spin", "checking users & permissions", ok("users & permissions"), 650], ["spin", "reviewing open ports", ok("open ports reviewed"), 600],
+      ["spin", "scanning auth log", ok("no failed logins in 24h"), 650], ["spin", "file integrity /etc", ok("/etc unchanged"), 550], ["bar", "audit", 900], k("result: healthy · 0 warnings"),
     ],
-    resume: () => { setTimeout(() => window.open("resume.html", "_blank", "noopener"), 250); return [`opening ${link("resume.html", "resume.html", 1)} …`]; },
+    nmap: () => [d("Starting Nmap 7.95 ( https://nmap.org )"), ["spin", "scanning lab.local (10.0.0.12)", "Nmap scan report for lab.local (10.0.0.12)", 1000],
+      d("PORT     STATE SERVICE VERSION"), "22/tcp   open  ssh     OpenSSH 9.8", "80/tcp   open  http    nginx 1.27", "443/tcp  open  https   nginx 1.27", d("3 services up · scanned in 1.02 s")],
+    docker: (args) => (args[0] === "ps" ? [d("NAMES          STATUS        PORTS"), "may-be-api     Up 2 hours    :8080", "reelsmith-web  Up 5 hours    :3000", "muse-api       Up 1 day      :8000"]
+      : [d("[+] Running 3/3"), ["spin", "network lab_default", ok("network lab_default   created"), 450], ["spin", "container may-be-db", ok("container may-be-db   started"), 600], ["spin", "container may-be-api", ok("container may-be-api  started"), 650]]),
+    systemctl: (args) => {
+      const p = findP((args[1] || args[0] || "").replace(/\.service$/, ""));
+      if (!p) return [d("usage: systemctl status &lt;project&gt;")];
+      return [["spin", `querying ${p[0]}.service`, p[2] === "live" ? `<span class="st live">●</span> ${p[0]}.service — active (running)` : `<span class="st wip">○</span> ${p[0]}.service — building`, 450],
+        d(p[2] === "live" ? "   live in production · vercel" : "   under construction")];
+    },
     neofetch: () => {
-      const logo = ["   ▄▄▄       ▄▄▄ ", "  ██▀██▄     ███ ", " ██▄▄▄██     ███ ", " ██▀▀▀██ ▄▄  ███ ", " ██   ██ ▀████▀  "];
-      const info = [
-        `${k("ashwin")}@${k("arch")}`, d("-----------------"),
-        `${k("role")}     Intern · Team Lead`, `${k("company")}  OpsMonsters`, `${k("os")}       Arch Linux`,
-        `${k("shell")}    bash`, `${k("stack")}    DevOps · SecOps · Node.js`, `${k("projects")} 7 (2 live)`, `${k("home")}     Kanniyakumari, TN`,
-      ];
-      const rows = [];
-      for (let i = 0; i < info.length; i++) rows.push(`<span class="a">${esc((logo[i] || "").padEnd(18, " ")).replace(/ /g, "&nbsp;")}</span>${info[i]}`);
-      rows.push(`${"&nbsp;".repeat(18)}<span class="sw"><i></i><i></i><i></i><i></i><i></i></span>`);
-      return rows;
+      const logo = ["   ▄▄▄       ▄▄▄ ", "  ██▀██▄     ███ ", " ██▄▄▄██     ███ ", " ██▀▀▀██ ▄▄  ███ ", " ██   ██ ▀████▀  ", "", ""];
+      const info = [`${k("ashwin")}@${k("arch")}`, `${k("role")}     intern · team lead`, `${k("os")}       arch linux`, `${k("stack")}    devops · secops · node.js`, `${k("projects")} 7 (2 live)`, `${k("home")}     kanniyakumari, tn`, `<span class="sw"><i></i><i></i><i></i><i></i></span>`];
+      return info.map((t, i) => `<span class="a">${esc((logo[i] || "").padEnd(18, " ")).replace(/ /g, "&nbsp;")}</span>${t}`);
+    },
+    resume: () => { setTimeout(() => window.open("resume.html", "_blank", "noopener"), 400); return [["spin", "opening resume.html", ok("opened resume.html"), 350]]; },
+    open: (args) => {
+      const q = args.join(" ").toLowerCase(); if (!q) return [d("usage: open &lt;project&gt;")];
+      const p = findP(q); if (!p) return [`open: no project "${esc(q)}" — try projects`];
+      setTimeout(() => window.open(p[3], "_blank", "noopener"), 400);
+      return [["spin", `launching ${p[0]} demo`, ok(`${p[1]} demo opened`), 350]];
     },
     ls: (args) => {
       const t = (args[0] || "").replace(/\/$/, "");
@@ -133,108 +110,111 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
       if (t === "skills") return ["linux  docker  github-actions  node.js  fastapi  aws  pentesting"];
       return [FILES.map((f) => (f.endsWith("/") ? a(f) : f)).join("  ")];
     },
-    "./contact.sh": () => [`${link("mailto:ashwin.j200423@gmail.com", "ashwin.j200423@gmail.com")}  ·  ${link("tel:+918428259646", "+91 84282 59646")}`],
     cat: (args) => {
       const f = (args[0] || "").replace(/\.(txt|pdf)$/, "").replace(/\/$/, "");
-      if (!f) return [d("usage: cat &lt;file&gt; — try ls")];
+      if (!f) return [d("usage: cat &lt;file&gt;")];
       return C[f] ? C[f]([]) : [`cat: ${esc(args[0])}: No such file or directory`];
     },
-    cd: (args) => (!args[0] || args[0] === "~" ? [] : /^projects\/?$/.test(args[0]) ? C.projects() : [`cd: ${esc(args[0])}: try "ls"`]),
-    open: (args) => {
-      const q = (args.join(" ") || "").toLowerCase();
-      if (!q) return [d("usage: open &lt;project&gt; — e.g. open reelsmith")];
-      const p = PROJECTS.find((p) => p[0].startsWith(q) || p[1].toLowerCase().startsWith(q));
-      if (!p) return [`open: no project called "${esc(q)}" — try projects`];
-      setTimeout(() => window.open(p[4], "_blank", "noopener"), 250);
-      return [`opening ${k(p[1])} demo … ${d("(sample data — the real app holds private API keys)")}`];
-    },
-    pwd: () => ["/home/ashwin"],
-    date: () => [new Date().toString().replace(/ \(.+\)$/, "")],
-    echo: (args) => [esc(args.join(" "))],
+    pwd: () => ["/home/ashwin"], date: () => [new Date().toString().replace(/ \(.+\)$/, "")], echo: (args) => [esc(args.join(" "))],
     history: () => hist.map((h, i) => `${d(String(i + 1).padStart(3, " ").replace(/ /g, "&nbsp;"))}  ${esc(h)}`),
-    sudo: () => ["ashwin is not in the sudoers file. This incident will be reported. 😉"],
-    exit: () => ["there's no exit — but there is " + a("contact") + " 🙂"],
+    sudo: () => ["ashwin is not in the sudoers file. this incident will be reported. 😉"],
+    exit: () => ["no exit — but there is " + a("contact")],
     clear: () => { out.innerHTML = ""; return null; },
   };
-  C.studies = C.studying; C["role.txt"] = C.role; C.work = C.experience; C.cv = C.resume; C.man = C.help; C["?"] = C.help;
-  const NAMES = Object.keys(C).filter((n) => n.length > 1);
+  C.studies = C.studying; C.work = C.experience; C.cv = C.resume; C.man = C.help;
+  C["server_audit.sh"] = C["./server_audit.sh"]; C["contact.sh"] = C["./contact.sh"]; C.uname = () => ["Linux arch 6.x x86_64 GNU/Linux"];
+  const NAMES = Object.keys(C);
 
   const hist = [];
-  let hpos = 0, busy = false, auto = true;
+  let hpos = 0, auto = true, gen = 0; // gen: bumps when a visitor takes over, so the autoplay stops mid-animation
 
-  function print(lines, cls) {
-    const frag = document.createDocumentFragment();
-    (lines || []).forEach((h) => { const div = document.createElement("div"); div.className = "tl" + (cls ? " " + cls : ""); div.innerHTML = h === "" ? "&nbsp;" : h; frag.appendChild(div); });
-    out.appendChild(frag);
-    while (out.children.length > 400) out.firstChild.remove();
-    body.scrollTop = body.scrollHeight;
+  function line(html, cls) {
+    const div = document.createElement("div"); div.className = "tl" + (cls ? " " + cls : ""); div.innerHTML = html === "" ? "&nbsp;" : html;
+    out.appendChild(div); while (out.children.length > 400) out.firstChild.remove(); body.scrollTop = body.scrollHeight; return div;
   }
-  function run(raw) {
-    const line = raw.trim();
-    print([PS1 + esc(raw)], "cmd");
-    if (!line) return;
-    hist.push(line); hpos = hist.length;
-    if (/^rm\s+-rf/.test(line)) return print(["nice try. permission denied 🔒"]);
-    const [cmd, ...args] = line.split(/\s+/);
+  async function play(steps, g) {
+    for (const s of steps) {
+      if (g !== gen) return;
+      if (typeof s === "string") { line(s, "in"); await sleep(reduce ? 0 : 55); continue; }
+      const [type, x, y, ms] = s;
+      if (type === "wait") { await sleep(x); continue; }
+      if (type === "spin") {
+        const el = line(`<span class="sp">${SPIN[0]}</span> ${d(x)}`, "in");
+        if (!reduce) for (let t = 0, i = 0; t < ms; t += 80, i++) { if (g !== gen) break; el.firstChild.textContent = SPIN[i % SPIN.length]; await sleep(80); }
+        el.innerHTML = y; continue;
+      }
+      if (type === "bar") {
+        const el = line("", "in"), W = 20;
+        for (let p = 0; p <= 100; p += reduce ? 100 : 5) {
+          if (g !== gen) break;
+          const f = Math.round((p / 100) * W);
+          el.innerHTML = `${d(x)} [<span class="a">${"█".repeat(f)}</span>${d("░".repeat(W - f))}] ${p}%`;
+          await sleep(reduce ? 0 : ms / 20);
+        }
+      }
+    }
+  }
+  async function run(raw, g = gen) {
+    const lineTxt = raw.trim();
+    line(PS1 + esc(raw), "cmd");
+    if (!lineTxt) return;
+    hist.push(lineTxt); hpos = hist.length;
+    if (/^rm\s+-rf/.test(lineTxt)) return play(["permission denied 🔒"], g);
+    const [cmd, ...args] = lineTxt.split(/\s+/);
     const fn = C[cmd.toLowerCase()];
-    if (!fn) return print([`${esc(cmd)}: command not found — type ${a("help")}`]);
+    if (!fn) return play([`${esc(cmd)}: command not found — type ${a("help")}`], g);
     const res = fn(args);
-    if (res) print(res);
+    if (res) { if (!reduce) await sleep(140); await play(res, g); }
   }
 
-  // ---- typing the intro by itself (stops the moment a visitor types)
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-  async function typeCmd(cmd) {
-    for (let i = 1; i <= cmd.length && auto; i++) { input.value = cmd.slice(0, i); await sleep(45 + Math.random() * 45); }
-    if (!auto) return false;
-    await sleep(220); input.value = ""; run(cmd); return true;
+  // ---- the showcase: types and runs commands by itself, clears, and loops
+  const SETS = [
+    ["whoami", "cat role.txt", "cat education.txt", "cat studying.txt"],
+    ["./server_audit.sh", "nmap -sV lab.local"],
+    ["docker compose up -d", "systemctl status reelsmith", "systemctl status muse-studio"],
+    ["ls projects/", "ls skills/", "./contact.sh"],
+  ];
+  async function typeAndRun(c, g) {
+    for (let i = 1; i <= c.length; i++) { if (g !== gen) return false; input.value = c.slice(0, i); await sleep(40 + Math.random() * 50); }
+    await sleep(200); if (g !== gen) return false;
+    input.value = ""; await run(c, g); return g === gen;
   }
-  const SHOW = ["whoami", "cat role.txt", "cat education.txt", "ls skills/", "cat studying.txt", "ls projects/", "systemctl status reelsmith", "./contact.sh"];
-  C.systemctl = (args) => {
-    const n = (args[1] || args[0] || "").replace(/\.service$/, "");
-    const p = PROJECTS.find((p) => p[0].startsWith(n) || p[1].toLowerCase().replace(/\s+/g, "-").startsWith(n));
-    if (!p) return [d("usage: systemctl status &lt;project&gt;")];
-    return [p[2] === "live" ? `<span class="st live">●</span> ${p[0]}.service — active (running) · live in production` : `<span class="st wip">○</span> ${p[0]}.service — building · under construction`];
-  };
-  async function boot() {
-    if (reduce) { SHOW.forEach(run); return; }
-    await sleep(500);
-    for (const c of SHOW) { if (!(await typeCmd(c))) return; await sleep(520); }
+  async function showcase() {
+    const g = gen;
+    if (reduce) { SETS[0].forEach((c) => run(c, g)); return; }
+    await sleep(400);
+    for (let n = 0; g === gen; n = (n + 1) % SETS.length) {
+      for (const c of SETS[n]) { if (!(await typeAndRun(c, g))) return; await sleep(700); }
+      await sleep(2600); if (g !== gen) return;
+      if (!(await typeAndRun("clear", g))) return;
+      await sleep(300);
+    }
   }
-  const takeOver = () => { if (auto) { auto = false; input.value = ""; } };
+  const takeOver = () => { if (auto) { auto = false; gen++; input.value = ""; line(d("— your turn · type help —")); } };
 
   input.addEventListener("keydown", (e) => {
-    if (auto && e.key.length === 1) takeOver();
-    if (e.key === "Enter") { e.preventDefault(); takeOver(); const v = input.value; input.value = ""; run(v); }
+    if (auto && (e.key.length === 1 || e.key === "Enter" || e.key === "Tab")) takeOver();
+    if (e.key === "Enter") { e.preventDefault(); const v = input.value; input.value = ""; run(v); }
     else if (e.key === "ArrowUp") { e.preventDefault(); if (hpos > 0) input.value = hist[--hpos]; }
     else if (e.key === "ArrowDown") { e.preventDefault(); hpos = Math.min(hist.length, hpos + 1); input.value = hist[hpos] || ""; }
     else if (e.key === "Tab") {
-      e.preventDefault(); takeOver();
+      e.preventDefault();
       const v = input.value.trim().toLowerCase(); if (!v) return;
       const parts = v.split(/\s+/);
-      if (parts.length === 1) {
-        const m = NAMES.filter((n) => n.startsWith(v));
-        if (m.length === 1) input.value = m[0] + " "; else if (m.length) print([PS1 + esc(v), m.map(a).join("  ")]);
-      } else if (parts[0] === "open") {
-        const m = PROJECTS.map((p) => p[0]).filter((n) => n.startsWith(parts[1] || ""));
-        if (m.length === 1) input.value = "open " + m[0]; else if (m.length) print([m.map(a).join("  ")]);
-      } else if (parts[0] === "cat") {
-        const m = FILES.filter((f) => f.startsWith(parts[1] || ""));
-        if (m.length === 1) input.value = "cat " + m[0];
-      }
+      let pool = parts.length === 1 ? NAMES : parts[0] === "cat" ? FILES : ["open", "systemctl"].includes(parts[0]) ? PROJECTS.map((p) => p[0]) : [];
+      const last = parts[parts.length - 1], m = pool.filter((n) => n.startsWith(last));
+      if (m.length === 1) { parts[parts.length - 1] = m[0]; input.value = parts.join(" ") + (parts.length === 1 ? " " : ""); }
+      else if (m.length) line(m.map(a).join("  "));
     } else if (e.key.toLowerCase() === "l" && e.ctrlKey) { e.preventDefault(); out.innerHTML = ""; }
-    else if (e.key.toLowerCase() === "c" && e.ctrlKey && !input.selectionEnd) { print([PS1 + esc(input.value) + "^C"], "cmd"); input.value = ""; }
+    else if (e.key.toLowerCase() === "c" && e.ctrlKey && !input.selectionEnd) { line(PS1 + esc(input.value) + "^C", "cmd"); input.value = ""; gen++; }
   });
   input.addEventListener("pointerdown", takeOver);
-  // clicking anywhere in the window focuses the prompt (but keep links clickable and text selectable)
   box.addEventListener("click", (e) => {
     if (e.target.closest("a") || String(window.getSelection())) return;
     takeOver(); input.focus({ preventScroll: true });
   });
-  // start once the intro is out of the way
-  const start = () => boot();
-  if (document.documentElement.classList.contains("intro-done") || !document.getElementById("intro")) start();
-  else document.addEventListener("intro:done", start, { once: true });
+  if (document.documentElement.classList.contains("intro-done") || !document.getElementById("intro")) showcase();
+  else document.addEventListener("intro:done", showcase, { once: true });
 })();
 
 /* ---------- Rotating "currently learning" word ---------- */
@@ -896,4 +876,39 @@ if (finePointer && !reduce) {
   document.getElementById("intro-skip").addEventListener("click", leave);
   addEventListener("keydown", function k(e) { if (e.key === "Escape" || e.key === "Enter") { removeEventListener("keydown", k); leave(); } });
   setTimeout(() => (raf = requestAnimationFrame(frame)), reduce ? 0 : 450);
+})();
+
+/* ---------- Projects: compact cards + full details in a dialog ---------- */
+(function projectDetails() {
+  const cards = [...document.querySelectorAll(".projects .project")];
+  if (!cards.length || typeof HTMLDialogElement !== "function") return;
+  const dlg = document.createElement("dialog");
+  dlg.className = "pdlg"; dlg.setAttribute("aria-label", "Project details");
+  dlg.innerHTML = '<button type="button" class="pdlg-x" aria-label="Close details">✕</button><div class="pdlg-body"></div>';
+  document.body.appendChild(dlg);
+  const bodyEl = dlg.querySelector(".pdlg-body");
+  const close = () => dlg.close();
+  dlg.querySelector(".pdlg-x").addEventListener("click", close);
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) close(); });            // click on the backdrop
+  dlg.addEventListener("close", () => document.documentElement.classList.remove("dlg-open"));
+
+  cards.forEach((card) => {
+    const visit = card.querySelector(".visit");
+    const foot = document.createElement("div"); foot.className = "p-foot";
+    const btn = document.createElement("button"); btn.type = "button"; btn.className = "p-more";
+    btn.innerHTML = 'Details <span aria-hidden="true">+</span>';
+    btn.setAttribute("aria-haspopup", "dialog");
+    foot.appendChild(btn); if (visit) foot.appendChild(visit);
+    card.appendChild(foot);
+    const open = () => {
+      const full = card.cloneNode(true);
+      full.className = "pd-full"; full.removeAttribute("style");
+      full.querySelector(".p-foot .p-more")?.remove();
+      bodyEl.replaceChildren(full);
+      document.documentElement.classList.add("dlg-open");
+      dlg.showModal(); dlg.scrollTop = 0;
+    };
+    btn.addEventListener("click", (e) => { e.stopPropagation(); open(); });
+    card.addEventListener("click", (e) => { if (!e.target.closest("a, button")) open(); });
+  });
 })();
