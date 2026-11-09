@@ -97,11 +97,11 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
       const info = [`${k("ashwin")}@${k("arch")}`, `${k("role")}     intern · team lead`, `${k("os")}       arch linux`, `${k("stack")}    devops · secops · node.js`, `${k("projects")} 7 (2 live)`, `${k("home")}     kanniyakumari, tn`, `<span class="sw"><i></i><i></i><i></i><i></i></span>`];
       return info.map((t, i) => `<span class="a">${esc((logo[i] || "").padEnd(18, " ")).replace(/ /g, "&nbsp;")}</span>${t}`);
     },
-    resume: () => { setTimeout(() => window.open("resume.html", "_blank", "noopener"), 400); return [["spin", "opening resume.html", ok("opened resume.html"), 350]]; },
+    resume: () => { setTimeout(() => (location.href = "resume.html"), 400); return [["spin", "opening resume.html", ok("opened resume.html"), 350]]; },
     open: (args) => {
       const q = args.join(" ").toLowerCase(); if (!q) return [d("usage: open &lt;project&gt;")];
       const p = findP(q); if (!p) return [`open: no project "${esc(q)}" — try projects`];
-      setTimeout(() => window.open(p[3], "_blank", "noopener"), 400);
+      setTimeout(() => (location.href = p[3]), 400);
       return [["spin", `launching ${p[0]} demo`, ok(`${p[1]} demo opened`), 350]];
     },
     ls: (args) => {
