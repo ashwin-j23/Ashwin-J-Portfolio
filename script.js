@@ -720,7 +720,7 @@ if (finePointer && !reduce) {
       for (let k = 0; k < TRAIL; k++) {
         const y = (Math.floor(c.y) - k) * SIZE;
         if (y < -SIZE || y > H) continue;
-        const a = (1 - k / TRAIL) * (k === 0 ? 0.85 : 0.42);
+        const a = (1 - k / TRAIL) * (k === 0 ? 0.95 : 0.6);
         ctx.fillStyle = k === 0 && c.hot ? `rgba(24,61,61,${Math.min(1, a + 0.1)})` : `rgba(92,131,116,${a})`;
         ctx.fillText(c.chars[k], x, y);
       }
