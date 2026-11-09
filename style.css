@@ -1099,3 +1099,51 @@ main > section:not(#contact):not(.hero)::after {
 .term-body .tl.in { animation: tlIn 0.18s ease-out both; }
 @keyframes tlIn { from { opacity: 0; transform: translateX(-4px); } }
 .term-body .ok { color: #93B1A6; } .term-body .sp { color: #93B1A6; display: inline-block; width: 1ch; }
+
+/* ============ WHITE PAGE · GREEN BACKGROUND ANIMATION ============ */
+:root {
+  --bg: #ffffff; --card: #ffffff; --bg-2: rgba(147, 177, 166, 0.16);
+  --border: rgba(92, 131, 116, 0.32); --border-2: #5C8374;
+  --text: #040D12; --muted: #183D3D;
+  --accent: #183D3D; --accent-ink: #183D3D; --ink: #040D12;
+  --violet: #183D3D; --violet-d: #040D12; --cyan: #183D3D; --pink: #183D3D;
+  --lime: #183D3D; --amber: #5C8374; --red: #5C8374; --info: #5C8374;
+}
+body { background: #ffffff; color: #040D12; }
+.nav { background: rgba(255, 255, 255, 0.9); border-bottom-color: rgba(92, 131, 116, 0.28); }
+::selection { background: #93B1A6; color: #040D12; }
+h1, h2, h3, h4, .section-title { color: #040D12; }
+.section-title::after { background: #93B1A6; }
+.btn.primary { background: #183D3D; color: #ffffff; }
+.btn.primary:hover { background: #040D12; color: #ffffff; }
+.btn.ghost { color: #040D12; border-color: #5C8374; }
+.skip-link { background: #183D3D; color: #ffffff; }
+/* cards and panels: white with soft green edges */
+.card { background: #ffffff; border-color: rgba(92, 131, 116, 0.32); box-shadow: 0 1px 2px rgba(4, 13, 18, 0.04); }
+.card:hover { border-color: #5C8374; box-shadow: 0 16px 36px rgba(24, 61, 61, 0.12); }
+.il-principles li, .il-meter, .il-cta, .study-panel, .rf-chip, #rf-jd, .facts, .stat, .mail-pop, .contact-item, .float-chip {
+  background: #ffffff; border-color: rgba(92, 131, 116, 0.32); color: #040D12; }
+.tags li { background: rgba(147, 177, 166, 0.16); border-color: rgba(92, 131, 116, 0.3); color: #183D3D; }
+.badge.live, .badge.daily { color: #ffffff; background: #183D3D; border-color: #183D3D; }
+.badge.learning { color: #183D3D; background: transparent; border-color: #5C8374; }
+.badge.wip { color: #183D3D; background: transparent; border-color: #5C8374; border-style: dashed; }
+.rf-chip.on { background: rgba(147, 177, 166, 0.25); border-color: #183D3D; }
+.explain { background: rgba(147, 177, 166, 0.13); border-left-color: #5C8374; }
+.explain dt { color: #183D3D; }
+.p-more { color: #183D3D; border-color: #5C8374; }
+.p-more:hover, .p-more:focus-visible { background: #183D3D; color: #ffffff; }
+.pdlg { background: #ffffff; border-color: rgba(92, 131, 116, 0.4); color: #040D12; box-shadow: 0 30px 80px rgba(4, 13, 18, 0.25); }
+.pdlg::backdrop { background: rgba(4, 13, 18, 0.45); }
+.pdlg-x { background: #ffffff; color: #040D12; border-color: rgba(92, 131, 116, 0.4); }
+.terminal { box-shadow: 0 24px 50px rgba(4, 13, 18, 0.22); }
+.terminal:focus-within { box-shadow: 0 0 0 2px #5C8374, 0 24px 50px rgba(4, 13, 18, 0.22); }
+/* background animation — green */
+.bgi { color: rgba(92, 131, 116, 0.28); }
+.bgi:nth-child(5n) { color: rgba(24, 61, 61, 0.35); }
+.side-log { color: rgba(92, 131, 116, 0.75); } .side-log .t { color: rgba(147, 177, 166, 0.95); }
+.side-log .ok, .side-log .warn, .side-log .bad { color: rgba(92, 131, 116, 0.75); } .side-log .info { color: #183D3D; }
+main > section:not(#contact):not(.hero)::after {
+  background: radial-gradient(circle, #5C8374 0 3px, rgba(92, 131, 116, 0.35) 4px, transparent 8px) no-repeat,
+    linear-gradient(90deg, transparent, #93B1A6 12%, #93B1A6 88%, transparent) 0 50% / 100% 1px no-repeat;
+  background-size: 16px 8px, 100% 1px; }
+@media (max-width: 700px) { .bgi { color: rgba(92, 131, 116, 0.14); } .bgi:nth-child(5n) { color: rgba(24, 61, 61, 0.18); } }
