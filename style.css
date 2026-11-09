@@ -1147,3 +1147,14 @@ main > section:not(#contact):not(.hero)::after {
     linear-gradient(90deg, transparent, #93B1A6 12%, #93B1A6 88%, transparent) 0 50% / 100% 1px no-repeat;
   background-size: 16px 8px, 100% 1px; }
 @media (max-width: 700px) { .bgi { color: rgba(92, 131, 116, 0.14); } .bgi:nth-child(5n) { color: rgba(24, 61, 61, 0.18); } }
+
+/* ============ BACKGROUND ANIMATION · #20C20E ============ */
+.bgi { color: rgba(32, 194, 14, 0.28); }
+.bgi:nth-child(5n) { color: rgba(32, 194, 14, 0.45); }
+.side-log, .side-log .ok, .side-log .warn, .side-log .bad { color: rgba(32, 194, 14, 0.75); }
+.side-log .t { color: rgba(32, 194, 14, 0.45); } .side-log .info { color: #20C20E; }
+main > section:not(#contact):not(.hero)::after {
+  background: radial-gradient(circle, #20C20E 0 3px, rgba(32, 194, 14, 0.35) 4px, transparent 8px) no-repeat,
+    linear-gradient(90deg, transparent, rgba(32, 194, 14, 0.45) 12%, rgba(32, 194, 14, 0.45) 88%, transparent) 0 50% / 100% 1px no-repeat;
+  background-size: 16px 8px, 100% 1px; }
+@media (max-width: 700px) { .bgi { color: rgba(32, 194, 14, 0.14); } .bgi:nth-child(5n) { color: rgba(32, 194, 14, 0.22); } }
