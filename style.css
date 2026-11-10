@@ -1206,3 +1206,33 @@ main > section:not(#contact):not(.hero)::after {
 #skills .cards .wide .viz.logos { height: 100%; min-height: 110px; gap: 20px; flex-wrap: wrap; }
 @media (max-width: 520px) { #skills .viz.logos { gap: 16px; } #skills .viz.logos .lg { width: 26px; height: 26px; } #skills .viz.logos .lg.big { width: 38px; height: 38px; } }
 @media (min-width: 901px) { #skills .cards .wide { grid-template-columns: 380px 1fr; } #skills .cards .wide .viz.logos { flex-wrap: nowrap; gap: 18px; } }
+
+/* ============ FLOATING LOGOS · OFFICIAL BRAND COLOURS ============ */
+.bgi, .bgi:nth-child(5n) { opacity: 0.32; }
+@media (max-width: 700px) { .bgi, .bgi:nth-child(5n) { opacity: 0.14; } }
+
+/* ============ TERMINAL · CLASSIC (red / green) ============ */
+.terminal { background: #0c0c0c; border: 1px solid #2a2a2a; box-shadow: 0 24px 50px rgba(4, 13, 18, 0.28); }
+.terminal:focus-within { box-shadow: 0 0 0 2px #28c840, 0 24px 50px rgba(4, 13, 18, 0.28); }
+.term-bar { background: #1c1c1c; border-bottom: 1px solid #2a2a2a; }
+.term-bar em { color: #9a9a9a; }
+.term-bar span:nth-child(1) { background: #ff5f57 !important; } .term-bar span:nth-child(2) { background: #febc2e !important; }
+.term-bar span:nth-child(3) { background: #28c840 !important; }
+.term-hint { color: #8a8a8a; } .term-hint b { color: #28c840; }
+#term.term-body, .term-body { color: #d4d4d4; text-shadow: none; background: #0c0c0c; scrollbar-color: #3a3a3a transparent; }
+.term-body .ps1, .term-body .ps1 b { color: #28c840; font-weight: 600; }
+.term-body .ps1 i { color: #ff5f57; }
+.term-body .k { color: #ffffff; font-weight: 500; }
+.term-body .d { color: #8a8a8a; }
+.term-body .a { color: #28c840; text-decoration-color: rgba(40, 200, 64, 0.5); }
+.term-body .ok, .term-body .sp { color: #28c840; }
+.term-body .er { color: #ff5f57; }
+.term-body a { color: #ffffff; text-decoration-color: #28c840; }
+.term-body a:hover { color: #28c840; }
+.term-body .st.live { color: #28c840; } .term-body .st.wip { color: #ff5f57; }
+.term-body .tg.prod { color: #0c0c0c; background: #28c840; border-color: #28c840; }
+.term-body .tg.proj { color: #d4d4d4; border-color: #555; }
+.term-body .tg.learn { color: #ff5f57; border-color: #ff5f57; border-style: solid; }
+.term-body .sw i:nth-child(1) { background: #ff5f57; outline: 0; } .term-body .sw i:nth-child(2) { background: #febc2e; }
+.term-body .sw i:nth-child(3) { background: #28c840; } .term-body .sw i:nth-child(4) { background: #d4d4d4; }
+#term-input { color: #ffffff; caret-color: #28c840; text-shadow: none; }

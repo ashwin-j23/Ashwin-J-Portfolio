@@ -36,6 +36,8 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
   const PS1 = '<span class="ps1"><b>ashwin@arch</b>:<i>~</i>$</span> ';
   const k = (t) => `<span class="k">${t}</span>`, d = (t) => `<span class="d">${t}</span>`, a = (t) => `<span class="a">${t}</span>`;
   const ok = (t) => `<span class="ok">✔</span> ${t}`;
+  const er = (t) => `<span class="er">${t}</span>`;
+  const bad = (t) => `<span class="er">✗</span> ${t}`;
   const tag = (lvl) => ({ prod: '<span class="tg prod">prod</span>', proj: '<span class="tg proj">built</span>', learn: '<span class="tg learn">learning</span>' }[lvl]);
   const link = (href, text, ext) => `<a href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>${text}</a>`;
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -80,16 +82,16 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
     "./contact.sh": () => [["spin", "resolving contact…", ok("found 2 channels"), 600], `${link("mailto:ashwin.j200423@gmail.com", "ashwin.j200423@gmail.com")}  ·  ${link("tel:+918428259646", "+91 84282 59646")}`],
     "./server_audit.sh": () => [
       d("== server audit · arch =="), ["spin", "checking users & permissions", ok("users & permissions"), 650], ["spin", "reviewing open ports", ok("open ports reviewed"), 600],
-      ["spin", "scanning auth log", ok("no failed logins in 24h"), 650], ["spin", "file integrity /etc", ok("/etc unchanged"), 550], ["bar", "audit", 900], k("result: healthy · 0 warnings"),
+      ["spin", "scanning auth log", bad(er("3 failed ssh logins · 203.0.113.7 blocked")), 650], ["spin", "file integrity /etc", ok("/etc unchanged"), 550], ["bar", "audit", 900], k("result: ") + `<span class="ok">healthy</span>` + d(" · ") + er("1 warning"),
     ],
     nmap: () => [d("Starting Nmap 7.95 ( https://nmap.org )"), ["spin", "scanning lab.local (10.0.0.12)", "Nmap scan report for lab.local (10.0.0.12)", 1000],
-      d("PORT     STATE SERVICE VERSION"), "22/tcp   open  ssh     OpenSSH 9.8", "80/tcp   open  http    nginx 1.27", "443/tcp  open  https   nginx 1.27", d("3 services up · scanned in 1.02 s")],
+      d("PORT     STATE SERVICE VERSION"), `22/tcp   <span class="ok">open</span>     ssh     OpenSSH 9.8`, `80/tcp   <span class="ok">open</span>     http    nginx 1.27`, `443/tcp  <span class="ok">open</span>     https   nginx 1.27`, `3306/tcp ${er("closed")}   mysql`, `8080/tcp ${er("filtered")} http-proxy`, d("3 open · 1 closed · 1 filtered · 1.02 s")],
     docker: (args) => (args[0] === "ps" ? [d("NAMES          STATUS        PORTS"), "may-be-api     Up 2 hours    :8080", "reelsmith-web  Up 5 hours    :3000", "muse-api       Up 1 day      :8000"]
       : [d("[+] Running 3/3"), ["spin", "network lab_default", ok("network lab_default   created"), 450], ["spin", "container may-be-db", ok("container may-be-db   started"), 600], ["spin", "container may-be-api", ok("container may-be-api  started"), 650]]),
     systemctl: (args) => {
       const p = findP((args[1] || args[0] || "").replace(/\.service$/, ""));
       if (!p) return [d("usage: systemctl status &lt;project&gt;")];
-      return [["spin", `querying ${p[0]}.service`, p[2] === "live" ? `<span class="st live">●</span> ${p[0]}.service — active (running)` : `<span class="st wip">○</span> ${p[0]}.service — building`, 450],
+      return [["spin", `querying ${p[0]}.service`, p[2] === "live" ? `<span class="st live">●</span> ${p[0]}.service — active (running)` : `<span class="st wip">○</span> ${p[0]}.service — ${er("inactive (building)")}`, 450],
         d(p[2] === "live" ? "   live in production · vercel" : "   under construction")];
     },
     neofetch: () => {
@@ -100,7 +102,7 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
     resume: () => { setTimeout(() => (location.href = "resume.html"), 400); return [["spin", "opening resume.html", ok("opened resume.html"), 350]]; },
     open: (args) => {
       const q = args.join(" ").toLowerCase(); if (!q) return [d("usage: open &lt;project&gt;")];
-      const p = findP(q); if (!p) return [`open: no project "${esc(q)}" — try projects`];
+      const p = findP(q); if (!p) return [er(`open: no project "${esc(q)}"`) + d(" — try projects")];
       setTimeout(() => (location.href = p[3]), 400);
       return [["spin", `launching ${p[0]} demo`, ok(`${p[1]} demo opened`), 350]];
     },
@@ -113,11 +115,11 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
     cat: (args) => {
       const f = (args[0] || "").replace(/\.(txt|pdf)$/, "").replace(/\/$/, "");
       if (!f) return [d("usage: cat &lt;file&gt;")];
-      return C[f] ? C[f]([]) : [`cat: ${esc(args[0])}: No such file or directory`];
+      return C[f] ? C[f]([]) : [er(`cat: ${esc(args[0])}: No such file or directory`)];
     },
     pwd: () => ["/home/ashwin"], date: () => [new Date().toString().replace(/ \(.+\)$/, "")], echo: (args) => [esc(args.join(" "))],
     history: () => hist.map((h, i) => `${d(String(i + 1).padStart(3, " ").replace(/ /g, "&nbsp;"))}  ${esc(h)}`),
-    sudo: () => ["ashwin is not in the sudoers file. this incident will be reported. 😉"],
+    sudo: () => [er("ashwin is not in the sudoers file. this incident will be reported.") + " 😉"],
     exit: () => ["no exit — but there is " + a("contact")],
     clear: () => { out.innerHTML = ""; return null; },
   };
@@ -159,10 +161,10 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
     line(PS1 + esc(raw), "cmd");
     if (!lineTxt) return;
     hist.push(lineTxt); hpos = hist.length;
-    if (/^rm\s+-rf/.test(lineTxt)) return play(["permission denied 🔒"], g);
+    if (/^rm\s+-rf/.test(lineTxt)) return play([er("rm: permission denied 🔒")], g);
     const [cmd, ...args] = lineTxt.split(/\s+/);
     const fn = C[cmd.toLowerCase()];
-    if (!fn) return play([`${esc(cmd)}: command not found — type ${a("help")}`], g);
+    if (!fn) return play([er(`${esc(cmd)}: command not found`) + d(" — type ") + a("help")], g);
     const res = fn(args);
     if (res) { if (!reduce) await sleep(140); await play(res, g); }
   }
@@ -721,7 +723,7 @@ if (finePointer && !reduce) {
         const y = (Math.floor(c.y) - k) * SIZE;
         if (y < -SIZE || y > H) continue;
         const a = (1 - k / TRAIL) * (k === 0 ? 0.95 : 0.6);
-        ctx.fillStyle = `rgba(32,194,14,${k === 0 ? Math.min(1, a + (c.hot ? 0.05 : 0)) : a})`;
+        ctx.fillStyle = `rgba(32,194,14,${(k === 0 ? Math.min(1, a + (c.hot ? 0.05 : 0)) : a) * 0.55})`;
         ctx.fillText(c.chars[k], x, y);
       }
     });
@@ -787,6 +789,13 @@ if (finePointer && !reduce) {
 /* ---------- Floating tech icons (background) ---------- */
 (function floatingIcons() {
   if (reduce) return;
+  // official brand colours (Simple Icons)
+  const BRAND = { "Amazon EC2": "#FF9900", "Amazon S3": "#569A31", "Amazon Web Services": "#232F3E", "Burp Suite": "#FF6633",
+    Docker: "#2496ED", Express: "#000000", "GNU Bash": "#4EAA25", Git: "#F05032", GitHub: "#181717", "GitHub Actions": "#2088FF",
+    Kubernetes: "#326CE5", Linux: "#FCC624", MongoDB: "#47A248", "Node.js": "#5FA04E", PostgreSQL: "#4169E1", Render: "#000000",
+    Supabase: "#3FCF8E", Vercel: "#000000", Gmail: "#EA4335", LinkedIn: "#0A66C2", OWASP: "#000000", "Kali Linux": "#557C94",
+    Python: "#3776AB", FastAPI: "#009688", React: "#61DAFB", TypeScript: "#3178C6", "Arch Linux": "#1793D1", SonarQube: "#4E9BCD",
+    "JSON Web Tokens": "#000000", Mongoose: "#F04D35", Vite: "#646CFF", Flutter: "#02569B", HTML5: "#E34F26" };
   const src = [...document.querySelectorAll(".marquee .si, .float-chip .si, .socials .si")];
   const seen = new Set(), icons = src.filter((e) => { const k = e.innerHTML.length; if (seen.has(k)) return false; seen.add(k); return true; });
   if (!icons.length) return;
@@ -801,13 +810,15 @@ if (finePointer && !reduce) {
     const n = Math.round(H / (W < 700 ? 520 : 300));
     for (let i = 0; i < n; i++) {
       const el = icons[i % icons.length].cloneNode(true);
+      const name = (el.querySelector("title") || {}).textContent || "";
       el.removeAttribute("class"); el.setAttribute("class", "bgi");
       el.querySelectorAll("title").forEach((t) => t.remove());
+      el.style.color = BRAND[name] || "#5C8374";
       const size = 26 + Math.random() * 34;
       const side = i % 2 === 0;
       // keep them mostly at the edges, where there is empty space
       const x = side ? Math.random() * 14 : 86 + Math.random() * 12;
-      el.style.cssText = `left:${x}%;top:${(i + Math.random()) * (H / n)}px;width:${size}px;height:${size}px;` +
+      el.style.cssText += `;left:${x}%;top:${(i + Math.random()) * (H / n)}px;width:${size}px;height:${size}px;` +
         `animation-duration:${14 + Math.random() * 14}s;animation-delay:${-Math.random() * 20}s;--r:${(Math.random() * 40 - 20) | 0}deg`;
       layer.appendChild(el);
     }
