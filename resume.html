@@ -3,15 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ashwin J — Resume</title>
-  <meta name="description" content="Resume of Ashwin J — Intern & Team Lead at OpsMonsters. DevOps, SecOps, AWS, pentesting and Node.js backend." />
+  <title>Ashwin J Resume</title>
+  <meta name="description" content="Resume of Ashwin J, DevOps and Security Intern and Team Lead at OpsMonsters." />
   <link rel="canonical" href="https://ashwinportfolio-iota.vercel.app/resume.html" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&amp;family=Jost:wght@300..700&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
   <style>
-    /* Professional resume: white paper, black text, one font family, no colour */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #ffffff; color: #000000; font: 13.5px/1.5 "Jost", "Helvetica Neue", Arial, sans-serif; padding: 24px 16px 60px; }
     a { color: inherit; text-decoration: none; }
@@ -45,27 +44,28 @@
       .page { padding: 26px 20px; } .skills, .two { grid-template-columns: 1fr; } .skills dd { margin-bottom: 6px; }
       .contact { flex-direction: column; } .contact > * + *::before { content: none; }
     }
-    @page { size: A4; margin: 14mm; }
+    @page { size: A4; margin: 0; }
     @media print {
-      body { background: #fff; padding: 0; font-size: 12px; }
+      body { background: #fff; padding: 0; }
       .bar { display: none; }
-      .page { border: 0; padding: 0; max-width: none; }
+      .page { border: 0; padding: 14mm 15mm; max-width: none; }
+      body { font-size: 11.5px; line-height: 1.42; }
+      h1 { font-size: 26px; } .role { font-size: 13.5px; }
+      h2 { margin: 12px 0 6px; } .item { margin-bottom: 7px; } li { margin: 0; }
     }
   </style>
 </head>
 <body>
   <div class="bar">
-    <a href="index.html" data-back>← Back to portfolio</a>
+    <a href="index.html" data-back>Back to portfolio</a>
     <button type="button" id="print">Download PDF</button>
   </div>
 
   <main class="page">
     <header>
-      <div>
-        <h1>Ashwin J</h1>
-        <div class="role">Intern · Team Lead — OpsMonsters</div>
-        <div class="sub">DevOps · SecOps · Cloud (AWS) · Node.js backend · Kanniyakumari, Tamil Nadu, India</div>
-      </div>
+      <h1>Ashwin J</h1>
+      <div class="role">DevOps and Security Intern, Team Lead at OpsMonsters</div>
+      <div class="sub">Kanniyakumari, Tamil Nadu, India</div>
       <div class="contact">
         <a href="mailto:ashwin.j200423@gmail.com">ashwin.j200423@gmail.com</a>
         <a href="tel:+918428259646">+91 84282 59646</a>
@@ -75,58 +75,69 @@
     </header>
 
     <h2>Summary</h2>
-    <p class="summary">Computer Science graduate leading an intern team at OpsMonsters while following a structured DevSecOps roadmap.
-      Two projects running in production on Vercel, hands-on with Linux, Docker, Docker Compose and CI/CD (learning Kubernetes), and building REST APIs
-      with Node.js and FastAPI. Currently studying AWS, penetration testing, Node.js backend, DevOps and SecOps.</p>
+    <p class="summary">I finished my BSc in Computer Science in 2025 and joined OpsMonsters as an intern, where I also lead the intern team.
+      Most of my day goes into a DevSecOps training plan covering Linux administration, shell scripting, networking and security audits.
+      Two of my personal projects are running in production, and I am currently learning AWS and penetration testing.</p>
 
     <h2>Experience</h2>
     <div class="item">
-      <div class="item-head"><b>Intern · Team Lead — OpsMonsters</b><span class="when">2026 — present</span></div>
+      <div class="item-head"><b>OpsMonsters, Intern and Team Lead</b><span class="when">2026 to present</span></div>
       <ul>
-        <li>Lead the intern team while completing a DevSecOps roadmap (8 hrs/day): Linux, users &amp; permissions, services, networking, shell scripting.</li>
-        <li>Write daily study reports and cybersecurity audit logs (log review, failed logins, unknown IPs, file integrity).</li>
-        <li>Built <code>server_audit.sh</code>, a Bash script reporting host, user, uptime and system details for routine checks.</li>
-        <li>Studying AWS (EC2, S3, IAM, VPC) and penetration testing (recon, scanning, OWASP Top 10) in lab environments.</li>
+        <li>Lead the intern team and coordinate our daily DevSecOps training, about 8 hours a day.</li>
+        <li>Work hands-on with Linux: users and permissions, services, networking and shell scripting.</li>
+        <li>Write a daily study report and a security audit log that covers log review, failed logins, unknown IP addresses and file integrity.</li>
+        <li>Wrote server_audit.sh, a Bash script that prints the hostname, current user, uptime and system details for routine server checks.</li>
+        <li>Practise AWS (EC2, S3, IAM, VPC) and basic penetration testing (recon, scanning, OWASP Top 10) in a lab setup.</li>
       </ul>
     </div>
 
     <h2>Projects</h2>
     <div class="item">
-      <div class="item-head"><b>Reelsmith v2 <span class="note">— Live in production</span></b><span class="when">Python · GitHub Actions · Supabase · Vercel</span></div>
-      <ul><li>AI agent that finds trends, writes, voices, edits and schedules short videos; GitHub Actions used as the render farm, all on free tiers.</li></ul>
+      <div class="item-head"><b>Reelsmith v2 <span class="note">(live)</span></b><span class="when">Python, GitHub Actions, Supabase, Vercel</span></div>
+      <ul>
+        <li>Built a tool that picks a trending topic, writes a script, records a voice-over, edits the video and schedules it for YouTube Shorts and Instagram Reels.</li>
+        <li>Videos are rendered on GitHub Actions, so the whole system runs on free tiers.</li>
+      </ul>
     </div>
     <div class="item">
-      <div class="item-head"><b>Muse Studio <span class="note">— Live in production</span></b><span class="when">FastAPI · JWT · Docker · Vercel</span></div>
-      <ul><li>Dashboard for five fictional AI creators with an SFW publish gate, AI disclosure, posting caps, duplicate checks and a kill switch; 64 automated tests.</li></ul>
+      <div class="item-head"><b>Muse Studio <span class="note">(live)</span></b><span class="when">FastAPI, JWT, Docker, Vercel</span></div>
+      <ul>
+        <li>Built a dashboard that runs five fictional AI creator accounts on Instagram.</li>
+        <li>Every post has to pass a content filter, AI disclosure, posting limits and a duplicate check, and there is a kill switch. The backend has 64 automated tests.</li>
+      </ul>
     </div>
-    <div class="two">
-      <div class="item">
-        <div class="item-head"><b>Project Management API</b><span class="when">Node.js · Express · MongoDB</span></div>
-        <ul><li>36-endpoint REST API: JWT auth, roles, projects, tasks with search, pagination, soft delete and activity history.</li></ul>
-      </div>
-      <div class="item">
-        <div class="item-head"><b>Tempest — Security Toolkit</b><span class="when">Python</span></div>
-        <ul><li>28 tools: port scanner, packet sniffer, SSH brute-force detector, SQLi/XSS/SSL/header scanners, file integrity, AES/RSA, ML phishing detection.</li></ul>
-      </div>
-      <div class="item">
-        <div class="item-head"><b>May~be</b><span class="when">Flutter · OAuth 2.0 · Node.js</span></div>
-        <ul><li>Music aggregator for Spotify, YouTube Music and Apple Music via OAuth PKCE; tokens kept in the OS keychain.</li></ul>
-      </div>
+    <div class="item">
+      <div class="item-head"><b>Project Management API</b><span class="when">Node.js, Express, MongoDB</span></div>
+      <ul>
+        <li>REST API with 36 endpoints for users, projects, tasks and comments, with JWT login, role-based access, search, pagination, soft delete and an activity history.</li>
+      </ul>
+    </div>
+    <div class="item">
+      <div class="item-head"><b>Tempest</b><span class="when">Python</span></div>
+      <ul>
+        <li>Command-line security toolkit with 28 tools, including a port scanner, packet sniffer, SSH brute-force detector, web vulnerability scanners, file integrity checker and a phishing detector.</li>
+      </ul>
+    </div>
+    <div class="item">
+      <div class="item-head"><b>May~be</b><span class="when">Flutter, OAuth 2.0, Node.js</span></div>
+      <ul>
+        <li>Music app that brings Spotify, YouTube Music and Apple Music into one library. Logins use OAuth with PKCE, and tokens are stored in the device keychain.</li>
+      </ul>
     </div>
 
     <h2>Skills</h2>
     <dl class="skills">
-      <dt>DevOps</dt><dd>Linux (daily driver), Bash, Git &amp; GitHub, Docker, Docker Compose, Kubernetes basics, GitHub Actions, Vercel, Render</dd>
-      <dt>Security</dt><dd>Server auditing, log review, SonarQube (SAST), OWASP Top 10, network security basics, Nmap, Burp Suite, Kali Linux (learning)</dd>
-      <dt>Cloud</dt><dd>AWS — EC2, S3, IAM, VPC, Security Groups (learning); Supabase</dd>
-      <dt>Backend</dt><dd>Node.js, Express, FastAPI, REST APIs, JWT / OAuth, MongoDB, PostgreSQL, Prisma, pytest</dd>
-      <dt>Other</dt><dd>Python, JavaScript / TypeScript, React, HTML &amp; CSS, Flutter, PyTorch</dd>
+      <dt>DevOps</dt><dd>Linux, Bash, Git, GitHub, Docker, Docker Compose, GitHub Actions, Vercel, Render. Learning Kubernetes.</dd>
+      <dt>Security</dt><dd>Server auditing, log review, SonarQube, OWASP Top 10, Nmap, Burp Suite, Kali Linux</dd>
+      <dt>Cloud</dt><dd>Supabase. Learning AWS (EC2, S3, IAM, VPC, security groups).</dd>
+      <dt>Backend</dt><dd>Node.js, Express, FastAPI, REST APIs, JWT, OAuth, MongoDB, PostgreSQL, Prisma, pytest</dd>
+      <dt>Other</dt><dd>Python, JavaScript, TypeScript, React, HTML, CSS, Flutter, PyTorch</dd>
     </dl>
 
     <h2>Education</h2>
     <div class="item">
-      <div class="item-head"><b>BSc Computer Science</b><span class="when">2022 — 2025</span></div>
-      <div class="sub">St. Joseph's College (Arts &amp; Science), Koovur, Chennai</div>
+      <div class="item-head"><b>BSc Computer Science</b><span class="when">2022 to 2025</span></div>
+      <div class="sub">St. Joseph's College (Arts and Science), Koovur, Chennai</div>
     </div>
   </main>
   <script src="resume.js"></script>
