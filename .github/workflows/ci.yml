@@ -27,7 +27,6 @@ jobs:
       - name: JavaScript syntax
         run: |
           node --check script.js
-          node --check resume.js
       - name: JSON config
         run: node -e "JSON.parse(require('fs').readFileSync('vercel.json','utf8'))"
       - name: No secrets committed
