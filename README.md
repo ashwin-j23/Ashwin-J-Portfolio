@@ -10,7 +10,7 @@ Plain HTML / CSS / JavaScript — no framework, no build step.
 | Path | What it is |
 |---|---|
 | `index.html`, `style.css`, `script.js` | The portfolio (animations, role-fit scanner, mail chooser, live GitHub repos) |
-| `resume.html`, `resume.js` | Printable resume — "Download PDF" opens the print dialog (choose *Save as PDF*) |
+| `Ashwin-J-Resume.pdf` | My resume (PDF). Replace this file to update it; `/resume.html` redirects here |
 | `demos/` | HTML + CSS demos of each project (sample data only, no keys) |
 | `assets/` | Favicon, real project logos, brand icons (Simple Icons, CC0) |
 | `404.html` | Not-found page |
