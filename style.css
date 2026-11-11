@@ -1236,3 +1236,16 @@ main > section:not(#contact):not(.hero)::after {
 .term-body .sw i:nth-child(1) { background: #ff5f57; outline: 0; } .term-body .sw i:nth-child(2) { background: #febc2e; }
 .term-body .sw i:nth-child(3) { background: #28c840; } .term-body .sw i:nth-child(4) { background: #d4d4d4; }
 #term-input { color: #ffffff; caret-color: #28c840; text-shadow: none; }
+
+/* ============ MOBILE FIXES ============ */
+@media (max-width: 900px) {
+  /* "Also worked with": normal card height, one row of logos, text stays inside the card */
+  #skills .cards .wide { display: block; height: auto; }
+  #skills .cards .wide .viz.logos { height: 92px; min-height: 0; margin: -4px 0 12px; flex-wrap: nowrap; gap: 14px; padding: 0 12px; }
+  #skills .cards .wide .viz.logos .lg { width: 26px; height: 26px; }
+  /* open menu: solid panel above the page, not see-through */
+  .nav nav { background: #ffffff; border-bottom: 1px solid rgba(92, 131, 116, 0.3); box-shadow: 0 18px 30px rgba(4, 13, 18, 0.12); z-index: 30; }
+  .nav nav a { color: #040D12; border-bottom: 1px solid rgba(147, 177, 166, 0.3); }
+  .nav nav a:last-child { border-bottom: 0; }
+  .nav nav .nav-resume { margin: 10px 24px 14px; text-align: center; }
+}
