@@ -65,11 +65,11 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
       d("↑/↓ history · Tab completes · Ctrl+L clears"),
     ],
     whoami: () => ["ashwin j"],
-    role: () => ["intern · team lead @ opsmonsters"],
-    about: () => ["ashwin j · devops · secops · node.js backend", d("bsc cs graduate leading an intern team at opsmonsters"), d("from kanniyakumari, tamil nadu · daily driver: arch linux")],
+    role: () => ["devsecops intern @ opsmonsters"],
+    about: () => ["ashwin j · devops · secops · node.js backend", d("bsc cs graduate, devsecops intern at opsmonsters"), d("from kanniyakumari, tamil nadu · daily driver: arch linux")],
     education: () => ["bsc computer science · 2022 – 2025", d("st. joseph's college (arts & science), koovur, chennai")],
     studying: () => ["aws · pentesting · node.js backend · devops · secops"],
-    experience: () => [k("intern · team lead — opsmonsters") + d("  2026 – now"), "lead the intern team · devsecops roadmap 8 hrs/day", "daily study reports + security audit logs", "built server_audit.sh for routine host checks"],
+    experience: () => [k("devsecops intern — opsmonsters") + d("  2026 – now"), "devsecops roadmap · 8 hrs/day", "daily study reports + security audit logs", "built server_audit.sh for routine host checks"],
     skills: () => {
       const G = [["devops", [["linux", "prod"], ["docker", "prod"], ["github actions", "prod"], ["git", "prod"], ["bash", "proj"], ["compose", "proj"], ["kubernetes", "learn"]]],
         ["security", [["server auditing", "proj"], ["log review", "proj"], ["owasp top 10", "learn"], ["nmap", "learn"], ["burp suite", "learn"]]],
@@ -96,7 +96,7 @@ document.querySelectorAll("[data-fill]").forEach((el) => {
     },
     neofetch: () => {
       const logo = ["   ▄▄▄       ▄▄▄ ", "  ██▀██▄     ███ ", " ██▄▄▄██     ███ ", " ██▀▀▀██ ▄▄  ███ ", " ██   ██ ▀████▀  ", "", ""];
-      const info = [`${k("ashwin")}@${k("arch")}`, `${k("role")}     intern · team lead`, `${k("os")}       arch linux`, `${k("stack")}    devops · secops · node.js`, `${k("projects")} 7 (2 live)`, `${k("home")}     kanniyakumari, tn`, `<span class="sw"><i></i><i></i><i></i><i></i></span>`];
+      const info = [`${k("ashwin")}@${k("arch")}`, `${k("role")}     devsecops intern`, `${k("os")}       arch linux`, `${k("stack")}    devops · secops · node.js`, `${k("projects")} 7 (2 live)`, `${k("home")}     kanniyakumari, tn`, `<span class="sw"><i></i><i></i><i></i><i></i></span>`];
       return info.map((t, i) => `<span class="a">${esc((logo[i] || "").padEnd(18, " ")).replace(/ /g, "&nbsp;")}</span>${t}`);
     },
     resume: () => { setTimeout(() => (location.href = "Ashwin-J-Resume.pdf"), 400); return [["spin", "opening Ashwin-J-Resume.pdf", ok("opened Ashwin-J-Resume.pdf"), 350]]; },
@@ -376,9 +376,8 @@ if (finePointer && !reduce) {
     ["Security tools (Nmap, Kali)", "learn", "Lab practice with Nmap, Burp Suite, Kali Linux", ["nmap", "kali", "metasploit", "wireshark"]],
     ["Cryptography basics", "proj", "Tempest: AES, RSA, hashing modules", ["cryptography", "encryption", "aes", "rsa", "hashing", "pki", "tls", "ssl"]],
     ["Machine learning", "proj", "Tenseigan deepfake detector (PyTorch) · ML phishing/malware detection", ["machine learning", "ml", "pytorch", "deep learning", "ai"]],
-    ["Team leadership", "prod", "Team Lead of the intern cohort at OpsMonsters", ["lead", "leadership", "team lead", "mentoring", "mentor"]],
     ["Documentation", "prod", "Daily written study reports and audit logs", ["documentation", "technical writing", "reports?", "runbooks?"]],
-    ["Communication & teamwork", "prod", "Coordinating the OpsMonsters intern team", ["communication", "teamwork", "collaboration", "team player"]],
+    ["Communication & teamwork", "prod", "Working with the OpsMonsters intern cohort", ["communication", "teamwork", "collaboration", "team player"]],
   ];
   // Skills recruiters may ask for that I don't claim yet — reported honestly as gaps.
   const GAPS = [
